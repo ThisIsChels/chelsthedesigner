@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>chelsTheDesigner | Coming Soon</title>
+  <meta name="description" content="Designer. Developer. Artist. The chelsTheDesigner portfolio is coming soon.">
+  <meta name="theme-color" content="#EFEDE9">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- ============ NAV BAR ============ -->
+    <header class="nav-bar">
+      <a class="nav-bar__logo" href="/">
+        <img src="assets/logo.svg" width="156" height="80" alt="chelsTheDesigner, home">
+      </a>
+
+      <!-- Desktop + tablet links -->
+      <nav class="nav-links" aria-label="Main">
+        <a href="/portfolio">portfolio</a>
+        <a href="/services">services</a>
+        <a href="/about">about</a>
+        <a href="/shop">shop</a>
+        <a href="/notes">notes</a>
+      </nav>
+
+      <!-- Phone only: opens the full-screen menu below (see script.js) -->
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="menu-overlay">menu</button>
+    </header>
+
+    <!-- Full-screen phone menu, hidden until the menu button is pressed -->
+    <div class="menu-overlay" id="menu-overlay" hidden>
+      <button class="menu-button menu-overlay__close" type="button">close</button>
+      <nav class="menu-overlay__links" aria-label="Main">
+        <a href="/">home</a>
+        <a href="/portfolio">portfolio</a>
+        <a href="/services">services</a>
+        <a href="/about">about</a>
+        <a href="/shop">shop</a>
+        <a href="/notes">notes</a>
+      </nav>
+    </div>
+
+    <!-- ============ COMING SOON ============ -->
+    <main class="coming-soon">
+      <h1 class="coming-soon__title">coming<br>soon</h1>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+
+      <div class="footer__brand-and-nav">
+        <div class="footer__brand">
+          <img src="assets/logo.svg" width="156" height="80" alt="">
+          <p class="footer__tagline">DESIGNER.  DEVELOPER.  ARTIST</p>
+          <p class="footer__copyright">
+            <img src="assets/icons/copyright.svg" width="24" height="24" alt="">
+            <span>2026 Chelsey LaPointe</span>
+          </p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Footer">
+          <a href="/">home</a>
+          <a href="/portfolio">portfolio</a>
+          <a href="/services">services</a>
+          <a href="/about">about</a>
+          <a href="/shop">shop</a>
+          <a href="/notes">notes</a>
+        </nav>
+      </div>
+
+      <div class="footer__contact">
+        <div class="footer__cta">
+          <p class="footer__cta-text">Let’s work together!</p>
+          <!-- Inactive on purpose. TODO: turn into the contact modal button once the full site is built -->
+          <button class="button" type="button" disabled>contact me</button>
+        </div>
+
+        <!-- External links open in a new tab; rel="noopener noreferrer" keeps the new tab from reaching back into this page -->
+        <a class="footer__social" href="https://www.instagram.com/chelsthedesigner/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/icons/instagram.svg" width="24" height="24" alt="">
+          <span>instagram</span>
+        </a>
+        <a class="footer__social" href="https://www.upwork.com/freelancers/~01f7fffebfcf9109f6" target="_blank" rel="noopener noreferrer">
+          <img src="assets/icons/upwork.svg" width="24" height="24" alt="">
+          <span>upwork</span>
+        </a>
+        <a class="footer__social" href="https://www.linkedin.com/in/chelsey-lapointe-9950a41a4/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/icons/linkedin.svg" width="24" height="24" alt="">
+          <span>linkedin</span>
+        </a>
+
+        <p class="footer__location">Saint Paul, Minnesota, USA</p>
+      </div>
+
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

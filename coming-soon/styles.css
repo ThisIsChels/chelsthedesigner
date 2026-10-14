@@ -1,0 +1,403 @@
+/* ==========================================================
+   chelsTheDesigner: Coming Soon page
+   Built from the "/[page]-comingSoon" frame in Figma.
+   Design is 1512px wide; phone and tablet layouts are
+   built from the rules at the bottom of this file.
+   ========================================================== */
+
+
+/* ---------- Fonts ----------
+   font-display: swap shows a fallback font immediately,
+   then swaps in the real one when it has loaded. */
+@font-face {
+  font-family: "Tampool";
+  src: url("assets/fonts/tampool-heavy.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("assets/fonts/clash-grotesk-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("assets/fonts/clash-grotesk-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* ---------- Design tokens (same names as the Figma variables) ---------- */
+:root {
+  /* color */
+  --surface-base: #EFEDE9;       /* cream */
+  --surface-inverse: #3C3B39;    /* charcoal */
+  --text-primary: #3C3B39;
+  --accent-primary: #00715B;     /* pine green */
+
+  /* spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-5xl: 128px;
+
+  /* type */
+  --font-display: "Tampool", "Arial Black", sans-serif;
+  --font-body: "Clash Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  /* side margin: 128px on the 1512px design, shrinking on smaller screens */
+  --gutter: clamp(24px, 8.47vw, var(--space-5xl));
+}
+
+
+/* ---------- Reset / base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+/* Keyboard focus ring, visible on every link and button */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Underline links on hover so they read as links */
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+
+/* ---------- Page frame ----------
+   One column: nav, big middle area, footer.
+   min-height makes the footer sit at the bottom on tall screens. */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  width: min(1256px, 100% - (var(--gutter) * 2));
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding-block: var(--space-3xl);
+}
+
+
+/* ---------- Nav bar ---------- */
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.nav-bar__logo:hover {
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xl);
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* The menu button only appears on phones (see media query) */
+.menu-button {
+  display: none;
+}
+
+
+/* ---------- Coming soon ---------- */
+.coming-soon {
+  display: flex;
+  flex: 1;                 /* takes all the space between nav and footer */
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+}
+
+.coming-soon__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(56px, 17vw, 128px);
+  line-height: 1;
+  text-align: center;
+  color: var(--accent-primary);
+  /* Trims the empty space above and below the letters so it centers
+     on the letters themselves. Ignored by older browsers. */
+  text-box: trim-both cap alphabetic;
+}
+
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: var(--space-2xl);
+  padding: var(--space-2xl);
+  border: 1px solid var(--surface-inverse);
+  border-radius: 8px;
+}
+
+.footer__brand-and-nav {
+  display: flex;
+  gap: var(--space-5xl);
+}
+
+/* Logo at the top, tagline in the middle, copyright at the bottom */
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.footer__tagline {
+  font-size: 16px;
+  white-space: pre;        /* keeps the double spaces between words */
+}
+
+.footer__copyright {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 332px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.footer__cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer__cta-text {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.footer__social {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--text-primary);
+  border-radius: 5px;
+  background: var(--surface-base);
+  color: var(--text-primary);
+  font-family: inherit;       /* buttons don't inherit the page font by default */
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+/* Hover fill only on real links; the contact button is inactive for now */
+a.button:hover {
+  background: var(--surface-inverse);
+  color: var(--surface-base);
+  text-decoration: none;
+}
+
+/* Disabled buttons look greyed out by default. Keep it looking like the design. */
+.button:disabled {
+  color: var(--text-primary);
+  cursor: default;
+}
+
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+/* ---- Tablet: stack the footer ---- */
+@media (max-width: 1000px) {
+  .page {
+    gap: 64px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .footer__contact {
+    width: auto;
+  }
+}
+
+/* ---- Phone: swap the nav links for a menu button ---- */
+@media (max-width: 640px) {
+  .page {
+    gap: 48px;
+    padding-block: var(--space-md) var(--space-2xl);
+  }
+
+  .nav-bar {
+    align-items: center;
+  }
+
+  .nav-bar__logo img {
+    width: 117px;           /* logo scaled down, same proportions */
+    height: auto;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--text-primary);
+    border-radius: 5px;
+    background: var(--surface-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .coming-soon {
+    min-height: 360px;
+  }
+
+  .footer {
+    padding: var(--space-md);
+  }
+
+  .footer__brand-and-nav {
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .footer__brand {
+    gap: var(--space-md);
+  }
+
+  .footer__cta {
+    flex-wrap: wrap;
+    gap: var(--space-sm) 20px;
+  }
+}
+
+
+/* ---------- Full-screen phone menu ---------- */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2xl);
+  padding: var(--space-md) var(--gutter) var(--space-2xl);
+  background: var(--surface-base);
+}
+
+/* The browser's default for [hidden] is easy to override by accident, so be explicit */
+.menu-overlay[hidden] {
+  display: none;
+}
+
+.menu-overlay__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  width: 100%;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* The overlay is only ever opened by the phone menu button, so
+   if the window is resized larger it should close itself. */
+@media (min-width: 641px) {
+  .menu-overlay {
+    display: none;
+  }
+}
+
+/* People who ask their device for less motion get none. Nothing here
+   animates yet, but this keeps it true when animation gets added. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

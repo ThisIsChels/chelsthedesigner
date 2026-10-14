@@ -1,0 +1,4 @@
+# Netlify reads this file. Until the other pages exist, send every path
+# (/portfolio, /shop, /notes ...) to this page instead of a 404.
+# Delete this file when the full site goes live.
+/*    /index.html    200
