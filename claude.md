@@ -1,8 +1,24 @@
 # chelsthedesigner.com
 
+## Link
+https://www.figma.com/design/aH56JwMDaOavtIPWGcIpya/Portfolio-Design-System?node-id=2-2&p=f&t=NXKenysOciEbEzyM-0
+
 Personal portfolio, art shop, and notes site for Chelsey LaPointe.
 Stack: Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui, Framer Motion.
 Design source: Figma file "Portfolio Design System" (via Figma MCP).
+
+This is chelsthedesigner.com, a portfolio + art shop + notes site for Chelsey
+- Before writing code for a page, tell me your plan in a few sentences.
+- Explain non-obvious choices briefly (why a Server vs Client component, why this
+  Tailwind pattern). Don't over-explain basics.
+- Keep files small and readable. Prefer simple over clever.
+- Never install a new dependency without asking.
+- Ignore the COVER page in the Portfolio Design System (only for looks)
+
+## Placeholder
+When copy or images aren't final, use clearly marked placeholders, e.g.
+"[PLACEHOLDER: hero tagline]". Keep all page text in one content object/file at
+the top of the page so I can swap it without touching layout code.
 
 ## Spacing
 - 4px base. Only use the spacing tokens below; no arbitrary values.
@@ -14,8 +30,11 @@ Design source: Figma file "Portfolio Design System" (via Figma MCP).
 - Between blocks within a section: 2xl.
 - Grid/list gaps and heading → content: xl. Grid columns are fluid and fill the content width (e.g. `grid grid-cols-4 gap-8`); don't hard-code card widths.
 - Form fields, card groups, heading → description: md.
+- Text stack inside a card body (title → description → link): xs.
+- Text stack inside a feature block (CTA banner, homepage about strip): lg.
 - Button groups: sm. Filter chips: xs. Tight internals (tags in cards): 2xs.
 - If a Figma value is off this scale, round to the nearest token and flag it.
+- In code, tokens map to Tailwind's default 4px scale: 2xs=1 · xs=2 · sm=3 · md=4 · lg=6 · xl=8 · 2xl=12 · 3xl=16 · 4xl=24 · 5xl=32 (e.g. `gap-8` = xl).
 
 ## Color
 Use semantic tokens in code. Some Figma fills are bound to palette names (Pear, Watercourse…) instead; translate them with this table.
@@ -38,7 +57,7 @@ Use semantic tokens in code. Some Figma fills are bound to palette names (Pear, 
 ### CTA buttons — color-coded by destination
 The color identifies where the button goes. Keep it the same everywhere the button appears.
 - Upwork → Pear fill, `dark-text`
-- Contact Me → Tranquility fill, `dark-text`
+- Contact Me → Tranquility fill, `dark-text`. Only exception: the small "contact me" button in the footer is outlined.
 - Resume → Watercourse fill, `light-text`
 - Any other button → outlined, unless a design shows otherwise.
 
@@ -50,6 +69,8 @@ The color identifies where the button goes. Keep it the same everywhere the butt
 ### Accent text and decoration
 - Watercourse can be used as a text color for emphasis in display headlines (e.g. "NEW PROJECT?" on /services).
 - Tranquility can be used for decorative shapes (e.g. marquee dots), never text.
+- Watercourse is the text color for text links on surface/base (e.g. "View case studies", "More about me"). Passes AA (~5:1).
+- On surface/inverse, text links use Pear (e.g. "View services" in the CTA banner).
 
 ### Contrast rules (do not break)
 - Pear and Tranquility fills always take charcoal text (`dark-text`).
@@ -66,21 +87,30 @@ Fonts: Tampool Heavy (display only, always uppercase), Clash Grotesk (everything
 | display-lg | Tampool Heavy | 100 | 100% | Large in-page headlines |
 | display-md | Tampool Heavy | 80 | 100% | Case study titles (`<h1>`), /services headline |
 | display-sm | Tampool Heavy | 64 | 100% | Showcase project titles (`<h1>`), homepage section titles |
-| heading-lg | Clash Semibold | 48 | 110% | 404 message only |
+| heading-lg | Clash Semibold | 48 | 110% | 404 message, CTA banner heading, homepage marquee words |
 | heading-md-semibold | Clash Semibold | 32 | 120% | Section titles (`<h2>`) |
 | heading-md-medium | Clash Medium | 32 | 120% | Headings nested in a section (`<h3>`): list item titles, detail card labels, sub-sections |
-| heading-md | Clash Regular | 32 | 120% | Reserved — don't use until assigned |
-| heading-sm | Clash Medium | 22 | 125% | Project card titles |
+| heading-md | Clash Regular | 32 | 120% | Nav links in the phone menu overlay (Figma `nav-link` primitive) |
+| heading-sm | Clash Medium | 22 | 125% | Standalone text links ("More about me", "View services") |
+| card-title | Clash Medium | 22 | 125% | Project card titles (`project-card`). Same values as heading-sm, kept as its own style. |
 | body-xl | Clash Regular | 20 | 140% | Intro / bio paragraphs |
 | body-lg | Clash Medium | 18 | 140% | Descriptions, lead text |
 | body | Clash Regular | 16 | 140% | Default paragraph text |
-| label-md | Clash Regular | 16 | 100% | Nav links, buttons |
-| label-sm | Clash Medium | 14 | 100% | Tags, small buttons |
+| label-md | Clash Regular | 16 | 100% | Nav links, md buttons |
+| label-sm | Clash Medium | 14 | 100% | Tags, sm buttons |
 | caption | Clash Medium | 14 | 140% | Footer text, image captions. Uppercase via CSS, not typed in caps. |
 
 - One `<h1>` per page. HTML heading levels follow page structure; the style follows the table.
 - Line heights are unitless in CSS (120% → `leading-[1.2]`).
 - Display sizes scale down on smaller screens with `clamp()` (values set in Breakpoints). Body and label sizes stay fixed.
+
+### Button sizes (Figma primitive `button`)
+| Size | Height | Padding (x / y) | Label style |
+|---|---|---|---|
+| sm | 32 | sm / xs | label-sm |
+| md | 40 | md / xs | label-md |
+| lg | 48 | md / sm | body-lg (Clash Medium 18, 140%) |
+| xlg | 68 | xl / md | heading-md-medium |
 
 ## Breakpoints
 Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) are the only designed layouts; build smaller layouts from these rules.
@@ -118,14 +148,18 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Hover: element shifts up and right; a hard charcoal shadow (no blur) stays at its resting position.
 - Pressed: element returns to rest and the shadow disappears.
 - Project cards: 8px offset, shadow `-8px 8px 0` in Charcoal (Figma project-card, State=Hover). Arrow icon and tags invert to charcoal fill + cream text.
+- Category cards: same 8px lift and shadow (Figma category-card, State=Hover). The link line ("View case studies") is pinned to the bottom so links align across an equal-height row.
 - All buttons (filled, outlined, filters): 4px offset. Outlined buttons have a surface/base fill so the shadow doesn't show through.
-- Icon button (standalone): inverts on hover, no lift.
+- Icon button (standalone): inverts on hover, no lift. On cream: outlined charcoal → charcoal fill, cream arrow. On charcoal (Pear outline, e.g. CTA "View services"): → Pear fill, charcoal arrow.
+- Text links: underline on hover (same as nav links). A text link paired with an icon button triggers the icon's hover too.
 - Nav links: underline on hover. The current page keeps its underline (State=Select), including in the phone menu overlay.
+- On charcoal surfaces (e.g. CTA banner) the lift shadow is cream instead of charcoal so it stays visible. Use the `surface-inverse` utility on any charcoal block; it sets this automatically.
 - Hover styles apply only on hover-capable devices (Tailwind v4 default). The pressed state gives touch feedback.
 
 ### Keyboard focus
 - All interactive elements use :focus-visible: 2px charcoal outline, 2px offset.
 - Never remove the focus outline without this replacement.
+- On charcoal surfaces the outline is cream (set by `surface-inverse`).
 
 ### Motion
 - Transitions: 150ms ease-out on transform, shadow, and color.
@@ -150,7 +184,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Image on top, info box below. The info box slides 12px up behind the image (`-mt-3`, image stacked above it) so its top corners are hidden under the image's 8px rounded corners.
 - Info box padding: 24px top (12 hidden + 12 visible), 12px on other sides. 1px charcoal borders on image and info box.
 - Title and arrow icon are space-between; the arrow stays pinned right at any card width.
-- Card height comes from content; never set a fixed height.
+- Never set a fixed pixel height on cards. Cards in the same row are always equal height: the row stretches every card to match the tallest one (grid/flex stretch).
 
 ### Project card thumbnails
 - Every project has its own hand-cropped thumbnail: 4:3, 800×600, WebP, saved as `/public/case-studies/[project-name]/thumbnail.webp`.
