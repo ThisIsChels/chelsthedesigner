@@ -210,6 +210,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ### All images
 - WebP by default; PNG only when transparency is needed (e.g. hero illustration).
 - Size targets: thumbnails under 100KB, all other images under 500KB.
+- `/public` holds only web-ready files. Print and source files (PDFs, `@300x` exports, full-size photos) live outside the repo in `~/chelsthedesigner-originals/` (same folder structure); export web versions from there. GitHub rejects any file over 100MB.
 - Always use next/image. Exception: icons are inline SVG components (`components/ui/icons.tsx`) so they can take `currentColor` and invert on hover. Add `priority` only to images visible without scrolling (hero, first row of cards).
 - Every image needs alt text describing what it shows. Purely decorative images use alt="".
 
