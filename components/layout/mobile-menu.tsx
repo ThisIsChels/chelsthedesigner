@@ -7,6 +7,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
+import { barPadding, logoSize } from "@/components/layout/nav-sizes";
 import { Dialog, DialogClose, DialogFullscreen, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { MenuIcon, XIcon } from "@/components/ui/icons";
 import { NavLink } from "@/components/ui/nav-link";
@@ -15,7 +16,9 @@ import { cn } from "@/lib/utils";
 
 const iconButton = "inline-flex size-12 items-center justify-center";
 
-export function MobileMenu({ className }: { className?: string }) {
+type MobileMenuProps = { className?: string; compact?: boolean };
+
+export function MobileMenu({ className, compact = false }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -25,8 +28,17 @@ export function MobileMenu({ className }: { className?: string }) {
       </DialogTrigger>
 
       <DialogFullscreen className="surface-inverse">
-        <Container className="flex items-start justify-between pt-8">
-          <Image src="/brand/Logo-colored.svg" alt="chelsTheDesigner" width={156} height={80} />
+        {/* Mirrors the bar's current size so the logo doesn't jump on open. */}
+        <Container
+          className={cn("flex justify-between", compact ? "items-center" : "items-start", barPadding(compact))}
+        >
+          <Image
+            src="/brand/Logo-colored.svg"
+            alt="chelsTheDesigner"
+            width={156}
+            height={80}
+            className={logoSize(compact)}
+          />
           <DialogClose aria-label="Close menu" className={iconButton}>
             <XIcon />
           </DialogClose>

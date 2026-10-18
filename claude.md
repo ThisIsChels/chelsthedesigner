@@ -19,6 +19,7 @@ This is chelsthedesigner.com, a portfolio + art shop + notes site for Chelsey
 When copy or images aren't final, use clearly marked placeholders, e.g.
 "[PLACEHOLDER: hero tagline]". Keep all page text in one content object/file at
 the top of the page so I can swap it without touching layout code.
+- Images that aren't final use `<ImagePlaceholder />` (grey box labeled "[PLACEHOLDER: image]") inside a positioned frame.
 
 ## Spacing
 - 4px base. Only use the spacing tokens below; no arbitrary values.
@@ -139,6 +140,9 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 
 ### Navigation
 - `md:` and up: full nav bar as designed.
+- The nav bar is pinned to the top on every page (`SiteHeader`). Once the page scrolls away from the very top, the logo shrinks to half size (156×80 → 78×40) and the bar tightens to md (16) padding top and bottom. It returns to full size at the very top. A placeholder keeps the resting height in the layout so nothing jumps.
+- The pinned bar matches the surface under it: over charcoal it uses the inverse version (charcoal fill, colored logo, cream links); over Cararra it uses the primary version (Cararra fill, charcoal logo and links, 1px charcoal bottom border). Mark full-width charcoal sections with `data-surface="inverse"` (cream ones with `data-surface="base"`); unmarked areas count as Cararra. Cards and banners inside the page (e.g. the CTA) are not marked.
+- The phone menu overlay is always charcoal with the colored logo, whichever version the bar is showing.
 - Below `md`: logo + a menu button. The button opens a full-screen overlay listing the five nav links.
 - Overlay must: close on link tap, close on Escape, keep keyboard focus inside while open, and lock page scrolling behind it.
 - Overlay styling: propose a version using existing tokens; Chelsey will refine.
@@ -164,6 +168,12 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ### Motion
 - Transitions: 150ms ease-out on transform, shadow, and color.
 - prefers-reduced-motion: no movement; state changes are instant.
+- Homepage marquee: CSS loop, 40s per cycle, stops under prefers-reduced-motion. Words in heading-lg, Tranquility dots 32px, 64px (3xl) apart (rounded from Figma's 30.67 / ~76).
+
+### Homepage scroll effect
+- The name graphic (name-bg) is sticky: once it reaches the vertical middle of the screen it stays put, and the avatar, triangle and the cream content scroll up over it. The cream background of the content is what covers the name.
+- On short screens (e.g. phones), where the name already starts above the middle, it stays at its starting position instead of jumping down.
+- The hero is marked `data-surface="inverse"` and the cream content `data-surface="base"` so the pinned nav matches them.
 
 ### Text fields
 - Default: placeholder text in text/placeholder.
@@ -200,13 +210,33 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ### All images
 - WebP by default; PNG only when transparency is needed (e.g. hero illustration).
 - Size targets: thumbnails under 100KB, all other images under 500KB.
-- Always use next/image. Add `priority` only to images visible without scrolling (hero, first row of cards).
+- Always use next/image. Exception: icons are inline SVG components (`components/ui/icons.tsx`) so they can take `currentColor` and invert on hover. Add `priority` only to images visible without scrolling (hero, first row of cards).
 - Every image needs alt text describing what it shows. Purely decorative images use alt="".
 
 ## Naming
 - Figma page and frame names mirror Next.js App Router routes (e.g. frame `/portfolio/caseStudy-template` → `app/portfolio/[slug]/page.tsx`).
 - Component names in Figma map to React components (`project-card` → `ProjectCard`).
+
+## Code conventions
+- Type styles are `type-*` utilities (e.g. `type-heading-md-semibold`); they include the font, weight, size, line height and responsive sizes.
+- Hover lift: `lift` (4px, buttons) or `lift lift-lg` (8px, cards).
+- Put `surface-inverse` on any charcoal block; it sets the fill, cream text, and cream lift shadow + focus outline.
+- Page side margins come from the `--gutter` CSS variable through `Container`. Don't hard-code side padding.
+- Spacing tokens map to Tailwind's numbers (see Spacing).
+- Upwork / Contact Me / Resume buttons always use the presets in `components/ui/cta-buttons.tsx`, never a hand-picked tone.
+- All URLs live in `lib/links.ts`. Merge classes with `cn` from `lib/utils`.
+- Page structure: `SiteHeader` → `<main>` → `Footer` (inside a `Container`).
+- In `globals.css`, don't nest `@media` inside a `:root` custom-property block; the dev server drops it. Write separate `@media { :root { … } }` rules.
+
+## Before launch
+- Delete the `/dev/components` preview page.
+- Link the Contact Me buttons once the contact modal is built.
+- Add the Resume URL in `lib/links.ts`.
+- Replace placeholders: category card images, about-strip photo, homepage bio (lorem ipsum), and the incomplete hero avatar.
+- Remove the `coming-soon` folder and its `_redirects` file when the full site goes live.
+
 ## Waiting for approval
 Implemented as a first pass; Chelsey said "fine for now." Don't treat these as final rules until they move into the sections above.
 - Phone spacing: top of page → nav is xl (32) below `md`, 3xl (64) from `md` up. CTA banner padding is xl (32) below `md`, 3xl (64) from `md` up.
 - Phone menu overlay: full-screen charcoal (`surface-inverse`), colored logo top-left, close (x) icon top-right, nav links stacked in heading-md (24 on phones) with xl (32) gaps, cream text, current page underlined.
+- Pinned nav bar: solid fill, no shadow; border only on the primary version. Color switch happens when cream content reaches the bar's bottom edge (150ms color transition, logo swaps instantly).

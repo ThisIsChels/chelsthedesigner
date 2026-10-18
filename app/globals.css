@@ -26,6 +26,15 @@
   --ease-out: ease-out;
   --default-transition-duration: 150ms;
   --default-transition-timing-function: ease-out;
+
+  /* Homepage marquee: the track holds two identical copies, so sliding -50%
+     loops seamlessly. */
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 /* ---------- Type styles (CLAUDE.md → Typography) ---------- */
@@ -170,6 +179,28 @@
 }
 
 @layer base {
+  /* Page side margin per breakpoint (CLAUDE.md → Breakpoints).
+     Kept as flat rules: the dev server drops custom properties nested in
+     @media inside :root. */
+  :root {
+    --gutter: 16px;
+  }
+  @media (width >= 48rem) {
+    :root {
+      --gutter: 32px;
+    }
+  }
+  @media (width >= 64rem) {
+    :root {
+      --gutter: 64px;
+    }
+  }
+  @media (width >= 80rem) {
+    :root {
+      --gutter: 128px;
+    }
+  }
+
   body {
     background-color: var(--color-surface-base);
     color: var(--color-text-primary);
