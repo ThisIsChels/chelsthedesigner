@@ -206,3 +206,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ## Naming
 - Figma page and frame names mirror Next.js App Router routes (e.g. frame `/portfolio/caseStudy-template` → `app/portfolio/[slug]/page.tsx`).
 - Component names in Figma map to React components (`project-card` → `ProjectCard`).
+## Waiting for approval
+Implemented as a first pass; Chelsey said "fine for now." Don't treat these as final rules until they move into the sections above.
+- Phone spacing: top of page → nav is xl (32) below `md`, 3xl (64) from `md` up. CTA banner padding is xl (32) below `md`, 3xl (64) from `md` up.
+- Phone menu overlay: full-screen charcoal (`surface-inverse`), colored logo top-left, close (x) icon top-right, nav links stacked in heading-md (24 on phones) with xl (32) gaps, cream text, current page underlined.
