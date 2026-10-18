@@ -7,7 +7,7 @@ import { NAV_LINKS } from "@/lib/links";
 import { cn } from "@/lib/utils";
 
 // Figma component `nav-bar`. "inverse" is the homepage version that sits on
-// the charcoal hero: colored logo + cream links. "compact" is the scrolled
+// the charcoal hero: colored logo + Cararra links. "compact" is the scrolled
 // state (see SiteHeader): half-size logo, links centered on it.
 
 type NavBarProps = { tone?: "default" | "inverse"; compact?: boolean };
@@ -30,7 +30,7 @@ export function NavBar({ tone = "default", compact = false }: NavBarProps) {
           alt="chelsTheDesigner"
           width={156}
           height={80}
-          priority
+          loading="eager"
           className={cn("transition-[width,height]", logoSize(compact))}
         />
       </Link>

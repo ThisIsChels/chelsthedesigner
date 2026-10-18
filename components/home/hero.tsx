@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/container";
 //
 // Scroll effect: the name graphic is `sticky`, so once it reaches the middle
 // of the screen it stays put. The avatar, the triangle and everything passed
-// as `children` sit on a higher layer and scroll up over it. The cream
+// as `children` sit on a higher layer and scroll up over it. The Cararra
 // background on `children` is what covers the name.
 //
 // `data-surface` tells the pinned nav which colors to use (see SiteHeader).
@@ -33,7 +33,7 @@ export function Hero({ avatarAlt, children }: HeroProps) {
             alt="Chelsey LaPointe"
             width={1256}
             height={660}
-            priority
+            preload
             className="h-auto w-full"
           />
         </h1>
@@ -44,7 +44,7 @@ export function Hero({ avatarAlt, children }: HeroProps) {
           <div className="relative aspect-[1256/1087]">
             {/* Full-bleed: breaks out of the container to the viewport edges. */}
             <div className="absolute bottom-0 left-[calc(50%-50vw)] h-[37.81%] w-screen">
-              <Image src="/brand/hero-triangle.svg" alt="" fill priority />
+              <Image src="/brand/hero-triangle.svg" alt="" fill loading="eager" />
             </div>
 
             <Image
@@ -52,7 +52,7 @@ export function Hero({ avatarAlt, children }: HeroProps) {
               alt={avatarAlt}
               width={860}
               height={1008}
-              priority
+              loading="eager"
               sizes="(min-width: 1512px) 860px, 68vw"
               className="absolute top-[7.27%] left-[13.46%] h-auto w-[68.47%]"
             />

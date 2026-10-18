@@ -3,7 +3,7 @@ import { IconButton } from "@/components/ui/icon-button";
 import { cn } from "@/lib/utils";
 
 // Standalone text link ("More about me", "View services"). Underlines on
-// hover. Watercourse on cream, Pear on charcoal (CLAUDE.md → Accent text).
+// hover. Watercourse on Cararra, Pear on charcoal (CLAUDE.md → Accent text).
 
 type TextLinkProps = {
   href: string;

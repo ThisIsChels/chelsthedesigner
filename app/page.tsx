@@ -5,8 +5,10 @@ import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/home/marquee";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
+import { PageTransition } from "@/components/layout/page-transition";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Button } from "@/components/ui/button";
+import { sectionGap, sectionPadBottom, sectionPadY } from "@/lib/layout";
 
 // All homepage text lives here so it can change without touching layout.
 const CONTENT = {
@@ -45,10 +47,6 @@ const CONTENT = {
   },
 } as const;
 
-// Section gap per breakpoint (CLAUDE.md → Breakpoints).
-const sectionGap = "gap-12 md:gap-16 lg:gap-24";
-const sectionPad = "py-12 md:py-16 lg:py-24";
-
 export default function Home() {
   const { whatIMake, about } = CONTENT;
 
@@ -57,34 +55,36 @@ export default function Home() {
       {/* Its resting height feeds --name-top in components/home/hero.tsx. */}
       <SiteHeader tone="inverse" />
 
-      <main>
-        <Hero avatarAlt={CONTENT.avatarAlt}>
-          <div className={`flex flex-col ${sectionGap} ${sectionPad}`}>
-            <Marquee words={CONTENT.marquee} />
+      <PageTransition>
+        <main>
+          <Hero avatarAlt={CONTENT.avatarAlt}>
+            <div className={`flex flex-col ${sectionGap} ${sectionPadY}`}>
+              <Marquee words={CONTENT.marquee} />
 
-            <Container className={`flex flex-col ${sectionGap}`}>
-              <section className="flex flex-col gap-8">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <h2 className="type-display-sm">{whatIMake.heading}</h2>
-                  <Button href="/portfolio">{whatIMake.button}</Button>
-                </div>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {whatIMake.cards.map((card) => (
-                    <CategoryCard key={card.title} {...card} />
-                  ))}
-                </div>
-              </section>
+              <Container className={`flex flex-col ${sectionGap}`}>
+                <section className="flex flex-col gap-8">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <h2 className="type-display-sm">{whatIMake.heading}</h2>
+                    <Button href="/portfolio">{whatIMake.button}</Button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {whatIMake.cards.map((card) => (
+                      <CategoryCard key={card.title} {...card} />
+                    ))}
+                  </div>
+                </section>
 
-              <AboutStrip {...about} />
-              <Cta showResume />
-            </Container>
-          </div>
-        </Hero>
-      </main>
+                <AboutStrip {...about} />
+                <Cta showResume />
+              </Container>
+            </div>
+          </Hero>
+        </main>
 
-      <Container className="pb-12 md:pb-16 lg:pb-24">
-        <Footer />
-      </Container>
+        <Container className={sectionPadBottom}>
+          <Footer />
+        </Container>
+      </PageTransition>
     </>
   );
 }

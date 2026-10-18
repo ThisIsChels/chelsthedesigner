@@ -4,10 +4,15 @@ import { Cta } from "@/components/cta";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { NavBar } from "@/components/layout/nav-bar";
+import { ProjectBrowser } from "@/components/project-browser";
+import { ProjectCard } from "@/components/project-card";
 import { Button } from "@/components/ui/button";
 import { ContactButton, ResumeButton, UpworkButton } from "@/components/ui/cta-buttons";
 import { IconButton } from "@/components/ui/icon-button";
+import { Tag } from "@/components/ui/tag";
 import { TextLink } from "@/components/ui/text-link";
+import { Typewriter } from "@/components/ui/typewriter";
+import { getProjects } from "@/lib/projects";
 
 // TEMPORARY component preview for review. Delete before launch.
 
@@ -26,6 +31,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function ComponentPreview() {
+  const projects = getProjects();
+
   return (
     <>
       <div className="surface-inverse pt-8 pb-12 md:pt-16">
@@ -36,6 +43,20 @@ export default function ComponentPreview() {
 
       <Container className="flex flex-col gap-12 py-12 md:gap-16 lg:gap-24 lg:py-24">
         <NavBar />
+
+        <Section title="Typewriter (plays on every load)">
+          <h2 className="type-display-sm">
+            <Typewriter
+              sequence={[
+                { type: "type", text: "porfo" },
+                { type: "pause", ms: 750 },
+                { type: "delete", count: 2 },
+                { type: "pause", ms: 250 },
+                { type: "type", text: "tfolio" },
+              ]}
+            />
+          </h2>
+        </Section>
 
         <Section title="Buttons">
           {tones.map((tone) => (
@@ -79,6 +100,26 @@ export default function ComponentPreview() {
             />
             <CategoryCard title="Shop" description="Prints and art for your walls." linkLabel="Coming soon" href="/shop" />
           </div>
+        </Section>
+
+        <Section title="Tags">
+          <div className="flex flex-wrap gap-2">
+            <Tag>Mobile</Tag>
+            <Tag>Development</Tag>
+            <Tag>Website</Tag>
+          </div>
+        </Section>
+
+        <Section title="Project card (hover for lift, inverted tags + arrow, color)">
+          <div className="grid grid-cols-2 gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-4">
+            {projects.slice(0, 2).map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </Section>
+
+        <Section title="Project filter + grid (click filters to see the animation)">
+          <ProjectBrowser projects={projects} emptyMessage="No projects match these filters yet." />
         </Section>
 
         <Cta showResume />

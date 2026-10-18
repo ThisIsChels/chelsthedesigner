@@ -8,9 +8,9 @@
 // moves the content underneath.
 //
 // Tone matching: full-width sections mark their background with
-// `data-surface="inverse"` (charcoal) or `data-surface="base"` (cream). On
+// `data-surface="inverse"` (charcoal) or `data-surface="base"` (Cararra). On
 // scroll, the bar looks at the point just below its bottom edge and takes the
-// nearest marked section's tone. Unmarked areas count as cream.
+// nearest marked section's tone. Unmarked areas count as Cararra.
 
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
@@ -22,9 +22,10 @@ type Tone = "default" | "inverse";
 
 const surfaceClass = (tone: Tone) => (tone === "inverse" ? "surface-inverse" : "bg-surface-base");
 
-// The border is always there (transparent on charcoal) so switching tones
-// never changes the bar's height by 1px.
-const borderClass = (tone: Tone) => (tone === "inverse" ? "border-transparent" : "border-text-primary");
+// The border is always there (transparent unless scrolled on Cararra) so
+// switching states never changes the bar's height by 1px.
+const borderClass = (tone: Tone, compact: boolean) =>
+  tone === "default" && compact ? "border-text-primary" : "border-transparent";
 
 /** Tone of whatever sits just below the header's bottom edge. */
 function toneBelow(header: HTMLElement): Tone {
@@ -71,7 +72,9 @@ export function SiteHeader({ tone: initialTone = "default" }: { tone?: Tone }) {
     <div data-surface={initialTone === "inverse" ? "inverse" : "base"} className={cn(barHeight, surfaceClass(initialTone))}>
       <header
         ref={headerRef}
-        className={cn("fixed inset-x-0 top-0 z-40 border-b transition-colors", surfaceClass(tone), borderClass(tone))}
+        // Named so page transitions keep the bar still (see globals.css).
+        style={{ viewTransitionName: "site-header" }}
+        className={cn("fixed inset-x-0 top-0 z-40 border-b transition-colors", surfaceClass(tone), borderClass(tone, compact))}
       >
         <Container className={cn("transition-[padding]", barPadding(compact))}>
           <NavBar tone={tone} compact={compact} />

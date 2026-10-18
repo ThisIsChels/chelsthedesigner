@@ -2,7 +2,7 @@
 
 // Client component: it holds the open/closed state so a link tap can close it.
 // Styling is a first proposal (CLAUDE.md → Navigation): charcoal overlay,
-// colored logo, cream links in heading-md.
+// colored logo, Cararra links in heading-md.
 
 import { useState } from "react";
 import Image from "next/image";
