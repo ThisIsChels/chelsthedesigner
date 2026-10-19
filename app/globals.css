@@ -159,14 +159,19 @@
 
 /* ---------- Lift (signature hover, CLAUDE.md → Interaction states) ---------- */
 
-/* Shadow color flips to Cararra on charcoal surfaces (see .surface-inverse). */
+/* The shadow is always Charcoal. On charcoal surfaces (see .surface-inverse)
+   a second, 1px-larger Cararra copy sits behind it, so its edge reads as a
+   1px Cararra stroke around the visible part of the shadow. Elsewhere that
+   second shadow is 0px and transparent, i.e. invisible. */
 @utility lift {
   --lift: 4px;
   transition-property: transform, box-shadow, background-color, color;
   @media (hover: hover) {
     &:hover {
       transform: translate(var(--lift), calc(var(--lift) * -1));
-      box-shadow: calc(var(--lift) * -1) var(--lift) 0 var(--lift-shadow, var(--color-text-primary));
+      box-shadow:
+        calc(var(--lift) * -1) var(--lift) 0 var(--color-text-primary),
+        calc(var(--lift) * -1) var(--lift) 0 var(--lift-stroke, 0px) var(--lift-stroke-color, transparent);
     }
   }
   &:active {
@@ -182,7 +187,8 @@
 @utility surface-inverse {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
-  --lift-shadow: var(--color-text-inverse);
+  --lift-stroke: 1px;
+  --lift-stroke-color: var(--color-text-inverse);
   --focus-ring: var(--color-text-inverse);
 }
 

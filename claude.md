@@ -34,6 +34,8 @@ the top of the page so I can swap it without touching layout code.
 - Page title (`<h1>`) → intro paragraph: xl.
 - Text stack inside a card body (title → description → link): xs.
 - Text stack inside a feature block (CTA banner, homepage about strip): lg.
+- Page hero text stack (e.g. /about: title → greeting → bio → buttons): xl, per Figma. Hero text ↔ hero photo: 4xl (2xl on tablet, stacked xl gap on phones).
+- Divider item internals (line → title → description → link): sm.
 - Button groups: sm. Filter chips: xs. Tags in cards: xs (per Figma project-card). Other tight internals: 2xs.
 - If a Figma value is off this scale, round to the nearest token and flag it.
 - In code, tokens map to Tailwind's default 4px scale: 2xs=1 · xs=2 · sm=3 · md=4 · lg=6 · xl=8 · 2xl=12 · 3xl=16 · 4xl=24 · 5xl=32 (e.g. `gap-8` = xl).
@@ -73,6 +75,7 @@ The color identifies where the button goes. Keep it the same everywhere the butt
 - Tranquility can be used for decorative shapes (e.g. marquee dots), never text.
 - Watercourse is the text color for text links on surface/base (e.g. "View case studies", "More about me"). Passes AA (~5:1).
 - On surface/inverse, text links use Pear (e.g. "View services" in the CTA banner).
+- Watercourse is also used for small section labels on surface/base (e.g. /about highlights column labels).
 
 ### Contrast rules (do not break)
 - Pear and Tranquility fills always take charcoal text (`dark-text`).
@@ -91,9 +94,9 @@ Fonts: Tampool Heavy (display only, always uppercase), Clash Grotesk (everything
 | display-sm | Tampool Heavy | 64 | 100% | Showcase project titles (`<h1>`), homepage section titles |
 | heading-lg | Clash Semibold | 48 | 110% | 404 message, CTA banner heading, homepage marquee words |
 | heading-md-semibold | Clash Semibold | 32 | 120% | Section titles (`<h2>`) |
-| heading-md-medium | Clash Medium | 32 | 120% | Headings nested in a section (`<h3>`): list item titles, detail card labels, sub-sections |
+| heading-md-medium | Clash Medium | 32 | 120% | Headings nested in a section (`<h3>`): list item titles, detail card labels, sub-sections; hero greeting / subtitle (e.g. /about "Hey! I'm Chelsey LaPointe") |
 | heading-md | Clash Regular | 32 | 120% | Nav links in the phone menu overlay (Figma `nav-link` primitive) |
-| heading-sm | Clash Medium | 22 | 125% | Standalone text links ("More about me", "View services") |
+| heading-sm | Clash Medium | 22 | 125% | Standalone text links ("More about me", "View services"), divider-item titles, small section labels (e.g. /about highlights: Education, Honors, Experience) |
 | card-title | Clash Medium | 22 | 125% | Project card titles (`project-card`). Same values as heading-sm, kept as its own style. |
 | body-xl | Clash Regular | 20 | 140% | Intro / bio paragraphs |
 | body-lg | Clash Medium | 18 | 140% | Descriptions, lead text |
@@ -126,7 +129,8 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 
 ### Stacking (below `md`)
 - Side-by-side pairs stack vertically: case study header (text + image), /about skills lists, /contact (links + form), /services (headline + tags).
-- Rows of three become one column: case study detail cards, /about photos.
+- Rows of three become one column: case study detail cards, /about photos, /about highlights.
+- /about skills (divider items): 1 column on phones, 2 on tablet, 4 from `lg`.
 - CTA button rows wrap and stay centered.
 
 ### Responsive type
@@ -158,7 +162,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Icon button (standalone): inverts on hover, no lift. On Cararra: outlined charcoal → charcoal fill, Cararra arrow. On charcoal (Pear outline, e.g. CTA "View services"): → Pear fill, charcoal arrow.
 - Text links: underline on hover (same as nav links). A text link paired with an icon button triggers the icon's hover too.
 - Nav links: underline on hover. The current page keeps its underline (State=Select), including in the phone menu overlay.
-- On charcoal surfaces (e.g. CTA banner) the lift shadow is Cararra instead of charcoal so it stays visible. Use the `surface-inverse` utility on any charcoal block; it sets this automatically.
+- On charcoal surfaces (e.g. CTA banner) the lift shadow stays Charcoal and gets a 1px Cararra stroke around it so it stays visible. Use the `surface-inverse` utility on any charcoal block; it sets this automatically.
 - Hover styles apply only on hover-capable devices (Tailwind v4 default). The pressed state gives touch feedback.
 
 ### Keyboard focus
@@ -172,6 +176,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - prefers-reduced-motion: no movement; state changes are instant.
 - Typewriter headings (`components/ui/typewriter.tsx` + `hooks/use-typewriter.ts`): hand-built with setTimeout, no animation library. Takes a `sequence` of type / delete / pause steps. Plays on every page load by default; pass an optional unique `storageKey` to play only once per browser session (sessionStorage) and show the final word statically afterwards. Under prefers-reduced-motion it always shows the final word statically with no cursor. Screen readers get only the final word (sr-only); the animated layer is aria-hidden; an invisible copy of the final word reserves the space. Cursor: thin bar in the text color, taller than the capitals like a text-field caret (1em tall, overhangs the letters without changing line height), solid while typing/deleting, blinking (1s, hard on/off) while paused or finished. Typing speed ~120ms ±50 per character, deleting ~50ms ±15 (constants at the top of the hook).
 - /portfolio heading (plays on every load): types "porfo", pauses 750ms, deletes to "por", pauses 250ms, types "tfolio". Pause constants are at the top of `app/portfolio/page.tsx`.
+- /about heading (plays on every load): types "abotu", pauses 750ms, deletes to "abo", pauses 250ms, types "ut". Pause constants are at the top of `app/about/page.tsx`.
 - Homepage marquee: CSS loop, 40s per cycle, stops under prefers-reduced-motion. Words in heading-lg, Tranquility dots 32px, 64px (3xl) apart (rounded from Figma's 30.67 / ~76).
 
 ### Homepage scroll effect
@@ -216,6 +221,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ### All images
 - WebP by default; PNG only when transparency is needed (e.g. hero illustration).
 - Size targets: thumbnails under 100KB, all other images under 500KB.
+- Other photos (e.g. /about): resize so the shorter side is 900px (2× the largest frame), WebP, under 500KB; crop with `object-cover` + `object-position` in code rather than in the file.
 - `/public` holds only web-ready files. Print and source files (PDFs, `@300x` exports, full-size photos) live outside the repo in `~/chelsthedesigner-originals/` (same folder structure); export web versions from there. GitHub rejects any file over 100MB.
 - Always use next/image. Exception: icons are inline SVG components (`components/ui/icons.tsx`) so they can take `currentColor` and invert on hover. Next 16 replaced `priority`: use `preload` only for the main above-the-fold image (e.g. the homepage name graphic, first row of project cards) and `loading="eager"` for other images visible without scrolling.
 - Every image needs alt text describing what it shows. Purely decorative images use alt="".
@@ -227,7 +233,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ## Code conventions
 - Type styles are `type-*` utilities (e.g. `type-heading-md-semibold`); they include the font, weight, size, line height and responsive sizes.
 - Hover lift: `lift` (4px, buttons) or `lift lift-lg` (8px, cards).
-- Put `surface-inverse` on any charcoal block; it sets the fill, Cararra text, and Cararra lift shadow + focus outline.
+- Put `surface-inverse` on any charcoal block; it sets the fill, Cararra text, the Cararra stroke on lift shadows, and the Cararra focus outline.
 - Page side margins come from the `--gutter` CSS variable through `Container`. Don't hard-code side padding.
 - Spacing tokens map to Tailwind's numbers (see Spacing).
 - Upwork / Contact Me / Resume buttons always use the presets in `components/ui/cta-buttons.tsx`, never a hand-picked tone.
@@ -235,17 +241,21 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Page structure: `SiteHeader` → `<PageTransition>` wrapping `<main>` and the `Footer` (inside a `Container`). Keep `SiteHeader` outside `PageTransition` so it stays still between pages. Section spacing classes live in `lib/layout.ts`.
 - Projects: a project shows in the portfolio when `public/<case-studies|visual-projects>/<slug>/thumbnail.webp` exists. Title, `skillTags` and optional `thumbnailAlt` come from `content/<case-studies|visual-projects>/<slug>.mdx` frontmatter (read by `lib/projects.ts`). Case studies first, then visual projects, each alphabetical.
 - Portfolio categories and their filter tags live in `lib/project-categories.ts`.
+- `DividerItem` (`components/divider-item.tsx`, Figma `divider-item`): 1px Charcoal top line, heading-sm title, body-lg description, optional small `TextLink` (`size="sm"`, body-lg).
+- CTA banner Resume button: shown on the homepage only. /about's frame leaves it out because the hero already has Resume (overrides the Figma component note).
 - Pages that aren't built yet render `<ComingSoon />` (`components/coming-soon.tsx`, Figma `/[page]-comingSoon`) at their own URL, e.g. `app/shop/page.tsx`, so the nav keeps the right link underlined. Don't redirect. Replace that page.tsx when the real page is ready.
 - The 404 page is `app/not-found.tsx` (Figma `/not-found`); Next shows it for any unknown URL. Coming soon and 404 share `MessagePage` (`components/layout/message-page.tsx`): nav, one message centered in the screen below the nav, footer below the fold.
 - Thumbnail alt text: add `thumbnailAlt` to a project's `.mdx`; without it the fallback is "[Title] project thumbnail".
 - Project folder names are the URL slug: lowercase letters, numbers and hyphens only (no `?`, `'`, spaces).
-- In `globals.css`, don't nest `@media` inside a `:root` custom-property block; the dev server drops it. Write separate `@media { :root { … } }` rules.
+- Turbopack's on-disk dev cache is turned off in `next.config.ts` (`experimental.turbopackFileSystemCacheForDev: false`). With it on, edits to `app/globals.css` were served stale, even across dev server restarts, because the Tailwind loader doesn't invalidate that cache. Keep it off; dev startup is a little slower.
+- In `globals.css`, write custom-property breakpoints as separate `@media { :root { … } }` rules rather than nesting `@media` inside `:root` (the nested form was dropped in dev once; flat rules are safe either way).
 
 ## Before launch
 - Delete the `/dev/components` preview page.
 - Link the Contact Me buttons once the contact modal is built.
 - Add the Resume URL in `lib/links.ts`.
-- Replace placeholders: category card images, about-strip photo, homepage bio (lorem ipsum), and the incomplete hero avatar.
+- Replace placeholders: category card images, about-strip photo, homepage bio (lorem ipsum), the incomplete hero avatar, and the /about "Beyond the work" paragraph (lorem ipsum).
+- Check the /about photo alt text (marked [PLACEHOLDER] in `app/about/page.tsx`).
 - Fill in visual project titles and `skillTags` (`content/visual-projects/*.mdx`, marked [PLACEHOLDER]).
 - Add real `thumbnailAlt` text for every project.
 - Replace the portfolio intro (lorem ipsum).
@@ -263,8 +273,11 @@ Implemented as a first pass; Chelsey said "fine for now." Don't treat these as f
 - Project card grid on phones: md (16) gaps instead of xl, to give 2-column cards more room (xl from `md` up).
 - 404 page: outlined lg "BACK TO HOME" button (links to /) below "PAGE NOT FOUND", xl (32) gap. Not in the Figma frame.
 
+- /about hero photo: below `md` it sits under the text as a square; from `md` up it takes ~30% of the width and stretches to the text's height.
+- Bulleted lists (e.g. /about highlights): disc bullets in the text color (Charcoal), list indented lg (24) from its label.
+
 ## Flagged
 Known issues to come back to. Don't fix silently — ask first.
+- **"Largest Contentful Paint" image warnings in dev.** Next.js warns when an image that isn't marked `loading="eager"`/`preload` ends up as the largest thing on screen (seen: `/about/mexico.webp`, a filtered project thumbnail on /portfolio). Happens only when a page loads already scrolled down or after filtering, so it's harmless; revisit if it shows on a normal top-of-page load.
 - **Page transitions — Chelsey doesn't like the current version; keep for now, redesign later.** Current: React `<ViewTransition>` (`components/layout/page-transition.tsx`, CSS at the end of globals.css). Old page fades out in 150ms, then the new page fades in (210ms) while rising 10px (300ms), ease-out. The pinned nav bar is anchored (`view-transition-name: site-header`) and doesn't animate. Reduced motion: instant swap.
-- **Dev server sometimes misses `globals.css` changes.** New component files update right away, but edits to `app/globals.css` can take a long time to show up (or not at all) until `npm run dev` is restarted. Production builds are always correct. If a new style seems missing in dev, restart the dev server before debugging.
 - **Long single-word project titles on phones.** In the 2-column phone grid, about 110px is left beside the arrow, so a title like "SourceShoot" breaks mid-word ("SourceSh / oot"). It no longer overflows the page. Options: (1) hide the arrow below `md` — whole card is tappable, titles get full width (recommended); (2) card-title 18px below `md` — fits at 390 but tight at 360, and breaks the "only display/heading sizes shrink" rule; (3) move the arrow onto the image corner below `md` — departs from the Figma card.

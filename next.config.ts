@@ -1,8 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
+  experimental: {
+    // Turbopack's on-disk dev cache kept serving old compiled CSS after edits
+    // to app/globals.css (the Tailwind loader below doesn't invalidate it),
+    // even across dev server restarts. Off = every `npm run dev` compiles fresh.
+    turbopackFileSystemCacheForDev: false,
+  },
   partialPrefetching: true,
   turbopack: {
     rules: {

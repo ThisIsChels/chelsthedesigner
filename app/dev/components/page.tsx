@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CategoryCard } from "@/components/category-card";
 import { Cta } from "@/components/cta";
+import { DividerItem } from "@/components/divider-item";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { NavBar } from "@/components/layout/nav-bar";
@@ -99,6 +100,17 @@ export default function ComponentPreview() {
               href="/portfolio"
             />
             <CategoryCard title="Shop" description="Prints and art for your walls." linkLabel="Coming soon" href="/shop" />
+          </div>
+        </Section>
+
+        <Section title="Divider items">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <DividerItem
+              title="Technical Literacy"
+              description="Comfortable bridging design and development."
+              link={{ label: "See Orbit", href: "/portfolio/orbit" }}
+            />
+            <DividerItem title="Without a link" description="The link is optional." />
           </div>
         </Section>
 
