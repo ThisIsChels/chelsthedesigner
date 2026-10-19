@@ -235,6 +235,8 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Page structure: `SiteHeader` → `<PageTransition>` wrapping `<main>` and the `Footer` (inside a `Container`). Keep `SiteHeader` outside `PageTransition` so it stays still between pages. Section spacing classes live in `lib/layout.ts`.
 - Projects: a project shows in the portfolio when `public/<case-studies|visual-projects>/<slug>/thumbnail.webp` exists. Title, `skillTags` and optional `thumbnailAlt` come from `content/<case-studies|visual-projects>/<slug>.mdx` frontmatter (read by `lib/projects.ts`). Case studies first, then visual projects, each alphabetical.
 - Portfolio categories and their filter tags live in `lib/project-categories.ts`.
+- Pages that aren't built yet render `<ComingSoon />` (`components/coming-soon.tsx`, Figma `/[page]-comingSoon`) at their own URL, e.g. `app/shop/page.tsx`, so the nav keeps the right link underlined. Don't redirect. Replace that page.tsx when the real page is ready.
+- The 404 page is `app/not-found.tsx` (Figma `/not-found`); Next shows it for any unknown URL. Coming soon and 404 share `MessagePage` (`components/layout/message-page.tsx`): nav, one message centered in the screen below the nav, footer below the fold.
 - Thumbnail alt text: add `thumbnailAlt` to a project's `.mdx`; without it the fallback is "[Title] project thumbnail".
 - Project folder names are the URL slug: lowercase letters, numbers and hyphens only (no `?`, `'`, spaces).
 - In `globals.css`, don't nest `@media` inside a `:root` custom-property block; the dev server drops it. Write separate `@media { :root { … } }` rules.
@@ -247,7 +249,8 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Fill in visual project titles and `skillTags` (`content/visual-projects/*.mdx`, marked [PLACEHOLDER]).
 - Add real `thumbnailAlt` text for every project.
 - Replace the portfolio intro (lorem ipsum).
-- Build `/portfolio/[slug]` — project cards currently link to a not-found page.
+- Build `/portfolio/[slug]` — project cards currently show the 404 page.
+- Replace the coming-soon pages at `/shop` and `/notes` with the real pages.
 - Add thumbnails for the hidden projects: additional-design-work, banshee, save-the-dates, scalise.
 - Remove the `coming-soon` folder and its `_redirects` file when the full site goes live.
 
@@ -258,6 +261,7 @@ Implemented as a first pass; Chelsey said "fine for now." Don't treat these as f
 - Pinned nav bar: solid fill, no shadow; border only on the primary version. Color switch happens when Cararra content reaches the bar's bottom edge (150ms color transition, logo swaps instantly).
 - Portfolio below `md`: the Resume button sits above the filter rows (left-aligned); filter rows wrap. Empty filter result shows "No projects match these filters yet." in body-xl.
 - Project card grid on phones: md (16) gaps instead of xl, to give 2-column cards more room (xl from `md` up).
+- 404 page: outlined lg "BACK TO HOME" button (links to /) below "PAGE NOT FOUND", xl (32) gap. Not in the Figma frame.
 
 ## Flagged
 Known issues to come back to. Don't fix silently — ask first.

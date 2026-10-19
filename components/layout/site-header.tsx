@@ -27,11 +27,24 @@ const surfaceClass = (tone: Tone) => (tone === "inverse" ? "surface-inverse" : "
 const borderClass = (tone: Tone, compact: boolean) =>
   tone === "default" && compact ? "border-text-primary" : "border-transparent";
 
-/** Tone of whatever sits just below the header's bottom edge. */
+/**
+ * Tone of whatever sits just below the header's bottom edge.
+ *
+ * Measures the marked sections' positions instead of hit-testing the screen
+ * (elementsFromPoint): during a page transition the browser lays a snapshot
+ * overlay over the page, so hit-testing found the overlay, not the hero, and
+ * the bar got stuck on the wrong color after navigating to the homepage.
+ */
 function toneBelow(header: HTMLElement): Tone {
   const y = header.getBoundingClientRect().bottom + 1;
-  const below = document.elementsFromPoint(window.innerWidth / 2, y).find((el) => !header.contains(el));
-  return below?.closest<HTMLElement>("[data-surface]")?.dataset.surface === "inverse" ? "inverse" : "default";
+  // Document order puts parents before children, so the last match is the
+  // innermost marked section at that height.
+  let surface: string | undefined;
+  document.querySelectorAll<HTMLElement>("[data-surface]").forEach((el) => {
+    const { top, bottom } = el.getBoundingClientRect();
+    if (top <= y && y < bottom) surface = el.dataset.surface;
+  });
+  return surface === "inverse" ? "inverse" : "default";
 }
 
 /** Tone of the page at the top. Usually "default"; the homepage hero is "inverse". */
