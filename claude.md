@@ -32,6 +32,7 @@ the top of the page so I can swap it without touching layout code.
 - Grid/list gaps and heading → content: xl. Grid columns are fluid and fill the content width (e.g. `grid grid-cols-4 gap-8`); don't hard-code card widths.
 - Form fields, card groups, heading → description: md.
 - Page title (`<h1>`) → intro paragraph: xl.
+- Intro paragraphs under a page title are capped at 780px wide (`max-w-[780px]`, per Figma /services) so lines stay readable.
 - Text stack inside a card body (title → description → link): xs.
 - Text stack inside a feature block (CTA banner, homepage about strip): lg.
 - Page hero text stack (e.g. /about: title → greeting → bio → buttons): xl, per Figma. Hero text ↔ hero photo: 4xl (2xl on tablet, stacked xl gap on phones).
@@ -71,11 +72,12 @@ The color identifies where the button goes. Keep it the same everywhere the butt
 - Unselected: outlined.
 
 ### Accent text and decoration
-- Watercourse can be used as a text color for emphasis in display headlines (e.g. "NEW PROJECT?" on /services).
+- Watercourse can be used as a text color for emphasis in display headlines (e.g. "LET'S CHAT!" in the contact modal, "COMING SOON", "404").
 - Tranquility can be used for decorative shapes (e.g. marquee dots), never text.
 - Watercourse is the text color for text links on surface/base (e.g. "View case studies", "More about me"). Passes AA (~5:1).
 - On surface/inverse, text links use Pear (e.g. "View services" in the CTA banner).
-- Watercourse is also used for small section labels on surface/base (e.g. /about highlights column labels).
+- Pear is also allowed as a display headline color on surface/inverse (e.g. "THANKS!" on the contact success screen). Passes contrast on Charcoal.
+- Watercourse is also used for small section labels and step numbers on surface/base (e.g. /about highlights column labels, /services process step numbers).
 
 ### Contrast rules (do not break)
 - Pear and Tranquility fills always take charcoal text (`dark-text`).
@@ -89,11 +91,11 @@ Fonts: Tampool Heavy (display only, always uppercase), Clash Grotesk (everything
 | Style | Font / weight | Size | Line height | Use |
 |---|---|---|---|---|
 | display-xl | Tampool Heavy | 128 | 100% | Top-level page titles (`<h1>`): PORTFOLIO, ABOUT, SERVICES, NOTES, SHOP |
-| display-lg | Tampool Heavy | 100 | 100% | Large in-page headlines |
+| display-lg | Tampool Heavy | 100 | 100% | Large in-page headlines, modal titles ("LET'S CHAT!", "THANKS!") |
 | display-md | Tampool Heavy | 80 | 100% | Case study titles (`<h1>`), /services headline |
 | display-sm | Tampool Heavy | 64 | 100% | Showcase project titles (`<h1>`), homepage section titles |
 | heading-lg | Clash Semibold | 48 | 110% | 404 message, CTA banner heading, homepage marquee words |
-| heading-md-semibold | Clash Semibold | 32 | 120% | Section titles (`<h2>`) |
+| heading-md-semibold | Clash Semibold | 32 | 120% | Section titles (`<h2>`), process step numbers |
 | heading-md-medium | Clash Medium | 32 | 120% | Headings nested in a section (`<h3>`): list item titles, detail card labels, sub-sections; hero greeting / subtitle (e.g. /about "Hey! I'm Chelsey LaPointe") |
 | heading-md | Clash Regular | 32 | 120% | Nav links in the phone menu overlay (Figma `nav-link` primitive) |
 | heading-sm | Clash Medium | 22 | 125% | Standalone text links ("More about me", "View services"), divider-item titles, small section labels (e.g. /about highlights: Education, Honors, Experience) |
@@ -101,7 +103,7 @@ Fonts: Tampool Heavy (display only, always uppercase), Clash Grotesk (everything
 | body-xl | Clash Regular | 20 | 140% | Intro / bio paragraphs |
 | body-lg | Clash Medium | 18 | 140% | Descriptions, lead text |
 | body | Clash Regular | 16 | 140% | Default paragraph text |
-| label-md | Clash Regular | 16 | 100% | Nav links, md buttons |
+| label-md | Clash Regular | 16 | 100% | Nav links, md buttons, small numbered labels (service card "01"–"04") |
 | label-sm | Clash Medium | 14 | 100% | Tags, sm buttons |
 | caption | Clash Medium | 14 | 140% | Footer text, image captions. Uppercase via CSS, not typed in caps. |
 
@@ -130,7 +132,8 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ### Stacking (below `md`)
 - Side-by-side pairs stack vertically: case study header (text + image), /about skills lists, /contact (links + form), /services (headline + tags).
 - Rows of three become one column: case study detail cards, /about photos, /about highlights.
-- /about skills (divider items): 1 column on phones, 2 on tablet, 4 from `lg`.
+- /about skills (divider items) and /services process steps: 1 column on phones, 2 on tablet, 4 from `lg`.
+- /services: service cards 2 columns from `md` (1 on phones); "Good to know" 3 columns from `md`; "See the work first" links stack below `md`.
 - CTA button rows wrap and stay centered.
 
 ### Responsive type
@@ -174,6 +177,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Transitions: 150ms ease-out on transform, shadow, and color (hover/press states).
 - Layout animations (e.g. the portfolio filter): 250ms ease-out.
 - prefers-reduced-motion: no movement; state changes are instant.
+- /services heading (plays on every load): types "sevri", pauses 750ms, deletes to "se", pauses 250ms, types "rvices". Pause constants are at the top of `app/services/page.tsx`.
 - Typewriter headings (`components/ui/typewriter.tsx` + `hooks/use-typewriter.ts`): hand-built with setTimeout, no animation library. Takes a `sequence` of type / delete / pause steps. Plays on every page load by default; pass an optional unique `storageKey` to play only once per browser session (sessionStorage) and show the final word statically afterwards. Under prefers-reduced-motion it always shows the final word statically with no cursor. Screen readers get only the final word (sr-only); the animated layer is aria-hidden; an invisible copy of the final word reserves the space. Cursor: thin bar in the text color, taller than the capitals like a text-field caret (1em tall, overhangs the letters without changing line height), solid while typing/deleting, blinking (1s, hard on/off) while paused or finished. Typing speed ~120ms ±50 per character, deleting ~50ms ±15 (constants at the top of the hook).
 - /portfolio heading (plays on every load): types "porfo", pauses 750ms, deletes to "por", pauses 250ms, types "tfolio". Pause constants are at the top of `app/portfolio/page.tsx`.
 - /about heading (plays on every load): types "abotu", pauses 750ms, deletes to "abo", pauses 250ms, types "ut". Pause constants are at the top of `app/about/page.tsx`.
@@ -188,7 +192,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Default: placeholder text in text/placeholder.
 - Focused (typing): surface/field-focus fill.
 - Filled (has text, not focused): default look with text/primary.
-- Error: border unchanged. Message sits space-xs (8px) below the field, left-aligned with the field's edge, in label-sm, text/error. Set aria-invalid and link the message with aria-describedby. Validate on blur and on submit, not on every keystroke.
+- Error: border unchanged. Message sits space-xs (8px) below the field, left-aligned with the field's edge, in label-sm, text/error. Set aria-invalid and link the message with aria-describedby. Never validate on every keystroke. "Required" errors (empty field) only appear after the user first tries to submit; format errors (e.g. invalid email) show on blur. After the first submit attempt, fields are fully re-checked on blur, and an error clears as soon as the field becomes valid.
 
 ### Portfolio filters
 - Primary row (All / UI/UX Design / Visual Design): single-select, selected = Pear fill, dark-text. "All" is selected on load.
@@ -241,18 +245,24 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Page structure: `SiteHeader` → `<PageTransition>` wrapping `<main>` and the `Footer` (inside a `Container`). Keep `SiteHeader` outside `PageTransition` so it stays still between pages. Section spacing classes live in `lib/layout.ts`.
 - Projects: a project shows in the portfolio when `public/<case-studies|visual-projects>/<slug>/thumbnail.webp` exists. Title, `skillTags` and optional `thumbnailAlt` come from `content/<case-studies|visual-projects>/<slug>.mdx` frontmatter (read by `lib/projects.ts`). Case studies first, then visual projects, each alphabetical.
 - Portfolio categories and their filter tags live in `lib/project-categories.ts`.
+- `/portfolio?category=ux` or `?category=visual` opens the portfolio with that filter selected (`ProjectBrowserFromUrl`, wrapped in `<Suspense>` with the plain grid as fallback). Changing the category updates the URL.
+- Contact: every Contact Me button (`ContactButton`, `FooterContactButton`) opens the contact modal (`components/contact/contact-modal.tsx`). The form is `ContactForm`; sending goes through `lib/contact.ts` to `EXTERNAL.contactForm` (Formspree, not set up yet). Text inputs use `TextField` (`components/ui/text-field.tsx`, Figma `text-box`) with a visually hidden label.
+- Contact success (Figma `contact-modal-success`): after sending, the whole modal turns Charcoal (`surface-inverse`): colored logo, "THANKS!" in display-lg Pear, "I'll get back to you shortly!" in heading-lg Cararra, outlined "BACK TO HOME" button (closes the modal and goes to /), Cararra close button. "THANKS!" is focused on arrival. Reopening the modal shows a fresh form.
+- Outlined buttons and icon buttons on Charcoal use the inverse tones: `Button tone="outlined-inverse"` (Cararra border + text) and `IconButton tone="inverse"` (Cararra outline, inverts to Cararra fill on hover).
+- `ServiceCard` (Figma `service-card`) and `ProcessStep` (Figma `process-step`: 2px Charcoal line, Watercourse number) live in `components/`.
 - `DividerItem` (`components/divider-item.tsx`, Figma `divider-item`): 1px Charcoal top line, heading-sm title, body-lg description, optional small `TextLink` (`size="sm"`, body-lg).
-- CTA banner Resume button: shown on the homepage only. /about's frame leaves it out because the hero already has Resume (overrides the Figma component note).
+- CTA banner: Resume shows on the homepage and /services; not on /about (its hero already has Resume) or /portfolio. "View services" is hidden on /services.
 - Pages that aren't built yet render `<ComingSoon />` (`components/coming-soon.tsx`, Figma `/[page]-comingSoon`) at their own URL, e.g. `app/shop/page.tsx`, so the nav keeps the right link underlined. Don't redirect. Replace that page.tsx when the real page is ready.
 - The 404 page is `app/not-found.tsx` (Figma `/not-found`); Next shows it for any unknown URL. Coming soon and 404 share `MessagePage` (`components/layout/message-page.tsx`): nav, one message centered in the screen below the nav, footer below the fold.
 - Thumbnail alt text: add `thumbnailAlt` to a project's `.mdx`; without it the fallback is "[Title] project thumbnail".
 - Project folder names are the URL slug: lowercase letters, numbers and hyphens only (no `?`, `'`, spaces).
+- Next 16 keeps visited pages alive but hidden (React Activity) and brings them back on return. Don't rely on state that's only set when a component first appears for anything that should follow the URL or props; update it when they change (see `ProjectBrowser`'s `urlCategory`). Hidden copies of closed modals can linger in the DOM with `display: none`; that's expected.
 - Turbopack's on-disk dev cache is turned off in `next.config.ts` (`experimental.turbopackFileSystemCacheForDev: false`). With it on, edits to `app/globals.css` were served stale, even across dev server restarts, because the Tailwind loader doesn't invalidate that cache. Keep it off; dev startup is a little slower.
 - In `globals.css`, write custom-property breakpoints as separate `@media { :root { … } }` rules rather than nesting `@media` inside `:root` (the nested form was dropped in dev once; flat rules are safe either way).
 
 ## Before launch
 - Delete the `/dev/components` preview page.
-- Link the Contact Me buttons once the contact modal is built.
+- Set up Formspree and put the endpoint in `EXTERNAL.contactForm` (`lib/links.ts`). Until then the form pretends to send.
 - Add the Resume URL in `lib/links.ts`.
 - Replace placeholders: category card images, about-strip photo, homepage bio (lorem ipsum), the incomplete hero avatar, and the /about "Beyond the work" paragraph (lorem ipsum).
 - Check the /about photo alt text (marked [PLACEHOLDER] in `app/about/page.tsx`).
@@ -275,6 +285,7 @@ Implemented as a first pass; Chelsey said "fine for now." Don't treat these as f
 
 - /about hero photo: below `md` it sits under the text as a square; from `md` up it takes ~30% of the width and stretches to the text's height.
 - Bulleted lists (e.g. /about highlights): disc bullets in the text color (Charcoal), list indented lg (24) from its label.
+- Contact modal: full screen below `md` (title and socials stacked above the form); from `md` up a centered card (max 1200px) over a 60% Charcoal backdrop. Opens with focus in the Name field. If sending fails: "Something went wrong and your message didn't send. Please try again." in label-sm Error above the button. Send button shows "SENDING…" while sending.
 
 ## Flagged
 Known issues to come back to. Don't fix silently — ask first.

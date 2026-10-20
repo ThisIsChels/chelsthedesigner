@@ -14,4 +14,6 @@ export const EXTERNAL = {
   linkedin: "https://www.linkedin.com/in/chelsey-lapointe-9950a41a4/",
   // [PLACEHOLDER: resume URL]
   resume: undefined,
+  // [PLACEHOLDER: Formspree endpoint, e.g. "https://formspree.io/f/xxxxxxx"]
+  contactForm: undefined,
 } as const;

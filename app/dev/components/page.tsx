@@ -5,8 +5,10 @@ import { DividerItem } from "@/components/divider-item";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { NavBar } from "@/components/layout/nav-bar";
+import { ProcessStep } from "@/components/process-step";
 import { ProjectBrowser } from "@/components/project-browser";
 import { ProjectCard } from "@/components/project-card";
+import { ServiceCard } from "@/components/service-card";
 import { Button } from "@/components/ui/button";
 import { ContactButton, ResumeButton, UpworkButton } from "@/components/ui/cta-buttons";
 import { IconButton } from "@/components/ui/icon-button";
@@ -103,6 +105,24 @@ export default function ComponentPreview() {
           </div>
         </Section>
 
+        <Section title="Service card">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <ServiceCard
+              number="01"
+              title="UI/UX Design"
+              outcome="Clear, usable interfaces for websites and apps."
+              deliverables={["Research and user flows", "Wireframes and prototypes", "Figma files ready for development"]}
+            />
+          </div>
+        </Section>
+
+        <Section title="Process steps">
+          <ol className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <ProcessStep number={1} title="Say hello" description="Tell me about your project, timeline, and budget." />
+            <ProcessStep number={2} title="Quick call" description="We talk through goals and scope." />
+          </ol>
+        </Section>
+
         <Section title="Divider items">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             <DividerItem
@@ -134,6 +154,7 @@ export default function ComponentPreview() {
           <ProjectBrowser projects={projects} emptyMessage="No projects match these filters yet." />
         </Section>
 
+        {/* The Contact Me buttons here (and in the footer) open the contact modal. */}
         <Cta showResume />
         <Footer />
       </Container>

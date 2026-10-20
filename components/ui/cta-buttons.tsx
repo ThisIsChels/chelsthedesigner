@@ -1,5 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { ContactModal } from "@/components/contact/contact-modal";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { EXTERNAL } from "@/lib/links";
+import { cn } from "@/lib/utils";
 
 // Color-coded by destination (CLAUDE.md → CTA buttons). Use these instead of
 // picking a tone by hand.
@@ -18,22 +20,18 @@ export function UpworkButton({ size = "lg", className, children = "UPWORK" }: Pr
   );
 }
 
-// TODO: open the contact modal once it's built. Unlinked for now.
+/** Opens the contact modal. */
 export function ContactButton({ size = "lg", className, children = "CONTACT ME" }: PresetProps) {
   return (
-    <Button tone="tranquility" size={size} className={className}>
+    <ContactModal triggerClassName={cn(buttonVariants({ tone: "tranquility", size }), className)}>
       {children}
-    </Button>
+    </ContactModal>
   );
 }
 
-/** The one exception: the small outlined "contact me" in the footer. */
+/** The one exception: the small outlined "contact me" in the footer. Also opens the modal. */
 export function FooterContactButton() {
-  return (
-    <Button tone="outlined" size="sm">
-      contact me
-    </Button>
-  );
+  return <ContactModal triggerClassName={buttonVariants({ tone: "outlined", size: "sm" })}>contact me</ContactModal>;
 }
 
 export function ResumeButton({ size = "lg", className, children = "RESUME" }: PresetProps) {

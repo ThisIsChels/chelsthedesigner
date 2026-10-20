@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Cta } from "@/components/cta";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PageTransition } from "@/components/layout/page-transition";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ProjectBrowser } from "@/components/project-browser";
+import { ProjectBrowserFromUrl } from "@/components/project-browser-from-url";
 import { Typewriter } from "@/components/ui/typewriter";
 import type { TypewriterStep } from "@/hooks/use-typewriter";
 import { sectionGap, sectionPadBottom, sectionPadY } from "@/lib/layout";
@@ -62,7 +64,9 @@ export default function PortfolioPage() {
               <p className="type-body-xl">{CONTENT.intro}</p>
             </header>
 
-            <ProjectBrowser projects={projects} emptyMessage={CONTENT.emptyMessage} />
+            <Suspense fallback={<ProjectBrowser projects={projects} emptyMessage={CONTENT.emptyMessage} />}>
+              <ProjectBrowserFromUrl projects={projects} emptyMessage={CONTENT.emptyMessage} />
+            </Suspense>
 
             <Cta heading={CONTENT.cta.heading} body={CONTENT.cta.body} />
           </Container>

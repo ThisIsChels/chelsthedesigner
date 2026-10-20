@@ -5,12 +5,14 @@ import { cn } from "@/lib/utils";
 // Figma primitive `button`. Size table lives in CLAUDE.md → Button sizes.
 // For Upwork / Contact Me / Resume use the presets in cta-buttons.tsx so the
 // destination color stays consistent.
-const buttonVariants = cva(
+export const buttonVariants = cva(
   "lift inline-flex shrink-0 items-center justify-center whitespace-nowrap",
   {
     variants: {
       tone: {
         outlined: "border border-text-primary bg-surface-base text-text-primary",
+        /** Outlined on a Charcoal surface: Cararra border and text. */
+        "outlined-inverse": "border border-text-inverse bg-surface-inverse text-text-inverse",
         pear: "bg-accent-secondary text-text-primary",
         tranquility: "bg-accent-tertiary text-text-primary",
         watercourse: "bg-accent-primary text-text-inverse",

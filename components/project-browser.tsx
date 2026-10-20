@@ -16,7 +16,12 @@ import { CATEGORIES, type Category, type Project } from "@/lib/project-categorie
 import { blockGap } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 
-type Props = { projects: Project[]; emptyMessage: string };
+type Props = {
+  projects: Project[];
+  emptyMessage: string;
+  /** Category selected on load (e.g. from /portfolio?category=ux). */
+  initialCategory?: Category | "all";
+};
 
 // Filter animation (option B): cards fade + scale in, staggered 30ms by grid
 // position so new cards arrive in a left-to-right wave. The wave stops
@@ -37,15 +42,32 @@ const cardTransition = (index: number, reduceMotion: boolean | null) =>
         layout: { duration: DURATION, ease: "easeOut" as const },
       };
 
-export function ProjectBrowser({ projects, emptyMessage }: Props) {
+export function ProjectBrowser({ projects, emptyMessage, initialCategory = "all" }: Props) {
   const reduceMotion = useReducedMotion();
-  const [category, setCategory] = useState<Category | "all">("all");
+  const [category, setCategory] = useState<Category | "all">(initialCategory);
   const [tags, setTags] = useState<string[]>([]);
+
+  // Next keeps a visited /portfolio alive in the background, so arriving
+  // again via a link like /portfolio?category=ux reuses this component instead
+  // of creating it fresh. Follow the URL whenever its category changes.
+  // (React's "adjust state when a prop changes" pattern: done during render,
+  // no effect needed.)
+  const [urlCategory, setUrlCategory] = useState(initialCategory);
+  if (initialCategory !== urlCategory) {
+    setUrlCategory(initialCategory);
+    setCategory(initialCategory);
+    setTags([]);
+  }
 
   const activeCategory = CATEGORIES.find((c) => c.id === category);
 
   const pickCategory = (next: Category | "all") => {
     setCategory(next);
+    // Keep the URL in step so refreshing or sharing keeps the filter.
+    const url = new URL(window.location.href);
+    if (next === "all") url.searchParams.delete("category");
+    else url.searchParams.set("category", next);
+    window.history.replaceState(null, "", url);
     setTags([]);
   };
   const toggleTag = (tag: string) =>
