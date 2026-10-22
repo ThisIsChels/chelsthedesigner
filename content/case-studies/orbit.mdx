@@ -1,8 +1,13 @@
 ---
 title: "Orbit"
-heroImage: "/case-studies/orbit/hero.png"
+# Only published case studies get a page; the rest show the 404.
+published: true
+heroImage:
+  src: "/case-studies/orbit/mockup.webp"
+  alt: "Three phones showing Orbit's calendar, home screen, and task list in dark mode"
 skillTags: ["Mobile", "Development"]
 overview: "Orbit is a calendar and task management app concept designed and built as a course project, focused on helping users visualize events, tasks, and reminders in a more intuitive and engaging way."
+# Not shown on the page.
 context: "Orbit was designed and developed as a 12-week course project, giving me the space to explore a unified time-management experience from initial concept through a working SwiftUI front end."
 infoBoxes:
   - label: "Role"
@@ -11,51 +16,191 @@ infoBoxes:
     value: "Figma, FigJam, Xcode, Swift, SwiftUI"
   - label: "Timeframe"
     value: "12 weeks"
+  - label: "Course"
+    value: "Mobile App Development"
+
+# Each item in `sections` is one block on the page:
+#   section → eyebrow, title, body, optional `media` list (stacked below)
+#   cards   → `items`: side-by-side cards, each { eyebrow, title, body }
+#   result  → eyebrow, title, body on a Charcoal panel
+#
+# Media types inside a section:
+#   image          → src, alt, width, height (pixel size of the file)
+#   video          → src, label (for screen readers), width, height
+#   subsections    → `items`: side-by-side { title, body, image }
+#   palette        → title, body, image, labels: { text, side: left|right,
+#                    y: 0 (top) to 1 (bottom) }
+#   pinned-gallery → screens (keyed images) + groups, see Final Designs
 sections:
-  - type: "text"
+  - type: "section"
+    eyebrow: "Context"
     title: "The Problem"
     body: "Time management tools are often split across multiple apps, requiring users to switch between calendars, task lists, and reminders. Orbit was designed to explore a unified experience that combines events, tasks, and reminders into a single system, supported by a custom category structure to help users organize and visualize their time more effectively."
-  - type: "text"
+
+  - type: "section"
+    eyebrow: "Process"
     title: "Wireframes & Early Concepts"
     body: "Early concepts prioritized organizing multiple planning tools within a unified layout, prioritizing clarity, hierarchy, and ease of navigation."
-  - type: "image"
-    src: "/case-studies/orbit/wireframes.png"
-  - type: "text"
+    media:
+      - type: "image"
+        src: "/case-studies/orbit/wireframes.webp"
+        alt: "Grayscale wireframes of Orbit's home, calendar, to-do, and settings screens"
+        width: 1920
+        height: 1044
+      - type: "image"
+        src: "/case-studies/orbit/early-concepts.webp"
+        alt: "Eleven home screen concepts exploring orbit-style counters and event list styles in light and dark themes"
+        width: 1920
+        height: 1376
+
+  - type: "section"
+    eyebrow: "Design"
     title: "Visual Design & System"
     body: "The design foundation emphasized clarity, hierarchy, and flexibility. A neutral foundation allowed interface elements and category colors to remain visually distinct while maintaining a cohesive, calm experience across the app."
-  - type: "text"
-    title: "Color Scheme"
-    body: "Orbit's color palette is anchored by neutral tones that reflect its space-inspired identity. These colors created a stable visual base, allowing a wide range of custom category colors to integrate seamlessly."
-  - type: "image"
-    src: "/case-studies/orbit/color-palette.png"
-  - type: "text"
+    media:
+      - type: "image"
+        src: "/case-studies/orbit/design-system.webp"
+        alt: "Orbit's design system: the orbit counter, navigation bar, category tags, event cards, buttons, and app icon"
+        width: 1228
+        height: 576
+      - type: "palette"
+        title: "Color Scheme"
+        body: "Orbit's color palette is anchored by neutral tones that reflect its space-inspired identity. These colors created a stable visual base, allowing a wide range of custom category colors to integrate seamlessly."
+        image:
+          src: "/case-studies/orbit/color-palette.webp"
+          alt: "Orbit's palette: Space Gray on top, ten category colors in the middle, Moon Beige at the bottom"
+          width: 416
+          height: 858
+        labels:
+          - { text: "Primary", side: "left", y: 0 }
+          - { text: "Item Category", side: "left", y: 0.6 }
+          - { text: "Accent", side: "left", y: 1 }
+          - { text: "Supporting", side: "right", y: 0.415 }
+
+  - type: "section"
+    eyebrow: "System"
     title: "Components"
     body: "Orbit's interface was built around reusable components designed to clearly distinguish between different types of time-based items while maintaining visual consistency across the app."
-  - type: "text"
-    title: "Item Types"
-    body: "Distinct button styles were designed for events, tasks, and reminders, using a shared structure with subtle visual differences to help users quickly identify each type at a glance."
-  - type: "text"
-    title: "Event States"
-    body: "Event components include multiple states — such as all-day, current, and upcoming — to communicate timing and status within the calendar."
-  - type: "image"
-    src: "/case-studies/orbit/event-states.png"
-  - type: "text"
-    title: "Development"
-    body: "Orbit was implemented in SwiftUI using reusable, state-driven components to support events, tasks, and reminders within a unified interface. The front-end architecture focused on conditional rendering, shared component logic, and consistent styling to ensure different item types and states could be displayed clearly across multiple views."
-  - type: "text"
-    title: "Challenges & Learnings"
-    body: "Building a unified interface for events, tasks, and reminders highlighted the importance of scalable component design and state management. The project strengthened my understanding of how front-end architecture influences flexibility, maintainability, and long-term interaction."
-  - type: "text"
+    media:
+      - type: "subsections"
+        items:
+          - title: "Item Types"
+            body: "Distinct button styles were designed for events, tasks, and reminders, using a shared structure with subtle visual differences to help users quickly identify each type at a glance."
+            image:
+              src: "/case-studies/orbit/components-item-types.webp"
+              alt: "Event, task, and reminder cards side by side, each with its own icon style"
+              width: 712
+              height: 321
+          - title: "Event States"
+            body: "Event components include multiple states — such as all-day, current, and upcoming — to communicate timing and status within the calendar."
+            image:
+              src: "/case-studies/orbit/components-event-states.webp"
+              alt: "Event cards in three states: all-day with a dashed outline, current with a filled background, and upcoming with a solid outline"
+              width: 950
+              height: 396
+
+  - type: "cards"
+    items:
+      - eyebrow: "Build"
+        title: "Development"
+        body: "Orbit was implemented in SwiftUI using reusable, state-driven components to support events, tasks, and reminders within a unified interface. The front-end architecture focused on conditional rendering, shared component logic, and consistent styling to ensure different item types and states could be displayed clearly across multiple views."
+      - eyebrow: "Reflection"
+        title: "Challenges & Learnings"
+        body: "Building a unified interface for events, tasks, and reminders highlighted the importance of scalable component design and state management. The project strengthened my understanding of how front-end architecture influences flexibility, maintainability, and long-term interaction."
+
+  - type: "section"
+    eyebrow: "Solution"
     title: "Final Designs"
     body: "A look at Orbit's final interface across its core views — calendar, task list, reminders, and category management."
-  - type: "image"
-    src: "/case-studies/orbit/final-designs.png"
-  - type: "text"
+    media:
+      - type: "pinned-gallery"
+        # Strip order, left to right. Every group lists screen keys from here.
+        screens:
+          - key: "home"
+            src: "/case-studies/orbit/final-design-home-screen.webp"
+            alt: "Home screen with the orbit counter, pinned category bubbles, and today's events"
+            width: 1206
+            height: 2622
+          - key: "pinned-category"
+            src: "/case-studies/orbit/final-design-viewing-pinned-category.webp"
+            alt: "A pinned Birthdays category open, listing upcoming birthdays"
+            width: 1206
+            height: 2622
+          - key: "calendar"
+            src: "/case-studies/orbit/final-design-calendar-view.webp"
+            alt: "Month calendar view with multi-day events and dot indicators"
+            width: 1206
+            height: 2613
+          - key: "tasks"
+            src: "/case-studies/orbit/final-design-tasks-view.webp"
+            alt: "Tasks list grouped by day, filtered by category"
+            width: 1206
+            height: 2622
+          - key: "reminders"
+            src: "/case-studies/orbit/final-design-reminders-view.webp"
+            alt: "Reminders list filtered by category"
+            width: 1206
+            height: 2622
+          - key: "new-event"
+            src: "/case-studies/orbit/final-design-new-event.webp"
+            alt: "New event form"
+            width: 1206
+            height: 2622
+          - key: "new-reminder"
+            src: "/case-studies/orbit/final-design-new-reminder.webp"
+            alt: "New reminder form"
+            width: 1206
+            height: 2622
+          - key: "new-task"
+            src: "/case-studies/orbit/final-design-new-task.webp"
+            alt: "New task form with a new category being created"
+            width: 1206
+            height: 2622
+          - key: "settings"
+            src: "/case-studies/orbit/final-design-settings.webp"
+            alt: "Settings screen"
+            width: 1206
+            height: 2622
+          - key: "personal-info"
+            src: "/case-studies/orbit/final-design-personal-info.webp"
+            alt: "Personal info screen"
+            width: 1206
+            height: 2622
+          - key: "app-preferences"
+            src: "/case-studies/orbit/final-design-app-preference.webp"
+            alt: "App preferences screen with appearance, calendar, and notification settings"
+            width: 1206
+            height: 2622
+        # Groups center one at a time as you scroll. A note sits right after
+        # its screen; arrowY is where the arrow points (0 top → 1 bottom).
+        groups:
+          - title: "Home + Pinned Category"
+            screens: ["home", "pinned-category"]
+            note: { screen: "home", text: "Pin categories to your home page for quick access.", arrowY: 0.35 }
+          - title: "Calendar"
+            screens: ["calendar"]
+            note: { screen: "calendar", text: "Dot indicators to reduce repetitive item titles.", arrowY: 0.64 }
+          - title: "Tasks + Reminders"
+            screens: ["tasks", "reminders"]
+          - title: "New Event + New Reminder + New Task"
+            screens: ["new-event", "new-reminder", "new-task"]
+            note: { screen: "new-task", text: "Quickly create a new category when needed.", arrowY: 0.5 }
+          - title: "Settings + Personal Info + App Preferences"
+            screens: ["settings", "personal-info", "app-preferences"]
+
+  - type: "section"
+    eyebrow: "Motion"
     title: "Interactions & Animations"
     body: "Highlighted interactions and animations were designed to support clarity, responsiveness, and a sense of continuity as users move between views and manage items."
-  - type: "image"
-    src: "/case-studies/orbit/interactions.png"
-  - type: "text"
+    media:
+      - type: "video"
+        src: "/case-studies/orbit/interactions-animations.mp4"
+        label: "Screen recording of Orbit's interactions and animations"
+        width: 1920
+        height: 1080
+
+  - type: "result"
+    eyebrow: "Result"
     title: "Outcome"
     body: "Orbit demonstrated how a cohesive visual system and interaction design can support multiple time-management tools within a single interface, while reinforcing the importance of consistency and scalability."
 ---

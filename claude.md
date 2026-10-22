@@ -28,7 +28,7 @@ the top of the page so I can swap it without touching layout code.
 - Side padding inside the container steps down on smaller screens (5xl on desktop; smaller values set in the Breakpoints section).
 - Top of page to nav: 3xl.
 - Between page sections (and nav → page title, last section → footer): 4xl.
-- Between blocks within a section: 2xl.
+- Between blocks within a section: 2xl. Exception, per Figma: on case studies the header, Project Details and each block are 3xl (64) apart (2xl on phones).
 - Grid/list gaps and heading → content: xl. Grid columns are fluid and fill the content width (e.g. `grid grid-cols-4 gap-8`); don't hard-code card widths.
 - Form fields, card groups, heading → description: md.
 - Page title (`<h1>`) → intro paragraph: xl.
@@ -78,6 +78,7 @@ The color identifies where the button goes. Keep it the same everywhere the butt
 - On surface/inverse, text links use Pear (e.g. "View services" in the CTA banner).
 - Pear is also allowed as a display headline color on surface/inverse (e.g. "THANKS!" on the contact success screen). Passes contrast on Charcoal.
 - Watercourse is also used for small section labels and step numbers on surface/base (e.g. /about highlights column labels, /services process step numbers).
+- Eyebrow pills (case study section labels like CONTEXT, PROCESS): Pear fill, `dark-text`, on Cararra and on Charcoal.
 
 ### Contrast rules (do not break)
 - Pear and Tranquility fills always take charcoal text (`dark-text`).
@@ -130,8 +131,8 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 | Desktop `xl:` | 1280+ | 5xl (128) | 4xl (96) | 2xl (48) | 4 col |
 
 ### Stacking (below `md`)
-- Side-by-side pairs stack vertically: case study header (text + image), /about skills lists, /contact (links + form), /services (headline + tags).
-- Rows of three become one column: case study detail cards, /about photos, /about highlights.
+- Side-by-side pairs stack vertically: case study header (text + image), case study section headers (title above text), Project Details rows (label above value), Item Types / Event States, the Color Scheme row, Development / Challenges cards, /about skills lists, /contact (links + form), /services (headline + tags).
+- Rows of three become one column: /about photos, /about highlights.
 - /about skills (divider items) and /services process steps: 1 column on phones, 2 on tablet, 4 from `lg`.
 - /services: service cards 2 columns from `md` (1 on phones); "Good to know" 3 columns from `md`; "See the work first" links stack below `md`.
 - CTA button rows wrap and stay centered.
@@ -182,6 +183,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - /portfolio heading (plays on every load): types "porfo", pauses 750ms, deletes to "por", pauses 250ms, types "tfolio". Pause constants are at the top of `app/portfolio/page.tsx`.
 - /about heading (plays on every load): types "abotu", pauses 750ms, deletes to "abo", pauses 250ms, types "ut". Pause constants are at the top of `app/about/page.tsx`.
 - Homepage marquee: CSS loop, 40s per cycle, stops under prefers-reduced-motion. Words in heading-lg, Tranquility dots 32px, 64px (3xl) apart (rounded from Figma's 30.67 / ~76).
+- Case study Final Designs gallery: scroll-driven pinned strip with notes that open and an arrow that draws in. Full spec under Code conventions (Final Designs gallery) and on the Figma frame.
 
 ### Homepage scroll effect
 - The name graphic (name-bg) is sticky: once it reaches the vertical middle of the screen it stays put, and the avatar, triangle and the Cararra content scroll up over it. The Cararra background of the content is what covers the name.
@@ -219,8 +221,9 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
   - Touch devices: when the card enters the middle ~50% of the viewport. Motion's `useInView` sets `data-in-view` on the card and CSS (`@media (hover: none)`) does the color change. Color only, no lift.
 
 ### Case study images
-- Header image: cropped to fill its frame (`object-cover`). Keep the subject centered; the frame changes shape when it stacks on phones.
-- Body images: keep their original proportions. Never crop.
+- Header image: a 4:3 frame at every size, cropped to fill it (`object-cover`). Keep the subject centered.
+- Body images: keep their original proportions. Never crop. 1px Charcoal border, 8px corners (`ImageFrame`).
+- Final-design phone screens: 1206px wide (resize wider exports down), 8px corners, no border.
 
 ### All images
 - WebP by default; PNG only when transparency is needed (e.g. hero illustration).
@@ -254,11 +257,18 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - CTA banner: Resume shows on the homepage and /services; not on /about (its hero already has Resume) or /portfolio. "View services" is hidden on /services.
 - Pages that aren't built yet render `<ComingSoon />` (`components/coming-soon.tsx`, Figma `/[page]-comingSoon`) at their own URL, e.g. `app/shop/page.tsx`, so the nav keeps the right link underlined. Don't redirect. Replace that page.tsx when the real page is ready.
 - The 404 page is `app/not-found.tsx` (Figma `/not-found`); Next shows it for any unknown URL. Coming soon and 404 share `MessagePage` (`components/layout/message-page.tsx`): nav, one message centered in the screen below the nav, footer below the fold.
+- Case studies: `app/portfolio/[slug]/page.tsx` (Figma `/portfolio/orbit-caseStudy`) renders `content/case-studies/<slug>.mdx` frontmatter (read by `lib/case-studies.ts`). Only files with `published: true` get a page; others show the 404. Block types (`section` with optional `media`, `cards`, `result`; media `image`, `video`, `subsections`, `palette`, `pinned-gallery`) are documented at the top of `orbit.mdx`. Images list their pixel `width`/`height`. The `context` field isn't shown. "You may also like" lists the other UI/UX projects as `ProjectCard`s. No CTA banner.
+- Case study components (`components/case-study/`, one per Figma component): `SectionHeader`, `DetailRow`, `Card`, `ImageFrame`, `PhoneScreen`, `Callout`, `ScrollProgress`, `PinnedStage`; `Eyebrow` lives in `components/ui/`. Each block brings its own `Container` so the Final Designs gallery can run full width.
+- Final Designs gallery (`PinnedGallery` → `PinnedStage`, motion spec on the Figma frame): from `lg` with motion allowed, a sticky stage pinned under the compact nav; scrolling dwells on each group (0.7 viewport heights with a note, 0.3 without) and travels 0.5 between them. Below `lg` or under prefers-reduced-motion it's a native horizontal scroller with every note visible (under its screen below `lg`, beside it above). Group/note copy lives in the mdx. Callout animation CSS is in globals.css.
+- Case study layout (Figma `/portfolio/orbit-caseStudy`, approved): header title → tags xl (32), tags → overview 3xl (64); tags are `Tag size="lg"` with xs gaps; header image 421 × 316. Sections have a 1px Charcoal top line, xl (32) above the section header, 2xl (48) to the media. Item Types / Event States sit side by side at equal image heights, 2xl apart (Figma 56, rounded). Color Scheme labels are heading-sm, positioned by `y` in the mdx ("Item Category" at 0.6, a little below center).
+- Final Designs details (approved): screens are 86% (focused) / 72% (dimmed) of the strip area above the progress bar (Figma: 600/500 of a 760 stage). Progress bar sits xl (32) from the stage bottom (Figma ~37); its track is Charcoal at 25% with a solid Charcoal fill (Figma draws both the same color); label and counter sit in equal side columns so the bar never moves. The callout arrow is a 2px stroke (redrawn from Figma's filled shape) so it can draw in.
+- Case study videos use `LoopingVideo` (`components/case-study/looping-video.tsx`): muted loop that starts on load, with a PAUSE/PLAY button; never autoplays under prefers-reduced-motion. Keep filenames URL-safe (no `&`).
 - Thumbnail alt text: add `thumbnailAlt` to a project's `.mdx`; without it the fallback is "[Title] project thumbnail".
 - Project folder names are the URL slug: lowercase letters, numbers and hyphens only (no `?`, `'`, spaces).
 - Next 16 keeps visited pages alive but hidden (React Activity) and brings them back on return. Don't rely on state that's only set when a component first appears for anything that should follow the URL or props; update it when they change (see `ProjectBrowser`'s `urlCategory`). Hidden copies of closed modals can linger in the DOM with `display: none`; that's expected.
 - Turbopack's on-disk dev cache is turned off in `next.config.ts` (`experimental.turbopackFileSystemCacheForDev: false`). With it on, edits to `app/globals.css` were served stale, even across dev server restarts, because the Tailwind loader doesn't invalidate that cache. Keep it off; dev startup is a little slower.
 - In `globals.css`, write custom-property breakpoints as separate `@media { :root { … } }` rules rather than nesting `@media` inside `:root` (the nested form was dropped in dev once; flat rules are safe either way).
+- After replacing an image file at the same path, delete `.next/dev/cache/images` (Next 16's dev image cache), or dev keeps serving the old version.
 
 ## Before launch
 - Delete the `/dev/components` preview page.
@@ -269,7 +279,8 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Fill in visual project titles and `skillTags` (`content/visual-projects/*.mdx`, marked [PLACEHOLDER]).
 - Add real `thumbnailAlt` text for every project.
 - Replace the portfolio intro (lorem ipsum).
-- Build `/portfolio/[slug]` — project cards currently show the 404 page.
+- Publish the remaining case studies (SourceShoot, Digital Closet: move their mdx to the Orbit format, add `published: true`) and build visual project pages — those cards still show the 404.
+- Check the Orbit image alt text in `content/case-studies/orbit.mdx` (written from the images).
 - Replace the coming-soon pages at `/shop` and `/notes` with the real pages.
 - Add thumbnails for the hidden projects: additional-design-work, banshee, save-the-dates, scalise.
 - Remove the `coming-soon` folder and its `_redirects` file when the full site goes live.
@@ -282,6 +293,8 @@ Implemented as a first pass; Chelsey said "fine for now." Don't treat these as f
 - Portfolio below `md`: the Resume button sits above the filter rows (left-aligned); filter rows wrap. Empty filter result shows "No projects match these filters yet." in body-xl.
 - Project card grid on phones: md (16) gaps instead of xl, to give 2-column cards more room (xl from `md` up).
 - 404 page: outlined lg "BACK TO HOME" button (links to /) below "PAGE NOT FOUND", xl (32) gap. Not in the Figma frame.
+
+- Case study below desktop (not designed yet): everything listed under Stacking stacks below `md`; header image full width on phones, 40% from `md`, 421px from `lg`; section-header/detail left column 40% from `md`, 400px from `xl`; Final Designs is a native horizontal scroller below `lg` (screens up to 600px / 70% of screen height, notes under their screens, no arrow).
 
 - /about hero photo: below `md` it sits under the text as a square; from `md` up it takes ~30% of the width and stretches to the text's height.
 - Bulleted lists (e.g. /about highlights): disc bullets in the text color (Charcoal), list indented lg (24) from its label.

@@ -237,6 +237,48 @@
   }
 }
 
+/* ---------- Case study gallery (components/case-study/pinned-stage.tsx) ---------- */
+
+/* Callout open: width opens (400ms), arrow draws in at 150ms, note fades up
+   at 300ms. Close: arrow + note fade out (200ms), then the width closes.
+   Open width = 32px gap before the note + 392px of arrow and note. */
+.callout {
+  width: 0;
+  transition: width 400ms ease-out 200ms;
+}
+.callout[data-open="true"] {
+  width: 424px;
+  transition-delay: 0ms;
+}
+.callout-arrow path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition: opacity 200ms ease-out, stroke-dashoffset 0ms 200ms;
+}
+.callout[data-open="true"] .callout-arrow path {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  transition: stroke-dashoffset 300ms ease-out 150ms, opacity 0ms 150ms;
+}
+.callout-note {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 200ms ease-out, transform 0ms 200ms;
+}
+.callout[data-open="true"] .callout-note {
+  opacity: 1;
+  transform: none;
+  transition: opacity 300ms ease-out 300ms, transform 300ms ease-out 300ms;
+}
+
+/* Past 1800px the strip is capped and its edges fade into the page. */
+@media (width >= 1800px) {
+  .pinned-viewport {
+    mask-image: linear-gradient(to right, transparent, black 120px, black calc(100% - 120px), transparent);
+  }
+}
+
 /* ---------- Page transitions (components/layout/page-transition.tsx) ---------- */
 
 /* Old page leaves fast; new page waits for it, then fades in with a small
