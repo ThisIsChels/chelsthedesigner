@@ -41,7 +41,8 @@ export function ProjectCard({ project, preload = false }: ProjectCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 rounded-b-lg border border-text-primary bg-surface-base px-3 pt-6 pb-3">
-        <div className="flex items-start justify-between gap-2">
+        {/* Figma has no gap here; the 8px below xl keeps wrapped titles off the arrow. */}
+        <div className="flex items-start justify-between gap-2 xl:gap-0">
           <h3 className="min-w-0 type-card-title wrap-break-word">{project.title}</h3>
           <IconButton />
         </div>

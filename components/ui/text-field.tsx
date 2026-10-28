@@ -21,7 +21,8 @@ type TextFieldProps = {
   className?: string;
 };
 
-const fieldClasses =
+/** Shared with other inputs that look like a text field (e.g. the stamp search). */
+export const fieldClasses =
   "w-full rounded-lg border border-text-primary bg-surface-base px-3 type-body-xl text-text-primary transition-colors placeholder:text-text-placeholder focus:bg-surface-field-focus";
 
 export function TextField({

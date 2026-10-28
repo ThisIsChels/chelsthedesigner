@@ -74,3 +74,44 @@ export function LinkedinIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function ArrowLeftIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M19 12H5M12 19L5 12L12 5" {...stroke} />
+    </svg>
+  );
+}
+
+export function ArrowRightIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M5 12H19M12 5L19 12L12 19" {...stroke} />
+    </svg>
+  );
+}
+
+export function PauseIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M9 6V18M15 6V18" {...stroke} />
+    </svg>
+  );
+}
+
+export function PlayIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M8 5L18 12L8 19V5Z" {...stroke} />
+    </svg>
+  );
+}
+
+export function SearchIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M16 11C16 13.7614 13.7614 16 11 16C8.23858 16 6 13.7614 6 11C6 8.23858 8.23858 6 11 6C13.7614 6 16 8.23858 16 11Z" stroke="currentColor" strokeWidth={2} />
+      <path d="M15.5 15.5L19 19" {...stroke} />
+    </svg>
+  );
+}

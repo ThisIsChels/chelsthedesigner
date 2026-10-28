@@ -1,4 +1,4 @@
-import { columnGap, labelColumn } from "@/components/case-study/section-header";
+import { columnGap, labelColumn } from "@/components/section-header";
 import { cn } from "@/lib/utils";
 
 // Figma component `detail-row` (Project Details): caption label on the left,

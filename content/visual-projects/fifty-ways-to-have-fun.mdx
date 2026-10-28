@@ -1,4 +1,190 @@
 ---
 title: "Fifty Ways to Have Fun"
-skillTags: [] # [PLACEHOLDER: any of "Branding", "Illustration", "Print"]
+# Only published showcases get a page; the rest show the 404.
+published: true
+skillTags: ["Illustration", "Graphic"]
+thumbnailAlt: "Fifty Ways to Have Fun stamps laid out in a grid"
+description: "A stamp series that toasts each U.S. state through its signature cocktail, a tiny celebration of local flavor and personality. Fifty stamps, one poster, one booklet."
+# "Keep exploring" cards, by project slug (folder name).
+related: ["infinite-illumination", "volley-partons"]
+
+# Blocks, top to bottom (see digital-illustrations.mdx for `gallery`):
+#   details → `items`: centered label / value columns
+#   image   → full-width framed image (src, alt, width, height)
+#   section → eyebrow, title, body, optional `media`
+#   result  → eyebrow, title, `paragraphs`, `signOff` on a Charcoal panel
+# Media inside a section:
+#   columns → side-by-side columns of framed images. A column with one image
+#             shows it whole; a column with several stacks them and crops them
+#             to the first column's height (from md). `chip` adds a label.
+#   stamps  → the searchable stamp grid (`dir` + one { state, cocktail } per
+#             stamp; files are <dir>/<state-in-kebab-case>.webp)
+#   booklet → the auto-scrolling page carousel; `pdf` + `buttonLabel` add a
+#             "View full booklet" link under it
+blocks:
+  - type: "details"
+    items:
+      - { label: "Year", value: "2025" }
+      - { label: "Mediums", value: "Procreate, Illustrator" }
+      - { label: "Class", value: "Design Studio I" }
+
+  - type: "image"
+    src: "/visual-projects/fifty-ways-to-have-fun/cover.webp"
+    alt: "Fifty Ways to Have Fun lettered in glossy, bubbly red, orange and gold letters on a teal background"
+    width: 2512
+    height: 1954
+
+  - type: "section"
+    eyebrow: "Process"
+    title: "Moodboard & Process"
+    body: "Before there was a single stamp, there was a pile of cocktail references, type experiments and thumbnail sketches. From there every stamp got its own artboard: first in a small sandbox file for testing the template, then in the full file where all fifty sit side by side."
+    media:
+      - type: "columns"
+        columns:
+          - - src: "/visual-projects/fifty-ways-to-have-fun/moodboard.webp"
+              alt: "Moodboard of cocktail photos, vintage stamps, type samples and pencil sketches of glasses and lettering"
+              width: 1160
+              height: 1080
+          - - src: "/visual-projects/fifty-ways-to-have-fun/illustrator-sandbox.webp"
+              alt: "Illustrator sandbox file with a row of early stamp drafts"
+              width: 1600
+              height: 775
+              chip: "Sandbox"
+            - src: "/visual-projects/fifty-ways-to-have-fun/illustrator-all-artboards.webp"
+              alt: "Illustrator file with all fifty stamp artboards in a grid"
+              width: 1600
+              height: 777
+              chip: "Stamps"
+
+  - type: "section"
+    eyebrow: "Series"
+    title: "The Fifty Stamps"
+    body: "Find your state, then click any stamp to take a closer look!"
+    media:
+      - type: "stamps"
+        searchLabel: "Search for your state"
+        countLabel: "50 stamps, A to Z"
+        dir: "/visual-projects/fifty-ways-to-have-fun/stamps"
+        width: 600
+        height: 1010
+        # [PLACEHOLDER: check cocktail names] read from the stamp lettering.
+        items:
+          - { state: "Alabama", cocktail: "Yellowhammer Slammer" }
+          - { state: "Alaska", cocktail: "Duck Fart" }
+          - { state: "Arizona", cocktail: "Tequila Sunrise" }
+          - { state: "Arkansas", cocktail: "Roman Coke" }
+          - { state: "California", cocktail: "Citrus Sangria" }
+          - { state: "Colorado", cocktail: "Bulldog" }
+          - { state: "Connecticut", cocktail: "Moscow Mule" }
+          - { state: "Delaware", cocktail: "Dewey Crush" }
+          - { state: "Florida", cocktail: "Rum Runner" }
+          - { state: "Georgia", cocktail: "Scarlett O'Hara" }
+          - { state: "Hawaii", cocktail: "Mai Tai" }
+          - { state: "Idaho", cocktail: "Potato Vodka Soda" }
+          - { state: "Illinois", cocktail: "Swedish Seed" }
+          - { state: "Indiana", cocktail: "Hoosier Heritage" }
+          - { state: "Iowa", cocktail: "Frozen Blue Margarita" }
+          - { state: "Kansas", cocktail: "Horse Feather" }
+          - { state: "Kentucky", cocktail: "Mint Julep" }
+          - { state: "Louisiana", cocktail: "Sazerac" }
+          - { state: "Maine", cocktail: "Allen's & Milk" }
+          - { state: "Maryland", cocktail: "Black-Eyed Susan" }
+          - { state: "Massachusetts", cocktail: "Cape Codder" }
+          - { state: "Michigan", cocktail: "The Hummer" }
+          - { state: "Minnesota", cocktail: "The Bootleg" }
+          - { state: "Mississippi", cocktail: "Punch" }
+          - { state: "Missouri", cocktail: "Mule" }
+          - { state: "Montana", cocktail: "Whiskey Ditch" }
+          - { state: "Nebraska", cocktail: "Red Beer" }
+          - { state: "Nevada", cocktail: "Picon Punch" }
+          - { state: "New Hampshire", cocktail: "Hard Cider" }
+          - { state: "New Jersey", cocktail: "Jack Rose" }
+          - { state: "New Mexico", cocktail: "Chimayó" }
+          - { state: "New York", cocktail: "Manhattan" }
+          - { state: "North Carolina", cocktail: "Cherry Bounce" }
+          - { state: "North Dakota", cocktail: "Smith & Kearns" }
+          - { state: "Ohio", cocktail: "Bloody Mary" }
+          - { state: "Oklahoma", cocktail: "Club Special" }
+          - { state: "Oregon", cocktail: "Negroni" }
+          - { state: "Pennsylvania", cocktail: "Orange Crush" }
+          - { state: "Rhode Island", cocktail: "Coffee Milk" }
+          - { state: "South Carolina", cocktail: "Sweet Tea Vodka" }
+          - { state: "South Dakota", cocktail: "Martini" }
+          - { state: "Tennessee", cocktail: "Jack & Coke" }
+          - { state: "Texas", cocktail: "Margarita" }
+          - { state: "Utah", cocktail: "Derby Mountain" }
+          - { state: "Vermont", cocktail: "Old Vermont" }
+          - { state: "Virginia", cocktail: "Appalachian Manhattan" }
+          - { state: "Washington", cocktail: "Apple" }
+          - { state: "West Virginia", cocktail: "Gin & Tonic" }
+          - { state: "Wisconsin", cocktail: "Brandy Old Fashioned" }
+          - { state: "Wyoming", cocktail: "Mr. Nelson" }
+
+  - type: "section"
+    eyebrow: "Print"
+    title: "The Poster"
+    body: "All fifty stamps on one sheet, laid out like a collector's page: ten across, five down, with the series title lettered across the top. It's the quickest way to see the whole set at once."
+    media:
+      - type: "columns"
+        columns:
+          - - src: "/visual-projects/fifty-ways-to-have-fun/poster.webp"
+              alt: "The Fifty Ways to Have Fun poster: the series title and a short intro above all fifty stamps in a ten-by-five grid"
+              width: 1296
+              height: 1729
+          - - src: "/visual-projects/fifty-ways-to-have-fun/poster-hung-up.webp"
+              alt: "The printed poster hanging on a gallery wall above its exhibit label"
+              width: 1296
+              height: 1728
+
+  - type: "section"
+    eyebrow: "Print"
+    title: "The Booklet"
+    body: "Every stamp gets its own page: the cocktail, what's in it, and a little of the story behind it. A few favorites are shown here."
+    media:
+      - type: "booklet"
+        hint: "Scrolls on its own. Pause it, drag, or use the arrows to browse."
+        # "View full booklet" button: add these back once there's a good web PDF.
+        # buttonLabel: "View full booklet"
+        # pdf: "/visual-projects/fifty-ways-to-have-fun/booklet.pdf"
+        pages:
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-arizona.webp"
+            alt: "Booklet page for Arizona's Tequila Sunrise: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-colorado.webp"
+            alt: "Booklet page for the Colorado Bulldog: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-florida.webp"
+            alt: "Booklet page for Florida's Rum Runner: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-minnesota.webp"
+            alt: "Booklet page for Minnesota's The Bootleg: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-new-york.webp"
+            alt: "Booklet page for New York's Manhattan: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-pennsylvania.webp"
+            alt: "Booklet page for Pennsylvania's Orange Crush: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-washington.webp"
+            alt: "Booklet page for the Washington Apple: ingredients, color swatches, the stamp and its story"
+            width: 648
+            height: 504
+          - src: "/visual-projects/fifty-ways-to-have-fun/booklet-about.webp"
+            alt: "Booklet page about the designer"
+            width: 648
+            height: 504
+
+  - type: "result"
+    eyebrow: "Outcome"
+    title: "What I took away"
+    paragraphs:
+      - "Fifty stamps could have been fifty unrelated illustrations. Making them feel like one family meant deciding what stays fixed (the grid, the perforated edge, the lettering style, the USA Forever seal) so everything else, from the drink to the palette, was free to change."
+      - "The lesson I'm carrying forward: set the system first, then let every piece have its own personality."
+    signOff: "Chelsey LaPointe"
 ---

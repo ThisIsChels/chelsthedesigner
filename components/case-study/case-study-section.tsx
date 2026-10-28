@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { Card } from "@/components/case-study/card";
-import { ImageFrame } from "@/components/case-study/image-frame";
 import { LoopingVideo } from "@/components/case-study/looping-video";
 import { PinnedGallery } from "@/components/case-study/pinned-gallery";
-import { SectionHeader } from "@/components/case-study/section-header";
+import { ImageFrame } from "@/components/image-frame";
 import { Container } from "@/components/layout/container";
+import { OutcomeBox } from "@/components/outcome-box";
+import { SectionHeader } from "@/components/section-header";
 import type { CaseStudyBlock, CaseStudyMedia, PaletteLabel } from "@/lib/case-studies";
 import { cn } from "@/lib/utils";
 
@@ -46,12 +47,9 @@ export function CaseStudySection({ block }: { block: CaseStudyBlock }) {
         </Container>
       );
     case "result":
-      // Figma `section / outcome`: section header on a Charcoal panel.
       return (
         <Container>
-          <section className="surface-inverse rounded-lg p-8 md:p-16">
-            <SectionHeader eyebrow={block.eyebrow} title={block.title} body={block.body} />
-          </section>
+          <OutcomeBox layout="split" eyebrow={block.eyebrow} title={block.title} paragraphs={[block.body]} />
         </Container>
       );
   }

@@ -8,10 +8,11 @@
 // - Changing the category resets the tags.
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ProjectCard } from "@/components/project-card";
 import { ResumeButton } from "@/components/ui/cta-buttons";
 import { FilterChip } from "@/components/ui/filter-chip";
+import { usePrefersReducedMotion } from "@/hooks/use-media-query";
 import { CATEGORIES, type Category, type Project } from "@/lib/project-categories";
 import { blockGap } from "@/lib/layout";
 import { cn } from "@/lib/utils";
@@ -43,7 +44,7 @@ const cardTransition = (index: number, reduceMotion: boolean | null) =>
       };
 
 export function ProjectBrowser({ projects, emptyMessage, initialCategory = "all" }: Props) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const [category, setCategory] = useState<Category | "all">(initialCategory);
   const [tags, setTags] = useState<string[]>([]);
 

@@ -5,7 +5,7 @@ export type Category = "ux" | "visual";
 
 export const CATEGORIES: { id: Category; label: string; tags: string[] }[] = [
   { id: "ux", label: "UI/UX DESIGN", tags: ["Mobile", "Website", "Development"] },
-  { id: "visual", label: "VISUAL DESIGN", tags: ["Branding", "Illustration", "Print"] },
+  { id: "visual", label: "VISUAL DESIGN", tags: ["Branding", "Illustration", "Print", "Graphic"] },
 ];
 
 export type Project = {

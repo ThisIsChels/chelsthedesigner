@@ -1,8 +1,8 @@
-import { ArrowUpRightIcon, XIcon } from "@/components/ui/icons";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, PauseIcon, PlayIcon, XIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 // Figma primitive `icon`: 28px square with an arrow (or an X for close
-// buttons). Inverts on hover, no lift. It's purely visual — put it inside a
+// buttons, pause/play and left/right for carousels). Inverts on hover, no lift. It's purely visual — put it inside a
 // link or button with the `group` class so the whole thing is one target.
 
 const tones = {
@@ -14,7 +14,14 @@ const tones = {
     "border-text-inverse bg-surface-inverse text-text-inverse group-hover:bg-surface-base group-hover:text-text-primary",
 };
 
-const icons = { arrow: ArrowUpRightIcon, x: XIcon };
+const icons = {
+  arrow: ArrowUpRightIcon,
+  x: XIcon,
+  left: ArrowLeftIcon,
+  right: ArrowRightIcon,
+  pause: PauseIcon,
+  play: PlayIcon,
+};
 
 type IconButtonProps = {
   tone?: keyof typeof tones;
