@@ -58,6 +58,7 @@ Use semantic tokens in code. Some Figma fills are bound to palette names (Pear, 
 ### Default
 - Page background: surface/base. Body text: text/primary.
 - Default and inactive states (unselected filters, tags, secondary buttons, footer container): outlined style, charcoal border and text, no fill.
+- Tags (`Tag`, on project cards and project page headers) are always uppercase.
 
 ### CTA buttons — color-coded by destination
 The color identifies where the button goes. Keep it the same everywhere the button appears.
@@ -257,7 +258,10 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - CTA banner: Resume shows on the homepage and /services; not on /about (its hero already has Resume) or /portfolio. "View services" is hidden on /services.
 - Pages that aren't built yet render `<ComingSoon />` (`components/coming-soon.tsx`, Figma `/[page]-comingSoon`) at their own URL, e.g. `app/shop/page.tsx`, so the nav keeps the right link underlined. Don't redirect. Replace that page.tsx when the real page is ready.
 - The 404 page is `app/not-found.tsx` (Figma `/not-found`); Next shows it for any unknown URL. Coming soon and 404 share `MessagePage` (`components/layout/message-page.tsx`): nav, one message centered in the screen below the nav, footer below the fold.
-- Case studies: `app/portfolio/[slug]/page.tsx` (Figma `/portfolio/orbit-caseStudy`) renders `content/case-studies/<slug>.mdx` frontmatter (read by `lib/case-studies.ts`). Only files with `published: true` get a page; others show the 404. Block types (`section` with optional `media`, `cards`, `result`; media `image`, `video`, `subsections`, `palette`, `pinned-gallery`) are documented at the top of `orbit.mdx`. Images list their pixel `width`/`height`. The `context` field isn't shown. "You may also like" lists the other UI/UX projects as `ProjectCard`s. No CTA banner.
+- Case studies: `app/portfolio/[slug]/page.tsx` (Figma `/portfolio/orbit-caseStudy`) renders `content/case-studies/<slug>.mdx` frontmatter (read by `lib/case-studies.ts`). Only files with `published: true` get a page; others show the 404. Block types (`section` with optional `media`, `cards`, `result`; media `image`, `video`, `subsections`, `palette`, `pinned-gallery`) are documented at the top of `orbit.mdx`. Images list their pixel `width`/`height`. The `context` field isn't shown. No CTA banner.
+- Project pages share one route: `app/portfolio/[slug]/page.tsx` renders a case study (`content/case-studies/<slug>.mdx`, `CaseStudyView`) or a showcase (`content/visual-projects/<slug>.mdx`, `ShowcaseView`), whichever has a published .mdx (`lib/published.ts`).
+- "Keep exploring" (`RelatedProjects`, Figma `related-projects`) ends every project page. Pick the cards with `related: [slugs]` in the .mdx; without it, up to 3 other projects from the same category.
+- Showcases (Figma `/portfolio/digital-illustrations-showcase`): centered display-sm title, skill tags as `Tag size="lg"`, body-xl description, then `ArtworkGallery`. The gallery's rows are written in the .mdx (`gallery`: a list of rows, each a list of artworks with title, year, medium, src, alt, width, height). From `lg` each row is one height and widths follow each image's proportions (no cropping); lg (24) between artworks, 2xl (48) between rows. `ArtworkCard` captions: title body-lg + year body on one line, medium in caption caps below. Artwork image files: kebab-case names, shorter side ~900px. Artworks are not clickable: a click-to-enlarge lightbox (full-screen Charcoal overlay with PREV / NEXT) was tried on 2026-10-22 and Chelsey didn't like it, so don't add one again unless she asks.
 - Case study components (`components/case-study/`, one per Figma component): `SectionHeader`, `DetailRow`, `Card`, `ImageFrame`, `PhoneScreen`, `Callout`, `ScrollProgress`, `PinnedStage`; `Eyebrow` lives in `components/ui/`. Each block brings its own `Container` so the Final Designs gallery can run full width.
 - Final Designs gallery (`PinnedGallery` → `PinnedStage`, motion spec on the Figma frame): from `lg` with motion allowed, a sticky stage pinned under the compact nav; scrolling dwells on each group (0.7 viewport heights with a note, 0.3 without) and travels 0.5 between them. Below `lg` or under prefers-reduced-motion it's a native horizontal scroller with every note visible (under its screen below `lg`, beside it above). Group/note copy lives in the mdx. Callout animation CSS is in globals.css.
 - Case study layout (Figma `/portfolio/orbit-caseStudy`, approved): header title → tags xl (32), tags → overview 3xl (64); tags are `Tag size="lg"` with xs gaps; header image 421 × 316. Sections have a 1px Charcoal top line, xl (32) above the section header, 2xl (48) to the media. Item Types / Event States sit side by side at equal image heights, 2xl apart (Figma 56, rounded). Color Scheme labels are heading-sm, positioned by `y` in the mdx ("Item Category" at 0.6, a little below center).
@@ -279,7 +283,9 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Fill in visual project titles and `skillTags` (`content/visual-projects/*.mdx`, marked [PLACEHOLDER]).
 - Add real `thumbnailAlt` text for every project.
 - Replace the portfolio intro (lorem ipsum).
-- Publish the remaining case studies (SourceShoot, Digital Closet: move their mdx to the Orbit format, add `published: true`) and build visual project pages — those cards still show the 404.
+- Publish the remaining case studies (SourceShoot, Digital Closet: move their mdx to the Orbit format, add `published: true`) and the remaining visual projects (showcase .mdx like `digital-illustrations.mdx`). Unpublished project cards still show the 404.
+- Clean up `public/visual-projects/fifty-ways-to-have-fun/` (63 files, ~20MB, including `With Border/1000ppi` print exports) when building that page; sources belong in `~/chelsthedesigner-originals`.
+- Check the Digital Illustrations alt text in `content/visual-projects/digital-illustrations.mdx` (written from the images).
 - Check the Orbit image alt text in `content/case-studies/orbit.mdx` (written from the images).
 - Replace the coming-soon pages at `/shop` and `/notes` with the real pages.
 - Add thumbnails for the hidden projects: additional-design-work, banshee, save-the-dates, scalise.
@@ -294,6 +300,7 @@ Implemented as a first pass; Chelsey said "fine for now." Don't treat these as f
 - Project card grid on phones: md (16) gaps instead of xl, to give 2-column cards more room (xl from `md` up).
 - 404 page: outlined lg "BACK TO HOME" button (links to /) below "PAGE NOT FOUND", xl (32) gap. Not in the Figma frame.
 
+- Showcase gallery below desktop (not designed yet): rows from `lg`; below that a 2-column grid from `md` and 1 column on phones, each artwork at its own proportions.
 - Case study below desktop (not designed yet): everything listed under Stacking stacks below `md`; header image full width on phones, 40% from `md`, 421px from `lg`; section-header/detail left column 40% from `md`, 400px from `xl`; Final Designs is a native horizontal scroller below `lg` (screens up to 600px / 70% of screen height, notes under their screens, no arrow).
 
 - /about hero photo: below `md` it sits under the text as a square; from `md` up it takes ~30% of the width and stretches to the text's height.

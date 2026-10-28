@@ -46,3 +46,16 @@ export function getProjects(): Project[] {
       });
   });
 }
+
+/**
+ * "Keep exploring" cards: the hand-picked slugs in order, or, without a
+ * list, up to 3 other projects from the same category.
+ */
+export function getRelatedProjects(slug: string, picks?: string[]): Project[] {
+  const projects = getProjects();
+  if (picks?.length) {
+    return picks.flatMap((pick) => projects.filter((p) => p.slug === pick));
+  }
+  const category = projects.find((p) => p.slug === slug)?.category;
+  return projects.filter((p) => p.category === category && p.slug !== slug).slice(0, 3);
+}

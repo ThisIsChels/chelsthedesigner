@@ -1,10 +1,7 @@
-// Server-only: reads case study pages from content/case-studies/<slug>.mdx.
+// Server-only: case study pages from content/case-studies/<slug>.mdx.
 // The frontmatter holds the whole page; orbit.mdx documents the block types.
-// Only files with `published: true` get a page.
 
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
+import { publishedSlugs, readPublished } from "@/lib/published";
 
 export type CaseStudyImage = { src: string; alt: string; width: number; height: number };
 
@@ -35,22 +32,14 @@ export type CaseStudy = {
   overview: string;
   infoBoxes: { label: string; value: string }[];
   sections: CaseStudyBlock[];
+  /** "Keep exploring" project slugs. */
+  related?: string[];
 };
 
-const DIR = path.join(process.cwd(), "content", "case-studies");
-
 export function getCaseStudy(slug: string): CaseStudy | null {
-  const file = path.join(DIR, `${slug}.mdx`);
-  if (!fs.existsSync(file)) return null;
-  const data = matter(fs.readFileSync(file, "utf8")).data;
+  const data = readPublished("case-studies", slug);
   // Trusts the frontmatter shape; a typo shows up as a broken page in dev.
-  return data.published === true ? ({ slug, ...data } as CaseStudy) : null;
+  return data ? ({ slug, ...data } as CaseStudy) : null;
 }
 
-export function getCaseStudySlugs(): string[] {
-  return fs
-    .readdirSync(DIR)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => file.replace(/\.mdx$/, ""))
-    .filter((slug) => getCaseStudy(slug) !== null);
-}
+export const getCaseStudySlugs = () => publishedSlugs("case-studies");
