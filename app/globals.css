@@ -1,0 +1,336 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+ * Design tokens — mirror the Figma variables in CLAUDE.md.
+ * Spacing uses Tailwind's default 4px scale, so tokens map to numbers:
+ * 2xs=1 · xs=2 · sm=3 · md=4 · lg=6 · xl=8 · 2xl=12 · 3xl=16 · 4xl=24 · 5xl=32
+ */
+@theme {
+  /* Semantic colors (Figma "group/name" → "group-name") */
+  --color-surface-base: #efede9;
+  --color-surface-inverse: #3c3b39;
+  --color-surface-field-focus: #f4f4f4;
+  --color-text-primary: #3c3b39;
+  --color-text-inverse: #efede9;
+  --color-text-error: #a83a2a;
+  --color-text-placeholder: #6b6965;
+  --color-accent-primary: #00715b;
+  --color-accent-secondary: #d8e63b;
+  --color-accent-tertiary: #c0d8d8;
+
+  --font-display: var(--font-tampool);
+  --font-sans: var(--font-clash);
+
+  --ease-out: ease-out;
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: ease-out;
+
+  /* Homepage marquee: the track holds two identical copies, so sliding -50%
+     loops seamlessly. */
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Typewriter cursor: on/off with a hard switch (no fade), like a terminal. */
+  --animate-blink: blink 1s step-end infinite;
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+/* ---------- Type styles (CLAUDE.md → Typography) ---------- */
+
+@utility type-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 8.5vw, 128px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+@utility type-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6.6vw, 100px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+@utility type-display-md {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5.3vw, 80px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+@utility type-display-sm {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.2vw, 64px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+@utility type-heading-lg {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.1;
+  @media (width >= 48rem) {
+    font-size: 48px;
+  }
+}
+@utility type-heading-md-semibold {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.2;
+  @media (width >= 48rem) {
+    font-size: 32px;
+  }
+}
+@utility type-heading-md-medium {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  @media (width >= 48rem) {
+    font-size: 32px;
+  }
+}
+@utility type-heading-md {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.2;
+  @media (width >= 48rem) {
+    font-size: 32px;
+  }
+}
+@utility type-heading-sm {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.25;
+}
+@utility type-card-title {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.25;
+}
+@utility type-body-xl {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+}
+@utility type-body-lg {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+}
+@utility type-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+}
+@utility type-label-md {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+}
+@utility type-label-sm {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+}
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* ---------- Lift (signature hover, CLAUDE.md → Interaction states) ---------- */
+
+/* The shadow is always Charcoal. On charcoal surfaces (see .surface-inverse)
+   a second, 1px-larger Cararra copy sits behind it, so its edge reads as a
+   1px Cararra stroke around the visible part of the shadow. Elsewhere that
+   second shadow is 0px and transparent, i.e. invisible. */
+@utility lift {
+  --lift: 4px;
+  transition-property: transform, box-shadow, background-color, color;
+  @media (hover: hover) {
+    &:hover {
+      transform: translate(var(--lift), calc(var(--lift) * -1));
+      box-shadow:
+        calc(var(--lift) * -1) var(--lift) 0 var(--color-text-primary),
+        calc(var(--lift) * -1) var(--lift) 0 var(--lift-stroke, 0px) var(--lift-stroke-color, transparent);
+    }
+  }
+  &:active {
+    transform: none;
+    box-shadow: none;
+  }
+}
+@utility lift-lg {
+  --lift: 8px;
+}
+
+/* Put on any charcoal block so lift shadows and focus rings stay visible. */
+@utility surface-inverse {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  --lift-stroke: 1px;
+  --lift-stroke-color: var(--color-text-inverse);
+  --focus-ring: var(--color-text-inverse);
+}
+
+@layer base {
+  /* Page side margin per breakpoint (CLAUDE.md → Breakpoints).
+     Kept as flat rules: the dev server drops custom properties nested in
+     @media inside :root. */
+  :root {
+    --gutter: 16px;
+  }
+  @media (width >= 48rem) {
+    :root {
+      --gutter: 32px;
+    }
+  }
+  @media (width >= 64rem) {
+    :root {
+      --gutter: 64px;
+    }
+  }
+  @media (width >= 80rem) {
+    :root {
+      --gutter: 128px;
+    }
+  }
+
+  body {
+    background-color: var(--color-surface-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--color-text-primary));
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0s !important;
+      animation-duration: 0s !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+/* ---------- Case study gallery (components/case-study/pinned-stage.tsx) ---------- */
+
+/* Callout open: width opens (400ms), arrow draws in at 150ms, note fades up
+   at 300ms. Close: arrow + note fade out (200ms), then the width closes.
+   Open width = 32px gap before the note + 392px of arrow and note. */
+.callout {
+  width: 0;
+  transition: width 400ms ease-out 200ms;
+}
+.callout[data-open="true"] {
+  width: 424px;
+  transition-delay: 0ms;
+}
+.callout-arrow path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition: opacity 200ms ease-out, stroke-dashoffset 0ms 200ms;
+}
+.callout[data-open="true"] .callout-arrow path {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  transition: stroke-dashoffset 300ms ease-out 150ms, opacity 0ms 150ms;
+}
+.callout-note {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 200ms ease-out, transform 0ms 200ms;
+}
+.callout[data-open="true"] .callout-note {
+  opacity: 1;
+  transform: none;
+  transition: opacity 300ms ease-out 300ms, transform 300ms ease-out 300ms;
+}
+
+/* Past 1800px the strip is capped and its edges fade into the page. */
+@media (width >= 1800px) {
+  .pinned-viewport {
+    mask-image: linear-gradient(to right, transparent, black 120px, black calc(100% - 120px), transparent);
+  }
+}
+
+/* ---------- Page transitions (components/layout/page-transition.tsx) ---------- */
+
+/* Old page leaves fast; new page waits for it, then fades in with a small
+   rise. Asymmetric on purpose: the old content shouldn't compete with the new. */
+::view-transition-old(.page-exit) {
+  animation: 150ms ease-out both page-fade reverse;
+}
+::view-transition-new(.page-enter) {
+  animation:
+    210ms ease-out 150ms both page-fade,
+    300ms ease-out 150ms both page-rise;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes page-rise {
+  from {
+    translate: 0 10px;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+/* The pinned nav stays still: no fade, no old copy, always on top. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* Clicks during the short transition reach the new page instead of being lost. */
+::view-transition {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
