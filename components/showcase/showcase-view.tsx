@@ -7,6 +7,8 @@ import { SectionHeader } from "@/components/section-header";
 import { ArtworkGallery } from "@/components/showcase/artwork-gallery";
 import { DetailColumns } from "@/components/showcase/detail-columns";
 import { FramedColumns } from "@/components/showcase/framed-columns";
+import { ImageRows } from "@/components/showcase/image-rows";
+import { PostcardTable } from "@/components/showcase/postcard-table";
 import { StampGrid } from "@/components/showcase/stamp-grid";
 import { buttonVariants } from "@/components/ui/button";
 import { sectionGap } from "@/lib/layout";
@@ -21,7 +23,12 @@ export function ShowcaseView({ showcase }: { showcase: Showcase }) {
   return (
     <div className={`flex flex-col ${sectionGap}`}>
       <Container>
-        <ProjectPageHeader title={showcase.title} tags={showcase.skillTags} description={showcase.description} />
+        <ProjectPageHeader
+          title={showcase.title}
+          tags={showcase.skillTags}
+          description={showcase.description}
+          jump={showcase.jump}
+        />
       </Container>
 
       {showcase.blocks.map((block, i) => (
@@ -54,7 +61,8 @@ function Block({ block }: { block: ShowcaseBlock }) {
       );
     case "section":
       return (
-        <section className="flex flex-col gap-12">
+        // scroll-mt clears the pinned nav when the header's jump button lands here.
+        <section id={block.id} className="flex scroll-mt-24 flex-col gap-12 outline-none">
           <Container>
             <SectionHeader layout="inline" eyebrow={block.eyebrow} title={block.title} body={block.body} />
           </Container>
@@ -75,7 +83,7 @@ function Media({ media }: { media: ShowcaseMedia }) {
     case "columns":
       return (
         <Container>
-          <FramedColumns columns={media.columns} />
+          <FramedColumns columns={media.columns} proportional={media.proportional} />
         </Container>
       );
     case "stamps":
@@ -84,10 +92,28 @@ function Media({ media }: { media: ShowcaseMedia }) {
           <StampGrid {...media} />
         </Container>
       );
+    case "details":
+      return (
+        <Container>
+          <DetailColumns items={media.items} />
+        </Container>
+      );
+    case "postcards":
+      return (
+        <Container>
+          <PostcardTable dir={media.dir} cards={media.cards} />
+        </Container>
+      );
+    case "images":
+      return (
+        <Container>
+          <ImageRows rows={media.rows} frame={media.frame} maxWidth={media.maxWidth} />
+        </Container>
+      );
     case "booklet":
       return (
         <div className="flex flex-col gap-8">
-          <AutoScrollCarousel images={media.pages} hint={media.hint} label="Booklet pages" />
+          <AutoScrollCarousel images={media.pages} hint={media.hint} label={media.label ?? "Booklet pages"} />
           {media.pdf && media.buttonLabel && (
             <Container>
               <a

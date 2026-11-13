@@ -1,24 +1,223 @@
 ---
 title: "SourceShoot"
-heroImage: "/case-studies/sourceshoot/hero.png"
-skillTags: ["Mobile", "Website"]
-overview: "SourceShoot is a workforce management platform designed to help businesses quickly fill open shifts and manage staffing more efficiently. Built for both managers and employees, the platform streamlines shift requests, approvals, and communication within fast-paced work environments. I’ve been part of the SourceShoot team since July 2023, contributing to the product’s design and evolution as the lead designer."
-context: "SourceShoot is an early-stage startup developing a workforce management platform for businesses with dynamic staffing needs. Design decisions are shaped by real-world constraints, evolving requirements, and close collaboration within a small team."
+# Block types are documented at the top of orbit.mdx.
+published: true
+heroImage:
+  src: "/case-studies/sourceshoot/mockup.webp"
+  alt: "SourceShoot's Ping Details dashboard on a laptop next to a phone showing a shift text message"
+thumbnailAlt: "SourceShoot dashboard on a laptop next to a phone showing a text message"
+skillTags: ["Web Platform"]
+overview: "SourceShoot is an early-stage startup developing a workforce management platform for businesses with dynamic staffing needs. Design decisions were shaped by real-world constraints, evolving requirements, and close collaboration within a small team."
+related: ["digital-closet", "orbit"]
 infoBoxes:
+  - label: "Company"
+    value: "SourceShoot, LLC"
   - label: "Role"
-    value: "Lead Designer"
-    description: "As the lead designer at SourceShoot, I own the design direction across multiple parts of the product. My responsibilities include..., Product & UI/UX Design, Design System & Components, Prototyping & Interaction Design, Cross-functional Collaboration, Brand & Marketing Design"
-  - label: "Problem"
-    value: "Open shifts are communicated inconsistently"
-  - label: "Timeframe"
-    value: "12 weeks"
+    value:
+      title: "Lead Designer"
+      body: "As the lead designer at SourceShoot, I own the design direction across multiple parts of the product. My responsibilities included..."
+      list:
+        - "Product & UI/UX Design"
+        - "Design System & Components"
+        - "Prototyping & Interaction Design"
+        - "Cross-functional Collaboration"
+        - "Brand & Marketing Design"
+  - label: "Tenure"
+    value: "~3 years"
+
+# Text supports **bold** and blank-line paragraphs ("\n\n").
 sections:
-  - type: "text"
-    title: "The Problem"
-    body: "..."
-  - type: "image"
-    src: "/case-studies/sourceshoot/section-1.png"
-  - type: "text"
-    title: "Approach"
-    body: "..."
+  - type: "cards"
+    items:
+      - eyebrow: "Context"
+        title: "Problem"
+        list:
+          - "Open shifts are communicated inconsistently"
+          - "Employee responses are difficult to track"
+          - "Approval processes lack visibility"
+          - "Staffing decisions are slowed by fragmented tools"
+      - eyebrow: "Objective"
+        title: "Goals"
+        list:
+          - "Centralize open shift communication in one platform"
+          - "Enable employees to quickly view and respond to available shifts"
+          - "Give managers clear visibility into responses and approvals"
+          - "Reduce time and friction involved in filling shifts"
+      - eyebrow: "Limits"
+        title: "Constraints"
+        wide: true
+        list:
+          - "Small startup team with evolving feature requirements"
+          - "Limited engineering bandwidth, so designs had to be realistic and implementation-aware"
+          - "Testing was mostly internal, so clarity in hierarchy, labeling and flow mattered"
+          - "The product needed to scale without major redesigns"
+
+  - type: "section"
+    eyebrow: "Process"
+    title: "Early Exploration & Wireframes"
+    body: "Early in the product’s development, we explored an external job-posting marketplace aimed at helping younger workers pick up short-term shifts. I created early wireframes and concept flows to study competitors’ solutions, map how the experience might work, and understand how users would discover and claim available shifts."
+    media:
+      - type: "image"
+        frame: false
+        src: "/case-studies/sourceshoot/early-exploration.webp"
+        alt: "Collage of early work: competitor research boards with sticky notes, logo type studies, hand-sketched wireframes, briefcase icon concepts, an early worker dashboard, and a grayscale job marketplace wireframe"
+        width: 1372
+        height: 793
+
+  - type: "section"
+    eyebrow: "Pivot"
+    title: "Product Direction"
+    body: "As the product evolved, **Internal Ping** emerged as the most immediately valuable and achievable starting point. It provided a strong foundation for validating workflows and communications patterns, while external job posting remained part of the long-term vision."
+
+  - type: "section"
+    eyebrow: "Design"
+    title: "Key Features & Flow"
+    body: "**Internal Ping** is the core feature of SourceShoot, designed to help managers quickly fill open shifts within their existing workforce (even across multiple business locations). The flow enables managers to create and send shift requests, while giving employees a clear and centralized way to view details, then respond and receive confirmation."
+    media:
+      - type: "image"
+        src: "/case-studies/sourceshoot/internal-ping-flow-chart.webp"
+        alt: "Internal Ping flow chart in two lanes. Manager: create ping, select details, send ping, review responses, approve, shift filled. Employee: receives ping, view details, respond, await approval, confirmed."
+        width: 2560
+        height: 841
+      - type: "image"
+        panel: "inverse"
+        src: "/case-studies/sourceshoot/internal-ping-ui-flow.webp"
+        alt: "Internal Ping in four screens: the manager creates and sends a ping, employees get a text and accept the shift, the manager picks an employee in Ping Details, and the employee's phone confirms they got the shift"
+        width: 1920
+        height: 587
+
+  - type: "section"
+    eyebrow: "System"
+    title: "Design System"
+    body: "SourceShoot’s design system was built off shadcn/ui to support rapid development while maintaining consistency. I defined the product’s color palette, typography, and logo, and extended the system with custom components tailored to SourceShoot’s workflows."
+    media:
+      - type: "image"
+        panel: "white"
+        src: "/case-studies/sourceshoot/design-system.webp"
+        alt: "SourceShoot design system: dark teal sidebar navigation, location picker, Employees/Positions toggle, a shift card, Accept button, ping icons, a position dropdown, Lexend type sample, and the orange chevron logo mark"
+        width: 956
+        height: 791
+      - type: "text"
+        title: "Documenting the System for AI"
+        body: "SourceShoot’s developers were building with AI tools that had no access to the design system, so shipped screens drifted from my designs: inconsistent spacing, stray textures, mismatched hover states, and contrast that fell short of accessibility needs. When I was set to join front-end work, I began documenting the full system in Markdown and HTML so AI could reference and build consistently from it. I left before it was finished.\n\nIf I did it again, I’d set this up before the first screens were built, so AI works from the system from day one."
+        link:
+          label: "View the design system docs"
+          href: "/case-studies/sourceshoot/design-system-docs.html"
+
+  - type: "section"
+    eyebrow: "Testing"
+    title: "Testing & Validation"
+    body: "Given SourceShoot's early-stage startup environment, usability testing was conducted through informal, iterative testing with internal team members, as well as trusted external testers including family and friends. This allowed for rapid feedback and quick design iteration without slowing development."
+    media:
+      - type: "cards"
+        items:
+          - title: "What Was Tested"
+            list:
+              - "Core user flows (sending and responding to pings)"
+              - "Navigation between views (Dashboard, Team Management, Scheduling)"
+              - "Clarity of labels, icons and call-to-actions"
+              - "Visual hierarchy and information density"
+          - title: "Key Findings"
+            list:
+              - "Some actions required more explicit affordances (buttons vs icons)"
+              - "Navigation labels were refined for clarity and consistency"
+              - "Spacing and layout adjustments improved scannability for busy users"
+      - type: "text"
+        title: "Results"
+        body: "Feedback from testing directly informed refinements to layout, labeling, and interaction patterns. This iterative testing approach helped ensure that the product remained intuitive and efficient for real-world use, even in fast-paced work environments."
+
+  - type: "section"
+    eyebrow: "Solution"
+    title: "Design Direction"
+    body: "This section showcases my design work for SourceShoot, reflecting the intended UI patterns, components, and workflows developed throughout the product’s evolution."
+    media:
+      - type: "text"
+        title: "New Ping Creation"
+        body: "This flow explores the design of the ping creation experience, focusing on clarity, speed, and reducing friction for managers when sending ping notifications. The interface prioritizes essential details while remaining flexible enough to support different staffing scenarios."
+      - type: "pinned-gallery"
+        framed: true
+        screens:
+          - key: "start"
+            src: "/case-studies/sourceshoot/final-design-new-ping-start.webp"
+            alt: "Empty New Ping form: position, date, start and end time, location, who, and location origin, with a Send Ping button"
+            width: 641
+            height: 819
+          - key: "quick-ping"
+            src: "/case-studies/sourceshoot/final-design-new-ping-quick-ping.webp"
+            alt: "New Ping form with the Quick Ping button next to the prompt “Need anyone? ASAP? Here? Try quick ping!”"
+            width: 641
+            height: 819
+          - key: "with-radius"
+            src: "/case-studies/sourceshoot/final-design-new-ping-with-radius.webp"
+            alt: "New Ping form with location origin set to Radius, showing a map, a distance slider, and the store locations within it"
+            width: 641
+            height: 1098
+          - key: "some-selected"
+            src: "/case-studies/sourceshoot/final-design-new-ping-some-selected.webp"
+            alt: "New Ping form partly filled in: Cashier, 1:00 to 9:00 PM, sent to Cashier and Cook"
+            width: 641
+            height: 819
+        groups:
+          - title: "New Ping"
+            screens: ["start"]
+          - title: "New Ping - Quick Ping"
+            screens: ["quick-ping"]
+            note: { screen: "quick-ping", text: "If an employee calls out last minute, use “QUICK PING” to call someone immediately", arrowY: 0.29 }
+          - title: "New Ping - Custom"
+            screens: ["with-radius", "some-selected"]
+            note: { screen: "some-selected", text: "Or customize as needed by the circumstance", arrowY: 0.13 }
+      - type: "text"
+        title: "Key Platform Views"
+        body: "A selection of platform views, from pings and shifts to team management, showing how one design system carried across different parts of the product."
+      - type: "pinned-gallery"
+        framed: true
+        screens:
+          - key: "pings-and-shifts"
+            src: "/case-studies/sourceshoot/final-design-pings-and-shifts.webp"
+            alt: "Pings & Shifts page: counts of active pings, replies, upcoming shifts and incomplete timesheets above rows of active ping and upcoming shift cards"
+            width: 1512
+            height: 982
+          - key: "ping-details"
+            src: "/case-studies/sourceshoot/final-design-ping-details.webp"
+            alt: "Ping Details window: totals for pinged, responded, declined and pending, the shift information, and a table of employee responses with one selected"
+            width: 1512
+            height: 982
+          - key: "shift-details"
+            src: "/case-studies/sourceshoot/final-design-shift-details.webp"
+            alt: "Shift Details window: the shift, the approved employee, and a timesheet with a break time dropdown open"
+            width: 1512
+            height: 982
+          - key: "team-employees"
+            src: "/case-studies/sourceshoot/final-design-team-employees.webp"
+            alt: "Team Management, Employees tab: team totals above a table of employees with their location and ping status"
+            width: 1512
+            height: 982
+          - key: "team-positions"
+            src: "/case-studies/sourceshoot/final-design-team-positions.webp"
+            alt: "Team Management, Positions tab: a table of positions with their locations and number of employees"
+            width: 1512
+            height: 982
+          - key: "calendar"
+            src: "/case-studies/sourceshoot/final-design-calendar.webp"
+            alt: "Calendar window showing November 2025 with upcoming shifts on their days"
+            width: 1512
+            height: 982
+        groups:
+          - title: "Pings & Shifts"
+            screens: ["pings-and-shifts"]
+          - title: "Ping Details"
+            screens: ["ping-details"]
+          - title: "Shift Details"
+            screens: ["shift-details"]
+          - title: "Team Management - Employees"
+            screens: ["team-employees"]
+          - title: "Team Management - Positions"
+            screens: ["team-positions"]
+          - title: "Calendar"
+            screens: ["calendar"]
+
+  - type: "result"
+    eyebrow: "Reflection"
+    title: "Outcome"
+    body: "Internal Ping is live and in use, giving managers one place to fill open shifts and employees a clear way to respond.\n\nSourceShoot was my first major UX project, and I taught myself a lot of what I needed along the way. As lead designer I carried a lot of responsibility, which pushed me to grow quickly. It also showed me how much depends on design-to-code translation: a design is only as good as what actually gets built. And it reinforced something I knew from graphic design, that consistency matters just as much in product design."
 ---

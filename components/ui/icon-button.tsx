@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 const tones = {
   default:
     "border-text-primary bg-surface-base text-text-primary group-hover:bg-surface-inverse group-hover:text-text-inverse",
+  /** Paired with a Watercourse text link on Cararra: matches the text, inverts to Watercourse fill. */
+  accent:
+    "border-accent-primary bg-surface-base text-accent-primary group-hover:bg-accent-primary group-hover:text-text-inverse",
   pear: "border-accent-secondary text-accent-secondary group-hover:bg-accent-secondary group-hover:text-text-primary",
   /** On a Charcoal surface: Cararra outline, inverts to Cararra fill. */
   inverse:

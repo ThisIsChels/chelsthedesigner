@@ -279,6 +279,91 @@
   }
 }
 
+/* ---------- Balance postcards (components/showcase/postcard-table.tsx) ---------- */
+
+/* Each card is placed by --x/--y (center, % of the table, from md), tilted
+   by --r, nudged sideways by --nudge when an open card would leave the
+   screen, and raised by --rise on hover. Below md the cards sit in a 2-column
+   grid with the same tilts (first pass; Chelsey will tune the phone scatter). */
+.postcard {
+  --rise: 0px;
+  --nudge: 0px;
+  position: relative;
+  z-index: var(--z);
+  border-radius: 6px;
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.35);
+  transform: translate(var(--nudge), var(--rise)) rotate(var(--r));
+  transition:
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out;
+  perspective: 1600px;
+}
+@media (width >= 48rem) {
+  .postcard {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    transform: translate(-50%, -50%) translate(var(--nudge), var(--rise)) rotate(var(--r));
+  }
+}
+@media (hover: hover) {
+  .postcard:hover {
+    --rise: -4px;
+    z-index: 50;
+    box-shadow: 0 14px 28px rgb(0 0 0 / 0.4);
+  }
+}
+.postcard[aria-pressed="true"] {
+  z-index: 60;
+}
+/* Front and back are one element that turns around its vertical axis. */
+.postcard-inner {
+  display: block;
+  position: relative;
+  aspect-ratio: 7 / 5;
+  transform-style: preserve-3d;
+  transition: transform 600ms ease-in-out;
+}
+.postcard[aria-pressed="true"] .postcard-inner {
+  transform: rotateY(180deg);
+}
+.postcard-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  backface-visibility: hidden;
+}
+.postcard-face[data-side="back"] {
+  transform: rotateY(180deg);
+}
+/* Reduced motion: no movement, no turn; a quick crossfade between faces. */
+@media (prefers-reduced-motion: reduce) {
+  .postcard {
+    --rise: 0px !important;
+    transition: box-shadow 150ms ease-out;
+  }
+  .postcard-inner,
+  .postcard[aria-pressed="true"] .postcard-inner {
+    transform: none;
+    transition: none;
+  }
+  .postcard-face {
+    transition: opacity 150ms ease-out;
+  }
+  .postcard-face[data-side="back"] {
+    transform: none;
+    opacity: 0;
+  }
+  .postcard[aria-pressed="true"] .postcard-face[data-side="back"] {
+    opacity: 1;
+  }
+  .postcard[aria-pressed="true"] .postcard-face[data-side="front"] {
+    opacity: 0;
+  }
+}
+
 /* ---------- Page transitions (components/layout/page-transition.tsx) ---------- */
 
 /* Old page leaves fast; new page waits for it, then fades in with a small

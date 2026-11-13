@@ -1,42 +1,150 @@
 ---
 title: "Digital Closet"
-heroImage: "/case-studies/digital-closet/hero.png"
+# Block types are documented at the top of orbit.mdx.
+published: true
+heroImage:
+  src: "/case-studies/digital-closet/mockup.webp"
+  alt: "Two phones floating side by side, showing Digital Closet's home screen with today's outfit pick and the outfits library"
 skillTags: ["Mobile", "Development"]
+thumbnailAlt: "Digital Closet app on two floating phones: a Today’s Pick outfit of a green sweater, cargo jeans and sneakers, and a grid of saved outfits"
 overview: "Digital Closet is a mobile app concept designed and built as a course project, allowing users to digitally catalog and organize their clothing items and create outfit collages."
+# Not shown on the page.
 context: "Digital Closet was designed and developed as a 4-week course project, giving me the space to take a concept from wireframes through a working SwiftUI prototype end to end."
+related: ["orbit", "portfolio-self-doc", "sourceshoot"]
 infoBoxes:
   - label: "Role"
-    value: "UI/UX Designer & Full Stack Developer"
-    description: "UI/UX Design, Wireframing & Prototyping, Data Modeling, Front-End & Back-End Development"
-  - label: "Problem"
-    value: "No easy way to catalog clothing and plan outfits digitally"
+    value: "Product and UI/UX Design, Full Stack Development"
   - label: "Tools"
-    value: "Figma, Xcode, Swift, SwiftUI, Core Data"
+    value: "Figma, Xcode, Swift, SwiftUI, CoreData"
   - label: "Timeframe"
     value: "4 weeks"
+  - label: "Course"
+    value: "Mobile App Development"
+
 sections:
-  - type: "text"
+  - type: "section"
+    eyebrow: "Context"
     title: "The Problem"
     body: "Users often rely on memory or their physical closet to plan outfits, making it hard to keep track of what they own or experiment with new combinations. Digital Closet set out to give users a simple way to catalog their clothing and arrange it into outfits digitally."
-  - type: "text"
+
+  - type: "section"
+    eyebrow: "Process"
     title: "Wireframes"
-    body: "Wireframes mapped the core flows for browsing items and outfits, and arranging clothing on a freeform canvas, focusing on layout and structure before visual styling."
-  - type: "image"
-    src: "/case-studies/digital-closet/wireframes.png"
-  - type: "text"
-    title: "Development"
-    body: "The application translated wireframes into reusable SwiftUI views with structured local data models. Clothing items, outfits, and canvas elements were modeled as separate but connected entities, allowing items to be reused across multiple outfits while preserving individual position, scale, and rotation. A flexible tagging system enabled custom organization and filtering."
-  - type: "text"
-    title: "Challenges & Learnings"
-    body: "User-generated images created layout challenges with varying aspect ratios. Building the outfit canvas also required separating visual placement data from item data, reinforcing the importance of data modeling when designing interactive, state-driven interfaces."
-  - type: "image"
-    src: "/case-studies/digital-closet/data-model.png"
-  - type: "text"
+    body: "Wireframes that mapped the core flows for browsing items and outfits, and arranging clothing on a freeform canvas, focusing on layout and structure before visual styling."
+    media:
+      - type: "image-grid"
+        columns: 4
+        images:
+          - src: "/case-studies/digital-closet/wireframe-home.webp"
+            alt: "Home wireframe with today's pick, favorites, and the add menu open with Create Outfit and Add Item"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-outfits.webp"
+            alt: "Outfits wireframe: a search bar above a three-column grid of outfit cards"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-items-sorted.webp"
+            alt: "Items wireframe filtered to Shoes, with Heels and Sneakers sub-filters"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-add-item.webp"
+            alt: "Add item wireframe: an image box above name, colors, category, tags, brand and price fields"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-item-search.webp"
+            alt: "Item search wireframe with category, sub-category, color and tag filters"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-canvas.webp"
+            alt: "Outfit canvas wireframe with three overlapping item boxes, one selected with resize and rotate handles"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-view-item.webp"
+            alt: "View item wireframe: item image, name, category, colors, tags, brand and price"
+            width: 393
+            height: 852
+          - src: "/case-studies/digital-closet/wireframe-settings.webp"
+            alt: "Settings wireframe with Edit Items, Edit Outfits, Edit Tags, Theme and Change Name"
+            width: 393
+            height: 852
+
+  - type: "cards"
+    items:
+      - eyebrow: "Build"
+        title: "Development"
+        body: "The app was built by translating wireframes into reusable SwiftUI views backed by a structured local data model. Clothing items, outfits, and canvas elements were modeled as separate but connected entities, allowing items to be reused across multiple outfits while preserving individual position, scale, and rotation on the outfit canvas. A flexible tagging system was also implemented to support custom \"tags\" that can be applied to both items and outfits, enabling more personalized organization and filtering."
+      - eyebrow: "Reflection"
+        title: "Challenges & Learnings"
+        body: "Working with user-generated images introduced layout challenges related to varying aspect ratios and scaling within fixed UI components. Building the outfit canvas also required separating visual placement data from item data, reinforcing the importance of data modeling when designing interactive, state-driven interfaces."
+
+  - type: "section"
+    eyebrow: "Structure"
+    title: "Data Model Diagram"
+    body: "Illustrated relationships between items, outfits, canvas elements, and tags."
+    media:
+      - type: "image"
+        src: "/case-studies/digital-closet/data-model.webp"
+        alt: "Data model diagram linking Item, Outfit, CanvasItem and Tags tables, with local Category and Color lists feeding into Item"
+        width: 1130
+        height: 713
+
+  - type: "section"
+    eyebrow: "Solution"
     title: "Final Designs"
-    body: "The implemented UI includes Welcome, Home, Outfit Library, Item Library, Filter Items, Create Outfit, and Add Item screens."
-  - type: "image"
-    src: "/case-studies/digital-closet/final-designs.png"
-  - type: "text"
+    body: "The final designs showcase the implemented UI for Digital Closet, including item browsing, outfit creation, and home views."
+    media:
+      - type: "pinned-gallery"
+        screens:
+          - key: "welcome"
+            src: "/case-studies/digital-closet/final-design-welcome.webp"
+            alt: "Welcome screen on black asking for your name, with a Get started button"
+            width: 1179
+            height: 2556
+          - key: "home"
+            src: "/case-studies/digital-closet/final-design-home.webp"
+            alt: "Home screen with the weather, today's outfit pick and favorites"
+            width: 1179
+            height: 2556
+          - key: "items"
+            src: "/case-studies/digital-closet/final-design-items.webp"
+            alt: "Items library: a grid of clothing photos under category filters"
+            width: 1179
+            height: 2556
+          - key: "items-sorted"
+            src: "/case-studies/digital-closet/final-design-items-sorted.webp"
+            alt: "Items library filtered to Bottoms, then Jeans, showing one pair of cargo jeans"
+            width: 1179
+            height: 2556
+          - key: "outfits"
+            src: "/case-studies/digital-closet/final-design-outfits.webp"
+            alt: "Outfits library with tag filters and three saved outfit collages"
+            width: 1179
+            height: 2556
+          - key: "create-outfit"
+            src: "/case-studies/digital-closet/final-design-create-outfit.webp"
+            alt: "Create outfit screen: jeans and a hoodie arranged on a canvas, with name, tags and an items tray"
+            width: 1179
+            height: 2556
+          - key: "add-item"
+            src: "/case-studies/digital-closet/final-design-add-item.webp"
+            alt: "Add item form with a photo slot, name, category, color and tag pickers"
+            width: 1179
+            height: 2556
+        groups:
+          - title: "Welcome + Home"
+            screens: ["welcome", "home"]
+            note: { screen: "home", text: "Features to help you decide the day’s outfit.", arrowY: 0.18 }
+          - title: "Items + Sorting"
+            screens: ["items", "items-sorted"]
+          - title: "Outfits + Create Outfit"
+            screens: ["outfits", "create-outfit"]
+            note: { screen: "create-outfit", text: "Use a canvas to layout an outfit.", arrowY: 0.37 }
+          - title: "Add Item"
+            screens: ["add-item"]
+            note: { screen: "add-item", text: "Add custom tags for personal organization.", arrowY: 0.81 }
+
+  - type: "result"
+    eyebrow: "Result"
     title: "Outcome"
     body: "This project resulted in a functional prototype that demonstrated end-to-end design and development, while highlighting the importance of responsive layouts and data modeling when working with dynamic, user-generated content."
 ---

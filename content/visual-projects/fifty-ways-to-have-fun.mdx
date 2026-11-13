@@ -6,7 +6,7 @@ skillTags: ["Illustration", "Graphic"]
 thumbnailAlt: "Fifty Ways to Have Fun stamps laid out in a grid"
 description: "A stamp series that toasts each U.S. state through its signature cocktail, a tiny celebration of local flavor and personality. Fifty stamps, one poster, one booklet."
 # "Keep exploring" cards, by project slug (folder name).
-related: ["infinite-illumination", "volley-partons"]
+related: ["additional-design-work", "volley-partons"]
 
 # Blocks, top to bottom (see digital-illustrations.mdx for `gallery`):
 #   details → `items`: centered label / value columns
@@ -19,8 +19,7 @@ related: ["infinite-illumination", "volley-partons"]
 #             to the first column's height (from md). `chip` adds a label.
 #   stamps  → the searchable stamp grid (`dir` + one { state, cocktail } per
 #             stamp; files are <dir>/<state-in-kebab-case>.webp)
-#   booklet → the auto-scrolling page carousel; `pdf` + `buttonLabel` add a
-#             "View full booklet" link under it
+#   booklet → the auto-scrolling page carousel and "View full booklet" link
 blocks:
   - type: "details"
     items:
@@ -67,14 +66,13 @@ blocks:
         dir: "/visual-projects/fifty-ways-to-have-fun/stamps"
         width: 600
         height: 1010
-        # [PLACEHOLDER: check cocktail names] read from the stamp lettering.
         items:
           - { state: "Alabama", cocktail: "Yellowhammer Slammer" }
           - { state: "Alaska", cocktail: "Duck Fart" }
           - { state: "Arizona", cocktail: "Tequila Sunrise" }
           - { state: "Arkansas", cocktail: "Roman Coke" }
           - { state: "California", cocktail: "Citrus Sangria" }
-          - { state: "Colorado", cocktail: "Bulldog" }
+          - { state: "Colorado", cocktail: "Colorado Bulldog" }
           - { state: "Connecticut", cocktail: "Moscow Mule" }
           - { state: "Delaware", cocktail: "Dewey Crush" }
           - { state: "Florida", cocktail: "Rum Runner" }
@@ -92,8 +90,8 @@ blocks:
           - { state: "Massachusetts", cocktail: "Cape Codder" }
           - { state: "Michigan", cocktail: "The Hummer" }
           - { state: "Minnesota", cocktail: "The Bootleg" }
-          - { state: "Mississippi", cocktail: "Punch" }
-          - { state: "Missouri", cocktail: "Mule" }
+          - { state: "Mississippi", cocktail: "Mississippi Punch" }
+          - { state: "Missouri", cocktail: "Missouri Mule" }
           - { state: "Montana", cocktail: "Whiskey Ditch" }
           - { state: "Nebraska", cocktail: "Red Beer" }
           - { state: "Nevada", cocktail: "Picon Punch" }
@@ -109,13 +107,13 @@ blocks:
           - { state: "Pennsylvania", cocktail: "Orange Crush" }
           - { state: "Rhode Island", cocktail: "Coffee Milk" }
           - { state: "South Carolina", cocktail: "Sweet Tea Vodka" }
-          - { state: "South Dakota", cocktail: "Martini" }
+          - { state: "South Dakota", cocktail: "South Dakota Martini" }
           - { state: "Tennessee", cocktail: "Jack & Coke" }
           - { state: "Texas", cocktail: "Margarita" }
           - { state: "Utah", cocktail: "Derby Mountain" }
           - { state: "Vermont", cocktail: "Old Vermont" }
           - { state: "Virginia", cocktail: "Appalachian Manhattan" }
-          - { state: "Washington", cocktail: "Apple" }
+          - { state: "Washington", cocktail: "Washington Apple" }
           - { state: "West Virginia", cocktail: "Gin & Tonic" }
           - { state: "Wisconsin", cocktail: "Brandy Old Fashioned" }
           - { state: "Wyoming", cocktail: "Mr. Nelson" }
@@ -143,9 +141,9 @@ blocks:
     media:
       - type: "booklet"
         hint: "Scrolls on its own. Pause it, drag, or use the arrows to browse."
-        # "View full booklet" button: add these back once there's a good web PDF.
-        # buttonLabel: "View full booklet"
-        # pdf: "/visual-projects/fifty-ways-to-have-fun/booklet.pdf"
+        buttonLabel: "View full booklet"
+        # [PLACEHOLDER: web-size booklet.pdf] export a compressed copy here.
+        pdf: "/visual-projects/fifty-ways-to-have-fun/booklet.pdf"
         pages:
           - src: "/visual-projects/fifty-ways-to-have-fun/booklet-arizona.webp"
             alt: "Booklet page for Arizona's Tequila Sunrise: ingredients, color swatches, the stamp and its story"

@@ -39,28 +39,39 @@ export function Hero({ avatarAlt, children }: HeroProps) {
         </h1>
       </Container>
 
-      <div className="relative z-10 mt-[calc(var(--name-h)*-1)] overflow-x-clip">
+      {/* z-20: the avatar sits above the Cararra content so the back sneaker
+          can hang into its top padding. Nothing here may clip (no overflow
+          rules): Safari can cut the sneaker off even with overflow-x only.
+          This wrapper is exactly as tall as the stage, so the full-width
+          triangle is placed on it instead of breaking out of the container. */}
+      <div className="relative z-20 mt-[calc(var(--name-h)*-1)]">
+        <div className="absolute inset-x-0 bottom-0 h-[37.81%]">
+          <Image src="/brand/hero-triangle.svg" alt="" fill loading="eager" />
+        </div>
+
         <Container>
           <div className="relative aspect-[1256/1087]">
-            {/* Full-bleed: breaks out of the container to the viewport edges. */}
-            <div className="absolute bottom-0 left-[calc(50%-50vw)] h-[37.81%] w-screen">
-              <Image src="/brand/hero-triangle.svg" alt="" fill loading="eager" />
-            </div>
 
+            {/* Seated on the triangle: the seat (where the legs split, at
+                570 × 775 in the 1070 × 1545 image) sits just below the
+                triangle's peak (49.05% across, 62.19% down the stage) so the
+                peak is hidden in her lap. The back sneaker hangs 124/1256 of
+                the stage width past the bottom; the Cararra content below
+                starts with that much extra top padding (124/660 ≈ 0.188 of --name-h). */}
             <Image
-              src="/brand/HeroAvatarImage(INCOMPLETE).png"
+              src="/brand/hero-avatar.png"
               alt={avatarAlt}
-              width={860}
-              height={1008}
+              width={1070}
+              height={1545}
               loading="eager"
-              sizes="(min-width: 1512px) 860px, 68vw"
-              className="absolute top-[7.27%] left-[13.46%] h-auto w-[68.47%]"
+              sizes="(min-width: 1512px) 700px, 56vw"
+              className="pointer-events-none absolute top-[18.7%] left-[19.46%] h-auto w-[55.57%]"
             />
           </div>
         </Container>
       </div>
 
-      <div data-surface="base" className="relative z-10 bg-surface-base">
+      <div data-surface="base" className="relative z-10 bg-surface-base pt-[calc(var(--name-h)*0.188)]">
         {children}
       </div>
     </div>

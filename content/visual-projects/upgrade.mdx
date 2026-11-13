@@ -1,4 +1,60 @@
 ---
-title: "Upgrade" # [PLACEHOLDER: check title]
-skillTags: [] # [PLACEHOLDER: any of "Branding", "Illustration", "Print"]
+title: "Upgrade"
+# Only published showcases get a page; the rest show the 404.
+published: true
+skillTags: ["Graphic"]
+thumbnailAlt: "Upgrade book cover: glowing orange and teal gel bands on near-black"
+description: "A class redesign of the cover for Upgrade by Blake Crouch, a sci-fi novel about genetic modification."
+# Header button that jumps to a section's `id`.
+jump: { label: "Skip to final design", href: "#final-design" }
+related: ["additional-design-work", "volley-partons"]
+
+# Block types: see fifty-ways-to-have-fun.mdx and whod-we-get.mdx. Also here:
+#   columns → `proportional: true` sizes columns by their images (one height).
+#   images  → `maxWidth` (px) centers a narrower image.
+blocks:
+  - type: "details"
+    items:
+      - { label: "Year", value: "2024" }
+      - { label: "Mediums", value: "Illustrator, Photoshop" }
+      - { label: "Class", value: "Intro to Graphic Design" }
+
+  - type: "section"
+    eyebrow: "Process"
+    title: "Moodboard, Inspiration, & Concept"
+    body: "The look comes from DNA sequencing gels: lanes of glowing bands that scientists read to decode a sequence. In the book, the main character has coordinates coded into his DNA. I reversed that process, translating the letters of ‘upgrade’ into the bands of a sequencing gel so the title can be read straight off the cover. The moodboard pairs gel references with bold poster and cover design and sets the palette of near-black, orange and teal."
+    media:
+      - type: "columns"
+        proportional: true
+        columns:
+          - - src: "/visual-projects/upgrade/moodboard.webp"
+              alt: "Moodboard: DNA gel and chemistry references, bold posters and album covers, a pixel typeface sample, palette swatches in orange, teal and near-black, and sticky notes mapping the letters of ‘upgrade’ to gel lanes"
+              width: 1460
+              height: 1190
+          - - src: "/visual-projects/upgrade/inspo-sequencing-gel.webp"
+              alt: "A DNA sequencing gel: dark bands in eight light blue lanes"
+              width: 920
+              height: 680
+            - src: "/visual-projects/upgrade/inspo-reading-a-gel.webp"
+              alt: "Diagram showing how to read a sequencing gel, with lanes labeled G, C, A and T and an arrow for the direction of movement"
+              width: 1018
+              height: 630
+          - - src: "/visual-projects/upgrade/concept.webp"
+              alt: "Concept sketch: UPGRADE in drippy orange letters glowing teal at the edges, running up a near-black cover, with Blake Crouch below"
+              width: 910
+              height: 1358
+
+  - type: "section"
+    id: "final-design"
+    eyebrow: "Final"
+    title: "Final Design"
+    body: "The finished cover: the title, spelled out in the bands of the gel, running up the spine side with the author’s name below."
+    media:
+      - type: "images"
+        maxWidth: 610
+        rows:
+          - - src: "/visual-projects/upgrade/cover.webp"
+              alt: "The Upgrade cover: UPGRADE in grey block letters up the left side, three lanes of glowing orange and teal gel bands spelling the title, and BLAKE CROUCH along the bottom, on near-black"
+              width: 1220
+              height: 1830
 ---

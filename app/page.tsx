@@ -13,7 +13,7 @@ import { sectionGap, sectionPadBottom, sectionPadY } from "@/lib/layout";
 // All homepage text lives here so it can change without touching layout.
 const CONTENT = {
   avatarAlt:
-    "Illustration of Chelsey in a yellow crop top, round green sunglasses, and wide light-blue pants",
+    "Illustration of Chelsey mid-jump and waving, in a yellow crop top, round green sunglasses, wide light-blue pants and chunky white sneakers",
   marquee: ["Artist", "Designer", "Developer"],
   whatIMake: {
     heading: "What I make",
@@ -23,27 +23,42 @@ const CONTENT = {
         title: "UI/UX Design",
         description: "Case studies in product and interface design.",
         linkLabel: "View case studies",
-        href: "/portfolio",
+        href: "/portfolio?category=ux",
+        image: {
+          src: "/case-studies/sourceshoot/thumbnail.webp",
+          alt: "SourceShoot dashboard on a laptop next to a phone showing a text message",
+        },
       },
       {
         title: "Visual & Illustration",
         description: "Brand work, posters, and digital illustration.",
         linkLabel: "View visual work",
-        href: "/portfolio",
+        href: "/portfolio?category=visual",
+        image: {
+          src: "/visual-projects/whod-we-get/thumbnail.webp",
+          alt: "Retro “Who’d We Get?” logo with a bowling ball knocking over pins",
+        },
       },
       {
         title: "Shop",
         description: "Prints and art for your walls.",
         linkLabel: "Coming soon",
         href: "/shop",
+        image: {
+          src: "/visual-projects/digital-illustrations/thumbnail.webp",
+          alt: "Digital illustration of a cyborg head topped with half a lime",
+        },
       },
     ],
   },
   about: {
-    heading: "Hi, I’m Chelsey",
-    // [PLACEHOLDER: homepage bio]
-    bio: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Amet consectetur adipiscing elit quisque faucibus ex sapien. Quisque faucibus ex sapien vitae pellentesque sem placerat. Vitae pellentesque sem placerat in id cursus mi.",
+    heading: "Hey! I’m Chelsey LaPointe,",
+    bio: "a designer who can’t stay in one lane. I design all kinds of things: apps, posters, illustrations, whatever the idea needs. I also build my own interfaces, so what I design is what actually ships. I aim to make my work stand out without losing sight of being useful!",
     linkLabel: "More about me",
+    photo: {
+      src: "/about/graduation.webp",
+      alt: "Chelsey in a graduation cap and gown, holding her diploma",
+    },
   },
 } as const;
 

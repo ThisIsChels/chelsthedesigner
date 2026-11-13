@@ -30,18 +30,15 @@ const TITLE_SEQUENCE: TypewriterStep[] = [
 
 // All page text and photos live here so they can change without touching layout.
 const CONTENT = {
-  greeting: "Hey! I’m Chelsey LaPointe",
-  bio: "I’m a UI/UX Designer & Developer from Saint Paul, Minnesota with a love for creativity and problem-solving. Whether I’m troubleshooting a stubborn computer, sketching out design ideas, chasing the top of a climbing wall, or starting my morning with Wordle, I’m always drawn to challenges that keep me thinking.",
+  greeting: "Hey! I’m Chelsey LaPointe,",
+  bio: "an up-and-coming design engineer from Saint Paul, Minnesota with a love for creativity and problem-solving. Whether I’m troubleshooting a stubborn computer, sketching out ideas, climbing, or doing Wordle first thing in the morning, I’m always drawn to challenges that keep me thinking.",
   heroPhoto: {
     src: "/about/graduation.webp",
-    // [PLACEHOLDER: check alt text]
-    alt: "Chelsey in a graduation cap and gown, holding her diploma in front of a stone wall",
+    alt: "Chelsey in a graduation cap and gown, holding her diploma",
   },
   beyond: {
     heading: "Beyond the work",
-    // [PLACEHOLDER: beyond the work paragraph]
-    body: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Amet consectetur adipiscing elit quisque faucibus ex sapien. Quisque faucibus ex sapien vitae pellentesque sem placerat. Vitae pellentesque sem placerat in id cursus mi.",
-    // [PLACEHOLDER: check alt text]
+    body: "Evidence that I do, in fact, leave my desk. Mostly to climb, because figuring out the route is my favorite kind of puzzle.",
     photos: [
       { src: "/about/mexico.webp", alt: "Chelsey standing on a beach at sunset", position: "object-center" },
       { src: "/about/climbing-top.webp", alt: "Chelsey bouldering on an indoor climbing wall", position: "object-center" },

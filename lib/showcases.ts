@@ -22,31 +22,64 @@ export type StampSet = {
   items: StampItem[];
 };
 
+/** A Balance postcard. x/y = card center and rotate in Figma's 1256×950 table. */
+export type Postcard = {
+  /** File prefix: <dir>/<name>-front.webp and -back.webp. */
+  name: string;
+  /** The word on the front (used in its alt text). */
+  word: string;
+  /** The verse on the back (its alt text). */
+  verse: string;
+  x: number;
+  y: number;
+  rotate: number;
+  /** Stacking order, 1 = bottom. */
+  z: number;
+};
+
 export type Booklet = {
   hint: string;
   /** Optional "View full booklet" link (needs both). */
   buttonLabel?: string;
   pdf?: string;
+  /** What screen readers call the carousel (default "Booklet pages"). */
+  label?: string;
   pages: CaseStudyImage[];
 };
 
 export type ShowcaseMedia =
-  | { type: "columns"; columns: FramedImage[][] }
+  /** `proportional`: column widths follow the images so every column is one height. */
+  | { type: "columns"; columns: FramedImage[][]; proportional?: boolean }
   | ({ type: "stamps" } & StampSet)
-  | ({ type: "booklet" } & Booklet);
+  | ({ type: "booklet" } & Booklet)
+  /** Stacked rows; each row shares one height, widths follow proportions. */
+  | { type: "images"; rows: CaseStudyImage[][]; frame?: boolean; maxWidth?: number }
+  | { type: "details"; items: { label: string; value: string }[] }
+  | { type: "postcards"; dir: string; cards: Postcard[] };
 
 export type ShowcaseBlock =
   | { type: "gallery"; rows: Artwork[][] }
   | { type: "details"; items: { label: string; value: string }[] }
   | ({ type: "image" } & CaseStudyImage)
-  | { type: "section"; eyebrow: string; title: string; body: string; media?: ShowcaseMedia[] }
+  | {
+      type: "section";
+      /** Anchor for the header's jump button (e.g. "final-designs"). */
+      id?: string;
+      eyebrow: string;
+      title: string;
+      body?: string;
+      media?: ShowcaseMedia[];
+    }
   | { type: "result"; eyebrow: string; title: string; paragraphs: string[]; signOff?: string };
 
 export type Showcase = {
   slug: string;
   title: string;
   skillTags: string[];
-  description: string;
+  /** Optional: the header skips the paragraph when it is missing. */
+  description?: string;
+  /** Optional header button that jumps down the page (e.g. "Skip to final design"). */
+  jump?: { label: string; href: `#${string}` };
   blocks: ShowcaseBlock[];
   /** "Keep exploring" project slugs. */
   related?: string[];

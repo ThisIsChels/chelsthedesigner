@@ -6,6 +6,7 @@ heroImage:
   src: "/case-studies/orbit/mockup.webp"
   alt: "Three phones showing Orbit's calendar, home screen, and task list in dark mode"
 skillTags: ["Mobile", "Development"]
+thumbnailAlt: "Orbit app on three dark phones: a month calendar, the home screen with events circling the date, and a task list"
 overview: "Orbit is a calendar and task management app concept designed and built as a course project, focused on helping users visualize events, tasks, and reminders in a more intuitive and engaging way."
 # Not shown on the page.
 context: "Orbit was designed and developed as a 12-week course project, giving me the space to explore a unified time-management experience from initial concept through a working SwiftUI front end."
@@ -23,16 +24,25 @@ infoBoxes:
 
 # Each item in `sections` is one block on the page:
 #   section → eyebrow, title, body, optional `media` list (stacked below)
-#   cards   → `items`: side-by-side cards, each { eyebrow, title, body }
+#   cards   → `items`: side-by-side cards, each { eyebrow?, title, body?,
+#             list?: [bullets], wide?: true (full row, split layout) }
 #   result  → eyebrow, title, body on a Charcoal panel
 #
 # Media types inside a section:
-#   image          → src, alt, width, height (pixel size of the file)
+#   image          → src, alt, width, height (pixel size of the file);
+#                    optional frame: false, panel: "inverse" | "white"
+#   cards          → items, same as the cards block
+#   text           → title, body, optional link { label, href } (sub-heading)
+#   image-grid     → columns (from md; 2 on phones), images: [{ src, alt,
+#                    width, height }], unframed (Digital Closet wireframes)
 #   video          → src, label (for screen readers), width, height
 #   subsections    → `items`: side-by-side { title, body, image }
 #   palette        → title, body, image, labels: { text, side: left|right,
 #                    y: 0 (top) to 1 (bottom) }
-#   pinned-gallery → screens (keyed images) + groups, see Final Designs
+#   pinned-gallery → screens (keyed images) + groups, see Final Designs;
+#                    framed: true adds a border (desktop screens)
+#
+# Body text: **bold**, and "\n\n" for a new paragraph.
 sections:
   - type: "section"
     eyebrow: "Context"

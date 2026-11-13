@@ -71,8 +71,9 @@ export function ContactForm({ onSent }: { onSent: () => void }) {
       return;
     }
     setStatus("sending");
+    const honeypot = String(new FormData(event.currentTarget).get("_gotcha") ?? "");
     try {
-      await sendContactMessage(values);
+      await sendContactMessage(values, honeypot);
       onSent();
     } catch {
       setStatus("failed");
@@ -92,6 +93,16 @@ export function ContactForm({ onSent }: { onSent: () => void }) {
           className={field.multiline ? "flex-1" : undefined}
         />
       ))}
+      {/* Spam trap: hidden from people and screen readers; bots that fill
+          every input get dropped by Formspree. */}
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
       {status === "failed" && (
         <p role="alert" className="type-label-sm text-text-error">
           {COPY.failed}

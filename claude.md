@@ -66,6 +66,7 @@ The color identifies where the button goes. Keep it the same everywhere the butt
 - Contact Me → Tranquility fill, `dark-text`. Only exception: the small "contact me" button in the footer is outlined.
 - Resume → Watercourse fill, `light-text`
 - Any other button → outlined, unless a design shows otherwise.
+- Exception: in-page jump buttons on project pages (e.g. Who'd We Get? "SKIP TO FINAL DESIGN") → Tranquility fill, `dark-text`, pill. Chosen so it pairs with the Pear eyebrows without looking like a tag.
 
 ### Filters
 - Selected primary filter (All / UI/UX Design / Visual Design): Pear fill, `dark-text`.
@@ -162,9 +163,9 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Hover: element shifts up and right; a hard charcoal shadow (no blur) stays at its resting position.
 - Pressed: element returns to rest and the shadow disappears.
 - Project cards: 8px offset, shadow `-8px 8px 0` in Charcoal (Figma project-card, State=Hover). Arrow icon and tags invert to charcoal fill + Cararra text.
-- Category cards: same 8px lift and shadow (Figma category-card, State=Hover). The link line ("View case studies") is pinned to the bottom so links align across an equal-height row.
+- Category cards: same 8px lift and shadow (Figma category-card, State=Hover). The link line ("View case studies") is pinned to the bottom so links align across an equal-height row. Images are grayscale → color like project card thumbnails (hover on mouse, mid-screen on touch). UI/UX Design and Visual & Illustration link to `/portfolio?category=ux` / `?category=visual`.
 - All buttons (filled, outlined, filters): 4px offset. Outlined buttons have a surface/base fill so the shadow doesn't show through.
-- Icon button (standalone): inverts on hover, no lift. On Cararra: outlined charcoal → charcoal fill, Cararra arrow. On charcoal (Pear outline, e.g. CTA "View services"): → Pear fill, charcoal arrow.
+- Icon button (standalone): inverts on hover, no lift. On Cararra: outlined charcoal → charcoal fill, Cararra arrow. On charcoal (Pear outline, e.g. CTA "View services"): → Pear fill, charcoal arrow. Paired with a Watercourse text link on Cararra (e.g. "View the design system docs"): Watercourse outline and arrow → Watercourse fill, Cararra arrow (`IconButton tone="accent"`, set by `TextLink`).
 - Text links: underline on hover (same as nav links). A text link paired with an icon button triggers the icon's hover too.
 - Nav links: underline on hover. The current page keeps its underline (State=Select), including in the phone menu overlay.
 - On charcoal surfaces (e.g. CTA banner) the lift shadow stays Charcoal and gets a 1px Cararra stroke around it so it stays visible. Use the `surface-inverse` utility on any charcoal block; it sets this automatically.
@@ -186,12 +187,15 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Homepage marquee: CSS loop, 40s per cycle, stops under prefers-reduced-motion. Words in heading-lg, Tranquility dots 32px, 64px (3xl) apart (rounded from Figma's 30.67 / ~76).
 - Fifty Ways stamp grid (`StampGrid`): hover tilts 4°, sweeps two gloss bands, deepens a drop shadow and peels the bottom-right corner (200ms ease-out, mouse only). Click opens a 2x2 block pinned to the stamp's row (one column left in the last column), others reflow A-Z with a Motion layout animation (250ms). Reduced motion: no tilt or peel, instant.
 - Auto-scrolling carousel (`AutoScrollCarousel`, used for the Fifty booklet): native horizontal scroller with autoplay at 30px/s in a seamless loop (pages rendered twice), mouse drag with momentum, pauses on hover/focus/drag/touch and resumes after 3s idle unless paused with the button. Reduced motion: starts paused.
+- In-page jump buttons (`JumpButton`, e.g. "Skip to final design"): smooth-scroll to the section (instant under prefers-reduced-motion), update the URL hash and move focus to the section.
+- Balance postcards (`PostcardTable`, annotation `annotation / balance-postcards` in Figma): 13 tilted cards at Figma's positions from `md` (center x/y, rotate and z in the .mdx, in the 1256×950 table space); soft drop shadow per Figma (paper, not the lift shadow). Hover (mouse): rises 4px above the others, shadow deepens, keeps its tilt. Click/tap/Enter/Space: 3D flip around the vertical axis (600ms), one open at a time, open card on top and nudged into view if it hangs off the screen; Esc or a second click flips back. First time the table is 40% visible, Futurism flips over and back once, unless a card was already touched. Each card is a button with aria-pressed and an aria-label (front word / back verse). Reduced motion: no turn, no intro, 150ms crossfade. Phones: 2-column grid with the same tilts (first pass, waiting for Chelsey's phone/tablet scatter).
 - Case study Final Designs gallery: scroll-driven pinned strip with notes that open and an arrow that draws in. Full spec under Code conventions (Final Designs gallery) and on the Figma frame.
 
 ### Homepage scroll effect
 - The name graphic (name-bg) is sticky: once it reaches the vertical middle of the screen it stays put, and the avatar, triangle and the Cararra content scroll up over it. The Cararra background of the content is what covers the name.
 - On short screens (e.g. phones), where the name already starts above the middle, it stays at its starting position instead of jumping down.
 - The hero is marked `data-surface="inverse"` and the Cararra content `data-surface="base"` so the pinned nav matches them.
+- Hero avatar (`/brand/hero-avatar.png`, trimmed to the figure): sits on the triangle's peak and sits above the Cararra content, so the back sneaker hangs into extra top padding on that content. Nothing around the avatar may clip (no `overflow` on its wrappers); Safari cut the sneaker off under `overflow-x: clip`.
 
 ### Text fields
 - Default: placeholder text in text/placeholder.
@@ -201,7 +205,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 
 ### Portfolio filters
 - Primary row (All / UI/UX Design / Visual Design): single-select, selected = Pear fill, dark-text. "All" is selected on load.
-- Secondary row: hidden while primary is "All". Shows the selected category's tags: UI/UX Design → Mobile, Website, Development; Visual Design → Branding, Illustration, Print, Graphic. Multi-select, selected = Tranquility fill, dark-text.
+- Secondary row: hidden while primary is "All". Shows the selected category's tags: UI/UX Design → Mobile, Website, Web Platform, Development; Visual Design → Branding, Illustration, Print, Graphic. Multi-select, selected = Tranquility fill, dark-text.
 - Secondary "All": on by default; selecting any tag turns it off; deselecting every tag turns it back on.
 - Multiple tags filter with OR (show projects matching any selected tag).
 - Changing the primary filter resets the secondary row.
@@ -226,7 +230,7 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 ### Case study images
 - Header image: a 4:3 frame at every size, cropped to fill it (`object-cover`). Keep the subject centered.
 - Body images: keep their original proportions. Never crop. 1px Charcoal border, 8px corners (`ImageFrame`).
-- Final-design phone screens: 1206px wide (resize wider exports down), 8px corners, no border.
+- Final-design phone screens: 1206px wide (resize wider exports down; narrower exports like Digital Closet's 1179 stay as they are), 8px corners, no border.
 - Fifty stamps: 600px wide WebP with transparent perforated edges, in `stamps/<state-in-kebab-case>.webp`.
 
 ### All images
@@ -251,9 +255,10 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - All URLs live in `lib/links.ts`. Merge classes with `cn` from `lib/utils`.
 - Page structure: `SiteHeader` → `<PageTransition>` wrapping `<main>` and the `Footer` (inside a `Container`). Keep `SiteHeader` outside `PageTransition` so it stays still between pages. Section spacing classes live in `lib/layout.ts`.
 - Projects: a project shows in the portfolio when `public/<case-studies|visual-projects>/<slug>/thumbnail.webp` exists. Title, `skillTags` and optional `thumbnailAlt` come from `content/<case-studies|visual-projects>/<slug>.mdx` frontmatter (read by `lib/projects.ts`). Case studies first, then visual projects, each alphabetical.
+- Coming soon (`ComingSoonProjects`, `components/coming-soon-projects.tsx`): projects with a thumbnail but no published .mdx skip the filtered grid and show in a "Coming soon" section below it (not affected by the filters), above the CTA. Cards follow `project-card` but aren't links: no lift, no arrow, thumbnail stays grayscale, a "COMING SOON" tag before the skill tags. Publishing the .mdx moves the card into the grid. "Keep exploring" never shows coming-soon projects, even when listed in `related`.
 - Portfolio categories and their filter tags live in `lib/project-categories.ts`.
 - `/portfolio?category=ux` or `?category=visual` opens the portfolio with that filter selected (`ProjectBrowserFromUrl`, wrapped in `<Suspense>` with the plain grid as fallback). Changing the category updates the URL.
-- Contact: every Contact Me button (`ContactButton`, `FooterContactButton`) opens the contact modal (`components/contact/contact-modal.tsx`). The form is `ContactForm`; sending goes through `lib/contact.ts` to `EXTERNAL.contactForm` (Formspree, not set up yet). Text inputs use `TextField` (`components/ui/text-field.tsx`, Figma `text-box`) with a visually hidden label.
+- Contact: every Contact Me button (`ContactButton`, `FooterContactButton`) opens the contact modal (`components/contact/contact-modal.tsx`). The form is `ContactForm`; sending goes through `lib/contact.ts` to `EXTERNAL.contactForm` (Formspree; Subject is also sent as `_subject` for the email subject line, plus a hidden `_gotcha` honeypot field). Text inputs use `TextField` (`components/ui/text-field.tsx`, Figma `text-box`) with a visually hidden label.
 - Contact success (Figma `contact-modal-success`): after sending, the whole modal turns Charcoal (`surface-inverse`): colored logo, "THANKS!" in display-lg Pear, "I'll get back to you shortly!" in heading-lg Cararra, outlined "BACK TO HOME" button (closes the modal and goes to /), Cararra close button. "THANKS!" is focused on arrival. Reopening the modal shows a fresh form.
 - Outlined buttons and icon buttons on Charcoal use the inverse tones: `Button tone="outlined-inverse"` (Cararra border + text) and `IconButton tone="inverse"` (Cararra outline, inverts to Cararra fill on hover).
 - `ServiceCard` (Figma `service-card`) and `ProcessStep` (Figma `process-step`: 2px Charcoal line, Watercourse number) live in `components/`.
@@ -261,10 +266,13 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - CTA banner: Resume shows on the homepage and /services; not on /about (its hero already has Resume) or /portfolio. "View services" is hidden on /services.
 - Pages that aren't built yet render `<ComingSoon />` (`components/coming-soon.tsx`, Figma `/[page]-comingSoon`) at their own URL, e.g. `app/shop/page.tsx`, so the nav keeps the right link underlined. Don't redirect. Replace that page.tsx when the real page is ready.
 - The 404 page is `app/not-found.tsx` (Figma `/not-found`); Next shows it for any unknown URL. Coming soon and 404 share `MessagePage` (`components/layout/message-page.tsx`): nav, one message centered in the screen below the nav, footer below the fold.
-- Case studies: `app/portfolio/[slug]/page.tsx` (Figma `/portfolio/orbit-caseStudy`) renders `content/case-studies/<slug>.mdx` frontmatter (read by `lib/case-studies.ts`). Only files with `published: true` get a page; others show the 404. Block types (`section` with optional `media`, `cards`, `result`; media `image`, `video`, `subsections`, `palette`, `pinned-gallery`) are documented at the top of `orbit.mdx`. Images list their pixel `width`/`height`. The `context` field isn't shown. No CTA banner.
+- Case studies: `app/portfolio/[slug]/page.tsx` (Figma `/portfolio/orbit-caseStudy`) renders `content/case-studies/<slug>.mdx` frontmatter (read by `lib/case-studies.ts`). Only files with `published: true` get a page; others show the 404. Block types (`section` with optional `media`, `cards`, `result`; media `image`, `image-grid`, `video`, `subsections`, `palette`, `pinned-gallery`) are documented at the top of `orbit.mdx`. Images list their pixel `width`/`height`. The `context` field isn't shown. No CTA banner.
 - Project pages share one route: `app/portfolio/[slug]/page.tsx` renders a case study (`content/case-studies/<slug>.mdx`, `CaseStudyView`) or a showcase (`content/visual-projects/<slug>.mdx`, `ShowcaseView`), whichever has a published .mdx (`lib/published.ts`).
 - "Keep exploring" (`RelatedProjects`, Figma `related-projects`) ends every project page. Pick the cards with `related: [slugs]` in the .mdx; without it, up to 3 other projects from the same category.
 - Showcases (Figma `/portfolio/digital-illustrations-showcase`, `/portfolio/fifty-ways-to-have-fun-showcase`): centered display-sm title, skill tags as `Tag size="lg"`, body-xl description (max 780px), then the .mdx `blocks` (types documented at the top of `fifty-ways-to-have-fun.mdx` and `digital-illustrations.mdx`): `gallery`, `details`, `image`, `section` (inline `SectionHeader` + media: `columns`, `stamps`, `booklet`) and `result`. Blocks are 4xl apart; section header → media 2xl. Each block brings its own `Container` so the booklet carousel can run to the screen edge.
+- Showcase additions for Who'd We Get? (Figma `/portfolio/whod-we-get-showcase`): optional `jump: { label, href }` in the .mdx adds the header jump button (`ProjectPageHeader`), pointing at a section's `id` (sections get `scroll-mt-24` to clear the pinned nav); section `body` is optional; media `images` (`ImageRows`): stacked rows lg (24) apart, each row one height with widths following proportions, no cropping, side by side at every size, optional `frame`; `booklet` takes an optional `label` for screen readers (team photos carousel). Gaps between stacked images rounded to lg (Figma 32 and 0).
+- Upgrade showcase (Figma `/portfolio/upgrade-showcase`): `columns` takes `proportional: true` (from `md` column widths follow their images so all columns share one height; a stack counts as one tall image and barely crops because of the gap); `images` takes `maxWidth` (px) to center a narrower image (cover at 610).
+- Additional Design Work (Figma `/portfolio/additional-design-work-showcase`) combines Infinite Illumination, Black Holes and Balance on one page (their old separate entries were removed). Showcase section media `details` puts a Year / Mediums / Class row inside a section.
 - Showcase components (`components/showcase/`): `ShowcaseView`, `ArtworkGallery`/`ArtworkCard` (Figma `illustration / …`), `DetailColumns` (Figma `detail-column`), `FramedColumns`, `StampGrid` + `Stamp` (Figma `stamp`), `UsaForeverSeal`.
 - `ArtworkGallery`: rows are one height from `lg`, widths follow each image's proportions (no cropping); lg (24) between artworks, 2xl (48) between rows. `ArtworkCard` captions: title body-lg + year body on one line, medium in caption caps below. Artwork image files: kebab-case names, shorter side ~900px. Artworks are not clickable: a click-to-enlarge lightbox (full-screen Charcoal overlay with PREV / NEXT) was tried on 2026-10-22 and Chelsey didn't like it, so don't add one again unless she asks.
 - Fifty Ways (approved): the stamp peel's paper back keeps its off-palette gradient (#FFFAF0 → #CCC7B8; it's part of the artwork); stamp grid is 8 columns on tablet (`md`) and 10 from `lg`; the booklet section header → carousel gap is 2xl like the other sections (Figma's frame shows 4xl).
@@ -275,6 +283,9 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Final Designs gallery (`PinnedGallery` → `PinnedStage`, motion spec on the Figma frame): from `lg` with motion allowed, a sticky stage pinned under the compact nav; scrolling dwells on each group (0.7 viewport heights with a note, 0.3 without) and travels 0.5 between them. Below `lg` or under prefers-reduced-motion it's a native horizontal scroller with every note visible (under its screen below `lg`, beside it above). Group/note copy lives in the mdx. Callout animation CSS is in globals.css.
 - Case study layout (Figma `/portfolio/orbit-caseStudy`, approved): header title → tags xl (32), tags → overview 3xl (64); tags are `Tag size="lg"` with xs gaps; header image 421 × 316. Sections have a 1px Charcoal top line, xl (32) above the section header, 2xl (48) to the media. Item Types / Event States sit side by side at equal image heights, 2xl apart (Figma 56, rounded). Color Scheme labels are heading-sm, positioned by `y` in the mdx ("Item Category" at 0.6, a little below center).
 - Final Designs details (approved): screens are 86% (focused) / 72% (dimmed) of the strip area above the progress bar (Figma: 600/500 of a 760 stage). Progress bar sits xl (32) from the stage bottom (Figma ~37); its track is Charcoal at 25% with a solid Charcoal fill (Figma draws both the same color); label and counter sit in equal side columns so the bar never moves. The callout arrow is a 2px stroke (redrawn from Figma's filled shape) so it can draw in.
+- Case study options added for SourceShoot (Figma `/portfolio/sourceshoot-caseStudy`), all optional and documented at the top of `orbit.mdx`: `**bold**` and blank-line paragraphs in body text (`RichText`, `components/rich-text.tsx`; bold is Semibold since Clash Bold isn't loaded); card `list` bullets, cards without an eyebrow (title heading-md-medium), `wide` cards split like a section header (Constraints); a rich Role value in Project Details (title + paragraph, bullets beside it from `lg`); media `cards` and `text` (sub-heading: h3 heading-md-medium, no eyebrow, optional `link` pinned to the bottom of the left column, opens in a new tab); image `frame: false` and `panel: "inverse" | "white"` (xl padding; white only to match a screenshot's own white background); `pinned-gallery` `framed: true` (1px Charcoal border, for desktop screens). Gallery fallback below `lg` keeps wide screens within 85% of the screen width.
+- Bulleted lists everywhere use `BulletList` (disc, pl-6).
+- `image-grid` (case study media): equal columns, 2 on phones and `columns` from `md`, lg (24) gap (Figma 25.8, rounded), images unframed at their own proportions. Used for the Digital Closet wireframes (Figma `/portfolio/digital-closet-caseStudy`).
 - Case study videos use `LoopingVideo` (`components/case-study/looping-video.tsx`): muted loop that starts on load, with a PAUSE/PLAY button; never autoplays under prefers-reduced-motion. Keep filenames URL-safe (no `&`).
 - Thumbnail alt text: add `thumbnailAlt` to a project's `.mdx`; without it the fallback is "[Title] project thumbnail".
 - Project folder names are the URL slug: lowercase letters, numbers and hyphens only (no `?`, `'`, spaces).
@@ -285,20 +296,15 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 
 ## Before launch
 - Delete the `/dev/components` preview page.
-- Set up Formspree and put the endpoint in `EXTERNAL.contactForm` (`lib/links.ts`). Until then the form pretends to send.
-- Add the Resume URL in `lib/links.ts`.
-- Replace placeholders: category card images, about-strip photo, homepage bio (lorem ipsum), the incomplete hero avatar, and the /about "Beyond the work" paragraph (lorem ipsum).
-- Check the /about photo alt text (marked [PLACEHOLDER] in `app/about/page.tsx`).
+- Remove the dev-only red placeholder highlighter: delete `components/dev/placeholder-highlight.tsx` and its two lines in `app/layout.tsx`.
 - Fill in visual project titles and `skillTags` (`content/visual-projects/*.mdx`, marked [PLACEHOLDER]).
-- Add real `thumbnailAlt` text for every project.
-- Replace the portfolio intro (lorem ipsum).
-- Publish the remaining case studies (SourceShoot, Digital Closet: move their mdx to the Orbit format, add `published: true`) and the remaining visual projects (showcase .mdx like `digital-illustrations.mdx`). Unpublished project cards still show the 404.
-- Clean up `public/visual-projects/fifty-ways-to-have-fun/` (63 files, ~20MB, including `With Border/1000ppi` print exports) when building that page; sources belong in `~/chelsthedesigner-originals`.
-- Check the Fifty stamp cocktail names (read from the lettering) and alt text in `content/visual-projects/fifty-ways-to-have-fun.mdx`; Illinois ("Swedish Seed") is the least certain.
+- Add `thumbnailAlt` text for the coming-soon projects when publishing them (every published project has one).
+- Publish the remaining visual projects (showcase .mdx like `digital-illustrations.mdx`). Unpublished project cards still show the 404.
 - Check the Digital Illustrations alt text in `content/visual-projects/digital-illustrations.mdx` (written from the images).
 - Check the Orbit image alt text in `content/case-studies/orbit.mdx` (written from the images).
 - Replace the coming-soon pages at `/shop` and `/notes` with the real pages.
-- Add thumbnails for the hidden projects: additional-design-work, banshee, save-the-dates, scalise.
+- Add thumbnails for the hidden projects: banshee, save-the-dates, scalise. Additional Design Work uses Infinite Illumination's thumbnail for now.
+- Fill in the Additional Design Work copy: page `description` and Balance `body` (`content/visual-projects/additional-design-work.mdx`, marked `# TODO before launch`). Both are left out for now; the page renders without them.
 - Remove the `coming-soon` folder and its `_redirects` file when the full site goes live.
 
 ## Waiting for approval

@@ -24,24 +24,24 @@ function stripItems(screens: GalleryScreen[], groups: GalleryGroup[]): StripItem
   });
 }
 
-type PinnedGalleryProps = { screens: GalleryScreen[]; groups: GalleryGroup[] };
+type PinnedGalleryProps = { screens: GalleryScreen[]; groups: GalleryGroup[]; framed?: boolean };
 
-export function PinnedGallery({ screens, groups }: PinnedGalleryProps) {
+export function PinnedGallery({ screens, groups, framed = false }: PinnedGalleryProps) {
   const items = stripItems(screens, groups);
 
   return (
     <>
       <div className="hidden lg:motion-safe:block">
-        <PinnedStage items={items} groups={groups} screenCount={screens.length} />
+        <PinnedStage items={items} groups={groups} screenCount={screens.length} framed={framed} />
       </div>
       <div className="lg:motion-safe:hidden">
-        <GalleryScroller items={items} />
+        <GalleryScroller items={items} framed={framed} />
       </div>
     </>
   );
 }
 
-function GalleryScroller({ items }: { items: StripItem[] }) {
+function GalleryScroller({ items, framed }: { items: StripItem[]; framed: boolean }) {
   // Notes join the screen before them so they stay together when scrolling.
   const screensWithNotes = items.flatMap((item, i) => {
     if (item.kind !== "screen") return [];
@@ -54,7 +54,12 @@ function GalleryScroller({ items }: { items: StripItem[] }) {
       <ul className="flex w-max items-start gap-8 px-(--gutter)">
         {screensWithNotes.map(({ screen, note }) => (
           <li key={screen.key} className="flex snap-center flex-col gap-4 lg:flex-row lg:gap-0">
-            <PhoneScreen screen={screen} className="h-[min(600px,70svh)]" />
+            {/* Up to 600px / 70% of the screen tall; wide (desktop) screens also stay within 85% of the width. */}
+            <PhoneScreen
+              screen={screen}
+              framed={framed}
+              style={{ height: `min(600px, 70svh, ${(85 * screen.height) / screen.width}vw)` }}
+            />
             {note && (
               <>
                 <p className="max-w-65 type-heading-md-medium lg:hidden">{note.text}</p>

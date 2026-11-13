@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { PlaceholderHighlight } from "@/components/dev/placeholder-highlight";
 import "./globals.css";
 
 const clash = localFont({
@@ -25,7 +26,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${clash.variable} ${tampool.variable} antialiased`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* DEV ONLY: red outline on placeholders. Remove before launch. */}
+        {process.env.NODE_ENV === "development" && <PlaceholderHighlight />}
+      </body>
     </html>
   );
 }

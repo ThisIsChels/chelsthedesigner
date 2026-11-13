@@ -4,7 +4,7 @@
 export type Category = "ux" | "visual";
 
 export const CATEGORIES: { id: Category; label: string; tags: string[] }[] = [
-  { id: "ux", label: "UI/UX DESIGN", tags: ["Mobile", "Website", "Development"] },
+  { id: "ux", label: "UI/UX DESIGN", tags: ["Mobile", "Website", "Web Platform", "Development"] },
   { id: "visual", label: "VISUAL DESIGN", tags: ["Branding", "Illustration", "Print", "Graphic"] },
 ];
 
@@ -16,4 +16,6 @@ export type Project = {
   thumbnail: string;
   thumbnailAlt: string;
   href: string;
+  /** Has a published page. Unpublished projects show under "Coming soon". */
+  published: boolean;
 };

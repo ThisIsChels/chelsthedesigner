@@ -6,7 +6,8 @@ import { ImageFrame } from "@/components/image-frame";
 import { Container } from "@/components/layout/container";
 import { OutcomeBox } from "@/components/outcome-box";
 import { SectionHeader } from "@/components/section-header";
-import type { CaseStudyBlock, CaseStudyMedia, PaletteLabel } from "@/lib/case-studies";
+import { TextLink } from "@/components/ui/text-link";
+import type { CardItem, CaseStudyBlock, CaseStudyMedia, PaletteLabel } from "@/lib/case-studies";
 import { cn } from "@/lib/utils";
 
 // One block of a case study (see the block types at the top of orbit.mdx).
@@ -27,7 +28,7 @@ export function CaseStudySection({ block }: { block: CaseStudyBlock }) {
           </Container>
           {block.media?.map((media, i) =>
             media.type === "pinned-gallery" ? (
-              <PinnedGallery key={i} screens={media.screens} groups={media.groups} />
+              <PinnedGallery key={i} screens={media.screens} groups={media.groups} framed={media.framed} />
             ) : (
               <Container key={i}>
                 <Media media={media} />
@@ -39,11 +40,7 @@ export function CaseStudySection({ block }: { block: CaseStudyBlock }) {
     case "cards":
       return (
         <Container>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {block.items.map((item) => (
-              <Card key={item.title} {...item} />
-            ))}
-          </div>
+          <CardGrid items={block.items} />
         </Container>
       );
     case "result":
@@ -58,7 +55,46 @@ export function CaseStudySection({ block }: { block: CaseStudyBlock }) {
 function Media({ media }: { media: Exclude<CaseStudyMedia, { type: "pinned-gallery" }> }) {
   switch (media.type) {
     case "image":
-      return <ImageFrame image={media} sizes={fullWidth} />;
+      return <SectionImage {...media} />;
+    case "cards":
+      return <CardGrid items={media.items} />;
+    case "text":
+      return (
+        <SectionHeader
+          sub
+          title={media.title}
+          body={media.body}
+          aside={
+            media.link && (
+              <TextLink href={media.link.href} external withArrow>
+                {media.link.label}
+              </TextLink>
+            )
+          }
+        />
+      );
+    case "image-grid":
+      // Equal columns (2 on phones, `columns` from md). Images keep their
+      // proportions and have no frame, as in Figma (Digital Closet wireframes).
+      // Gap lg (24): Figma's 25.8 rounded to the scale.
+      return (
+        <div
+          className="grid grid-cols-2 gap-6 md:grid-cols-[repeat(var(--cols),minmax(0,1fr))]"
+          style={{ "--cols": media.columns } as React.CSSProperties}
+        >
+          {media.images.map((image) => (
+            <Image
+              key={image.src}
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              sizes={`(min-width: 1512px) ${Math.round(1256 / media.columns)}px, (min-width: 768px) ${Math.round(100 / media.columns)}vw, 50vw`}
+              className="h-auto w-full"
+            />
+          ))}
+        </div>
+      );
     case "video":
       return <LoopingVideo {...media} />;
     case "subsections":
@@ -84,6 +120,50 @@ function Media({ media }: { media: Exclude<CaseStudyMedia, { type: "pinned-galle
     case "palette":
       return <Palette {...media} />;
   }
+}
+
+/** Cards two to a row from md; a `wide` card takes a whole row. Gap lg (24), per Figma. */
+function CardGrid({ items }: { items: CardItem[] }) {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {items.map((item) => (
+        <Card key={item.title} {...item} />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * A body image. Default: ImageFrame (border, 8px corners).
+ * - `frame: false`: no border (e.g. a collage with its own edges).
+ * - `panel`: the image sits on a padded panel, xl (32) all round
+ *   (Figma 56/17 and 37/30, rounded). "inverse" = Charcoal, for images with
+ *   light text; "white" matches a screenshot's own white background.
+ */
+function SectionImage({ frame = true, panel, ...image }: Extract<CaseStudyMedia, { type: "image" }>) {
+  const img = (
+    <Image
+      src={image.src}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
+      sizes={fullWidth}
+      className="block h-auto w-full"
+    />
+  );
+  if (panel) {
+    return (
+      <div
+        className={cn(
+          "rounded-lg border border-text-primary p-4 md:p-8",
+          panel === "inverse" ? "bg-surface-inverse" : "bg-white",
+        )}
+      >
+        {img}
+      </div>
+    );
+  }
+  return frame ? <ImageFrame image={image} sizes={fullWidth} /> : img;
 }
 
 /** Figma `palette-row`: Color Scheme text beside the swatch column and its labels. */

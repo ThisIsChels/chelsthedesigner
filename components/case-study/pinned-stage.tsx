@@ -60,9 +60,9 @@ const easeInOut = (t: number) => (1 - Math.cos(Math.PI * t)) / 2;
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const pad = (n: number) => String(n).padStart(2, "0");
 
-type PinnedStageProps = { items: StripItem[]; groups: GalleryGroup[]; screenCount: number };
+type PinnedStageProps = { items: StripItem[]; groups: GalleryGroup[]; screenCount: number; framed?: boolean };
 
-export function PinnedStage({ items, groups, screenCount }: PinnedStageProps) {
+export function PinnedStage({ items, groups, screenCount, framed = false }: PinnedStageProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
@@ -153,6 +153,7 @@ export function PinnedStage({ items, groups, screenCount }: PinnedStageProps) {
                   group={item.group}
                   screen={item.screen}
                   dimmed={!focused}
+                  framed={framed}
                   onFocus={() => scrollToGroup(item.group)}
                   className={cn(
                     "transition-[height,opacity] duration-300 ease-out",

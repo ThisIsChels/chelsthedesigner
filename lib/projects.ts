@@ -4,13 +4,16 @@
 // thumbnail.webp. Title and tags come from content/<kind>/<slug>.mdx when
 // that file exists; otherwise the title is made from the folder name.
 // Case studies come first, then visual projects, each alphabetical.
+// Projects without a published page are marked `published: false`; the
+// portfolio lists them under "Coming soon" and "Keep exploring" skips them.
 
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import type { Category, Project } from "@/lib/project-categories";
+import { readPublished, type ContentKind } from "@/lib/published";
 
-const KINDS: { dir: string; category: Category }[] = [
+const KINDS: { dir: ContentKind; category: Category }[] = [
   { dir: "case-studies", category: "ux" },
   { dir: "visual-projects", category: "visual" },
 ];
@@ -42,6 +45,7 @@ export function getProjects(): Project[] {
           // [PLACEHOLDER: per-project alt text] — add `thumbnailAlt` to the .mdx
           thumbnailAlt: typeof data.thumbnailAlt === "string" ? data.thumbnailAlt : `${title} project thumbnail`,
           href: `/portfolio/${slug}`,
+          published: readPublished(dir, slug) !== null,
         };
       });
   });
@@ -49,10 +53,11 @@ export function getProjects(): Project[] {
 
 /**
  * "Keep exploring" cards: the hand-picked slugs in order, or, without a
- * list, up to 3 other projects from the same category.
+ * list, up to 3 other projects from the same category. Unpublished
+ * ("coming soon") projects are never shown.
  */
 export function getRelatedProjects(slug: string, picks?: string[]): Project[] {
-  const projects = getProjects();
+  const projects = getProjects().filter((p) => p.published);
   if (picks?.length) {
     return picks.flatMap((pick) => projects.filter((p) => p.slug === pick));
   }

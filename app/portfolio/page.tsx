@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { ComingSoonProjects } from "@/components/coming-soon-projects";
 import { Cta } from "@/components/cta";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
@@ -30,10 +31,11 @@ const TITLE_SEQUENCE: TypewriterStep[] = [
 
 // All page text lives here so it can change without touching layout.
 const CONTENT = {
-  // [PLACEHOLDER: portfolio intro]
   intro:
-    "Lorem ipsum dolor sit amet consectetur adipiscing elit. Amet consectetur adipiscing elit quisque faucibus ex sapien. Quisque faucibus ex sapien vitae pellentesque sem placerat. Vitae pellentesque sem placerat in id cursus mi.",
+    "Apps, posters, illustrations, and everything in between. Different kinds of work, one designer behind all of it.",
   emptyMessage: "No projects match these filters yet.",
+  // Projects without a published page; not affected by the filters.
+  comingSoon: { heading: "Coming soon", tag: "Coming soon" },
   cta: {
     heading: "LET’S MAKE SOMETHING TOGETHER.",
     body: "Have a role or a project in mind? Let’s chat.",
@@ -48,7 +50,9 @@ export const metadata: Metadata = {
 // Server component: reads the project list from disk at build time, then
 // hands it to the interactive filter + grid.
 export default function PortfolioPage() {
-  const projects = getProjects();
+  const all = getProjects();
+  const projects = all.filter((p) => p.published);
+  const upcoming = all.filter((p) => !p.published);
 
   return (
     <>
@@ -67,6 +71,12 @@ export default function PortfolioPage() {
             <Suspense fallback={<ProjectBrowser projects={projects} emptyMessage={CONTENT.emptyMessage} />}>
               <ProjectBrowserFromUrl projects={projects} emptyMessage={CONTENT.emptyMessage} />
             </Suspense>
+
+            <ComingSoonProjects
+              heading={CONTENT.comingSoon.heading}
+              tagLabel={CONTENT.comingSoon.tag}
+              projects={upcoming}
+            />
 
             <Cta heading={CONTENT.cta.heading} body={CONTENT.cta.body} />
           </Container>
