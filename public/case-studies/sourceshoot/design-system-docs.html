@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceShoot Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FD703B;
+    --green: #145364;
+    --peach: #FFC9B5;
+    --cascade: #89A9B1;
+    --green-white: #E3EAEC;
+    --off-white: #F7F9FA;
+    --white: #FFFFFF;
+    --black: #1A1A1A;
+    --mid-gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --red: #DC2626;
+    --sidebar-active: #316574;
+    --sidebar-border: #3c6d7b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lexend', sans-serif;
+    background: #F7F9FA;
+    color: var(--black);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--green);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header-logo {
+    width: 36px; height: 36px;
+    background: var(--orange);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .site-header-logo svg { width: 20px; height: 20px; }
+  .site-header-title { font-size: 20px; font-weight: 600; color: #fff; }
+  .site-header-badge {
+    margin-left: auto;
+    font-size: 11px; font-weight: 500;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; }
+
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: #F7F9FA;
+    border-right: 1px solid var(--light-gray);
+    height: calc(100vh - 72px);
+    position: sticky;
+    top: 72px;
+    overflow-y: auto;
+    padding: 24px 0;
+  }
+  .sidebar-nav-section {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid-gray);
+    padding: 0 20px 8px;
+    margin-top: 20px;
+  }
+  .sidebar-nav-section:first-child { margin-top: 0; }
+  .sidebar-link {
+    display: block;
+    padding: 8px 20px;
+    font-size: 14px; font-weight: 400;
+    color: var(--mid-gray);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar-link:hover { color: var(--green); background: var(--green-white); }
+  .sidebar-link.active { color: var(--green); font-weight: 500; border-left-color: var(--orange); background: #F0F4F5; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; padding: 48px; max-width: 960px; }
+
+  .section { margin-bottom: 80px; scroll-margin-top: 100px; }
+  .section-header {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--light-gray);
+  }
+  .section-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+  .section-title { font-size: 28px; font-weight: 700; color: var(--green); }
+  .section-desc { font-size: 14px; color: var(--mid-gray); margin-top: 6px; line-height: 1.6; }
+
+  .subsection { margin-bottom: 40px; }
+  .subsection-title {
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: 16px;
+  }
+
+  /* ── CARDS / PANELS ── */
+  .panel {
+    background: #fff;
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .panel-grid { display: grid; gap: 16px; }
+  .panel-grid-2 { grid-template-columns: 1fr 1fr; }
+  .panel-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .panel-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .panel-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+  /* ── COLOR SWATCHES ── */
+  .swatch-card {
+    background: #fff;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .swatch-color { height: 72px; width: 100%; }
+  .swatch-info { padding: 12px; }
+  .swatch-name { font-size: 13px; font-weight: 600; color: var(--black); }
+  .swatch-hex { font-size: 12px; color: var(--mid-gray); font-family: monospace; margin-top: 2px; }
+  .swatch-role { font-size: 11px; color: var(--mid-gray); margin-top: 6px; line-height: 1.4; }
+
+  .color-rule {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--green-white);
+    font-size: 13px;
+  }
+  .color-rule:last-child { border-bottom: none; }
+  .color-rule-dot {
+    width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .color-rule-text { color: var(--black); }
+  .color-rule-sub { font-size: 11px; color: var(--mid-gray); margin-top: 2px; }
+
+  /* ── TYPOGRAPHY ── */
+  .type-row {
+    display: flex; align-items: center; gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--green-white);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta { min-width: 180px; flex-shrink: 0; }
+  .type-style-name { font-size: 12px; font-weight: 600; color: var(--green); }
+  .type-spec { font-size: 11px; color: var(--mid-gray); margin-top: 2px; font-family: monospace; }
+  .type-usage { font-size: 11px; color: var(--mid-gray); margin-top: 2px; }
+  .type-sample { color: var(--black); flex: 1; text-align: right; }
+
+  /* ── SPACING ── */
+  .space-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--green-white);
+  }
+  .space-row:last-child { border-bottom: none; }
+  .space-token { font-size: 12px; font-weight: 600; color: var(--green); font-family: monospace; min-width: 70px; }
+  .space-val { font-size: 12px; color: var(--mid-gray); min-width: 36px; }
+  .space-bar-wrap { flex: 1; display: flex; align-items: center; }
+  .space-bar { height: 12px; background: var(--green); border-radius: 3px; opacity: 0.6; }
+  .space-use { font-size: 11px; color: var(--mid-gray); min-width: 200px; }
+
+  /* ── BUTTONS ── */
+  .btn-demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .btn-demo-item { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .btn-demo-label { font-size: 11px; color: var(--mid-gray); font-weight: 500; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--orange); color: #fff; box-shadow: none; }
+  .btn-primary:hover { background: #e85e27; }
+  .btn-secondary { background: var(--green); color: #fff; box-shadow: none; }
+  .btn-secondary:hover { background: #0f3d4d; }
+  .btn-outline-orange { background: transparent; box-shadow: inset 0 0 0 1px var(--orange); color: var(--orange); }
+  .btn-outline-orange:hover { background: rgba(253,112,59,0.06); }
+  .btn-outline-green { background: transparent; box-shadow: inset 0 0 0 1px var(--green); color: var(--green); }
+  .btn-outline-green:hover { background: rgba(20,83,100,0.06); }
+  .btn-destructive { background: transparent; box-shadow: inset 0 0 0 1px var(--red); color: var(--red); }
+  .btn-destructive:hover { background: var(--red); color: #fff; box-shadow: none; }
+
+  .btn-pair { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn-pair-label { font-size: 11px; color: var(--mid-gray); margin-bottom: 8px; }
+
+  /* ── COMPONENT CARDS ── */
+  .comp-card { background: #fff; border: 1px solid var(--green-white); border-radius: 8px; padding: 20px; transition: border-color 0.15s ease; }
+  .comp-card:hover { border-color: #C4CDD0; }
+  .comp-card-active { border: 1.5px solid var(--peach); }
+  .comp-card-active:hover { border-color: #F0A899; }
+  .comp-card-shift { border: 1px solid var(--green); }
+  .comp-card-shift:hover { border-color: #0c3a47; }
+  .comp-card-title { font-size: 20px; font-weight: 600; color: var(--black); margin-bottom: 4px; }
+  .comp-card-ping-id { font-size: 14px; color: var(--black); display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+  .comp-card-ping-icon { width: 20px; height: 20px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+  .comp-card-time { font-size: 14px; font-weight: 500; color: var(--black); }
+  .comp-card-date { font-size: 14px; color: var(--mid-gray); margin-top: 2px; }
+  .comp-card-today { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .status-label { font-size: 14px; font-weight: 500; color: var(--black); }
+  .comp-card-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--mid-gray); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 8px; }
+  .card-expand-icon { opacity: 0.4; transition: opacity 0.15s ease, transform 0.15s ease; }
+  .comp-card:hover .card-expand-icon { opacity: 1; transform: translate(2px, -2px); }
+
+  /* metric card */
+  .metric-card { background: #fff; border: 1px solid var(--green-white); border-radius: 8px; padding: 20px; }
+  .metric-label { font-size: 14px; font-weight: 500; color: var(--green); display: flex; align-items: center; gap: 6px; }
+  .metric-icon { width: 16px; height: 16px; background: var(--cascade); border-radius: 2px; }
+  .metric-value { font-size: 32px; font-weight: 500; color: var(--black); margin-top: 8px; }
+  .metric-value-orange { color: var(--orange); }
+
+  /* ── INPUTS ── */
+  .input-group { margin-bottom: 20px; }
+  .input-label { display: block; font-size: 16px; font-weight: 500; color: var(--green); margin-bottom: 6px; }
+  .input-field {
+    width: 100%; padding: 8px 12px;
+    border: 1px solid var(--green-white);
+    border-radius: 6px;
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px; color: var(--black);
+    background: #fff; outline: none;
+    transition: border-color 0.15s;
+  }
+  .input-field::placeholder { color: var(--mid-gray); font-size: 14px; }
+  .input-field:focus { border-color: var(--green); }
+  .input-field.is-focused { border-color: var(--green); }
+  .input-field.is-disabled { background: var(--green-white); color: var(--cascade); opacity: 0.5; cursor: not-allowed; }
+  .input-helper { font-size: 14px; color: var(--mid-gray); margin-top: 4px; }
+  .input-state-tag { font-size: 10px; font-weight: 600; color: var(--mid-gray); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+
+  textarea.input-field { min-height: 80px; resize: vertical; }
+
+  /* ── TABLE ── */
+  .table-wrap { border: 1px solid var(--green-white); border-radius: 8px; overflow: hidden; }
+  .table-header {
+    background: var(--green-white);
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr 1.5fr;
+    padding: 10px 18px;
+    gap: 12px;
+  }
+  .table-header-cell { font-size: 14px; font-weight: 500; color: var(--green); display: flex; align-items: center; gap: 4px; }
+  .table-header-cell.sorted { color: var(--green); }
+  .table-header-cell .chevron { font-size: 10px; }
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr 1.5fr;
+    padding: 12px 18px;
+    gap: 12px;
+    border-bottom: 1px solid var(--green-white);
+    background: #fff;
+    transition: background 0.1s;
+  }
+  .table-row:last-child { border-bottom: none; }
+  .table-row:hover { background: #fafbfb; }
+  .table-row.selected { outline: 1.5px solid var(--orange); outline-offset: -1px; }
+  .table-cell { font-size: 14px; color: var(--black); }
+  .table-cell.primary { font-weight: 500; }
+  .table-cell.right { text-align: right; }
+  .table-cell.muted { color: var(--mid-gray); }
+
+  /* ── SIDEBAR DEMO ── */
+  .sidebar-demo {
+    background: var(--green);
+    border-radius: 10px;
+    padding: 16px 13px;
+    width: 220px;
+  }
+  .sd-logo-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--sidebar-border); border-radius: 7px; margin-bottom: 12px; }
+  .sd-logo-mark { width: 28px; height: 28px; background: var(--orange); border-radius: 5px; }
+  .sd-logo-text { font-size: 16px; font-weight: 500; color: #fff; }
+  .sd-ping-btn { display: flex; align-items: center; gap: 10px; padding: 10px 13px; border: 1px solid var(--orange); border-radius: 7px; margin-bottom: 12px; }
+  .sd-ping-icon { width: 20px; height: 20px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+  .sd-ping-labels { flex: 1; }
+  .sd-ping-title { font-size: 14px; font-weight: 500; color: #fff; }
+  .sd-ping-sub { font-size: 11px; color: var(--cascade); margin-top: 1px; }
+  .sd-nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 7px; margin-bottom: 3px; cursor: pointer; transition: background 0.1s; }
+  .sd-nav-item:hover { background: rgba(255,255,255,0.06); }
+  .sd-nav-item.active { background: var(--sidebar-active); }
+  .sd-nav-icon { width: 18px; height: 18px; border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .sd-nav-icon svg { width: 16px; height: 16px; }
+  .sd-nav-label { font-size: 14px; font-weight: 500; color: #fff; }
+  .sd-divider { height: 1px; background: var(--sidebar-border); margin: 8px 0; opacity: 0.4; }
+  .sd-bottom { margin-top: 16px; }
+
+  /* ── AVATAR ── */
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 500; flex-shrink: 0; }
+  .avatar.sm { width: 26px; height: 26px; font-size: 11px; }
+  .avatar-stack { display: flex; }
+  .avatar-stack .avatar.sm { margin-left: -8px; border: 2px solid #fff; }
+  .avatar-stack .avatar.sm:first-child { margin-left: 0; }
+  .avatar-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .avatar-label { font-size: 12px; color: var(--mid-gray); text-align: center; margin-top: 4px; }
+  .avatar-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+  /* ── MODAL DEMO ── */
+  .modal-demo { background: #fff; border: 1px solid var(--green-white); border-radius: 8px; padding: 24px; max-width: 480px; position: relative; }
+  .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }
+  .modal-title { font-size: 24px; font-weight: 600; color: var(--green); }
+  .modal-close { width: 32px; height: 32px; border: none; background: none; font-size: 18px; cursor: pointer; color: var(--mid-gray); display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+  .modal-close:hover { background: var(--green-white); }
+  .modal-sub { font-size: 14px; color: var(--mid-gray); margin-bottom: 20px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+  /* ── ICON DEMOS ── */
+  .icon-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .icon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .icon-box { width: 48px; height: 48px; border: 1px solid var(--light-gray); border-radius: 8px; background: #fff; display: flex; align-items: center; justify-content: center; }
+  .icon-box svg { color: var(--green); }
+  .icon-box.active-state svg { color: var(--orange); }
+  .icon-box.on-dark { background: var(--green); }
+  .icon-box.on-dark svg { color: #fff; }
+  .icon-name { font-size: 10px; color: var(--mid-gray); text-align: center; }
+
+  /* ── LOGO ── */
+  .logo-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .logo-surface { padding: 24px 32px; border-radius: 10px; display: flex; align-items: center; gap: 12px; }
+  .logo-surface-green { background: var(--green); }
+  .logo-surface-white { background: #fff; border: 1px solid var(--light-gray); }
+  .logo-surface-gw { background: var(--green-white); border: 1px solid var(--light-gray); }
+  .logo-mark { width: 40px; height: 40px; background: var(--orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark svg { width: 24px; height: 24px; fill: #fff; }
+  .logo-wordmark-light { font-size: 20px; font-weight: 600; color: #fff; }
+  .logo-wordmark-dark { font-size: 20px; font-weight: 600; color: var(--green); }
+
+  /* ── INPUT STATES GRID ── */
+  .input-states { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  /* ── DO / DON'T ── */
+  .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rule-card { border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.6; }
+  .rule-do { background: #F0FDF4; border: 1px solid #BBF7D0; }
+  .rule-do .rule-heading { font-weight: 600; color: #15803D; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .rule-dont { background: #FEF2F2; border: 1px solid #FECACA; }
+  .rule-dont .rule-heading { font-weight: 600; color: #B91C1C; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .rule-item { color: #374151; margin-bottom: 4px; padding-left: 12px; position: relative; }
+  .rule-item::before { content: '—'; position: absolute; left: 0; color: inherit; opacity: 0.5; }
+
+  /* ── STATUS DOT ── */
+  .status-demo { display: flex; align-items: center; gap: 4px; }
+  .status-demo-label { font-size: 14px; font-weight: 500; color: var(--black); }
+
+  /* ── UTIL ── */
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+  .tag-review { background: #FEF3C7; color: #92400E; }
+  .tag-confirmed { background: #D1FAE5; color: #065F46; }
+  .tag-do-not { background: #FEE2E2; color: #991B1B; }
+
+  .note {
+    background: #EFF6FF; border: 1px solid #BFDBFE;
+    border-radius: 8px; padding: 12px 16px;
+    font-size: 13px; color: #1E40AF; line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* ── ANNOTATION DIAGRAMS ── */
+  .anno-wrap {
+    background: #fff;
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .anno-title {
+    font-size: 13px; font-weight: 600;
+    color: var(--green);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+  .anno-wrap svg {
+    display: block;
+    overflow: visible;
+  }
+  /* annotation line colors */
+  .ann-dim { stroke: #E84B8A; stroke-width: 1; fill: none; }
+  .ann-dim-text { fill: #E84B8A; font-size: 11px; font-family: 'Lexend', sans-serif; font-weight: 500; }
+  .ann-space { stroke: #7C3AED; stroke-width: 1; fill: none; }
+  .ann-space-text { fill: #7C3AED; font-size: 11px; font-family: 'Lexend', sans-serif; font-weight: 500; }
+  .ann-radius { stroke: #0891B2; stroke-width: 1; fill: none; }
+  .ann-radius-text { fill: #0891B2; font-size: 11px; font-family: 'Lexend', sans-serif; font-weight: 500; }
+  .ann-type { stroke: #059669; stroke-width: 1; fill: none; stroke-dasharray: 3 2; }
+  .ann-type-text { fill: #059669; font-size: 11px; font-family: 'Lexend', sans-serif; font-weight: 500; }
+  .ann-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--light-gray); }
+  .ann-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--mid-gray); }
+  .ann-legend-dot { width: 12px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+
+  .anno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .anno-grid { grid-template-columns: 1fr; } }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--light-gray); border-radius: 3px; }
+
+  /* ── SVG ICONS (inline Lucide-style) ── */
+  svg { display: block; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+    </svg>
+  </div>
+  <span class="site-header-title">SourceShoot Design System</span>
+  <span class="site-header-badge">Version 2.0 — In Progress</span>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR NAV -->
+  <nav class="sidebar">
+    <div class="sidebar-nav-section">Foundation</div>
+    <a href="#colors" class="sidebar-link active">Colors</a>
+    <a href="#typography" class="sidebar-link">Typography</a>
+    <a href="#spacing" class="sidebar-link">Spacing</a>
+    <a href="#icons" class="sidebar-link">Icons</a>
+    <div class="sidebar-nav-section">Components</div>
+    <a href="#buttons" class="sidebar-link">Buttons</a>
+    <a href="#cards" class="sidebar-link">Cards</a>
+    <a href="#inputs" class="sidebar-link">Form Inputs</a>
+    <a href="#table" class="sidebar-link">Table</a>
+    <a href="#modal" class="sidebar-link">Modal</a>
+    <a href="#sidebar-nav" class="sidebar-link">Sidebar Nav</a>
+    <a href="#avatar" class="sidebar-link">Avatar & Status</a>
+    <div class="sidebar-nav-section">Brand</div>
+    <a href="#logo" class="sidebar-link">Logo</a>
+    <div class="sidebar-nav-section">Reference</div>
+    <a href="#spacing-diagrams" class="sidebar-link">Spacing Diagrams</a>
+    <div style="margin:16px 20px 0;padding:10px 12px;background:#F7F9FA;border-radius:6px;font-size:11px;color:#6B7280;line-height:1.5">
+      💡 <strong style="color:#145364">Token tooltip</strong><br>Hover any element for 0.5s to see its colors, font, spacing & border radius.
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ══════════════════════════════ COLORS ══════════════════════════════ -->
+    <section class="section" id="colors">
+      <div class="section-header">
+        <div class="section-label">01 — Foundation</div>
+        <h1 class="section-title">Colors</h1>
+        <p class="section-desc">The complete SourceShoot palette. Never introduce colors outside this set.</p>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Brand Colors</div>
+        <div class="panel-grid panel-grid-5">
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#FD703B"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Burning Orange</div>
+              <div class="swatch-hex">#FD703B</div>
+              <div class="swatch-role">Primary CTA, active nav icons, dot indicators, Ping icon</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#145364"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Deep Sea Green</div>
+              <div class="swatch-hex">#145364</div>
+              <div class="swatch-role">Sidebar bg, secondary buttons, all static UI text</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#FFC9B5;border-bottom:1px solid #eee"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Deep Peach</div>
+              <div class="swatch-hex">#FFC9B5</div>
+              <div class="swatch-role">Active Ping card border only</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#89A9B1"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Cascade</div>
+              <div class="swatch-hex">#89A9B1</div>
+              <div class="swatch-role">Disabled input text at 50% opacity</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#E3EAEC;border-bottom:1px solid #ddd"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Green White</div>
+              <div class="swatch-hex">#E3EAEC</div>
+              <div class="swatch-role">Input/card/table borders, disabled bg, table header bg</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Neutral Colors</div>
+        <div class="panel-grid panel-grid-5">
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#F7F9FA;border-bottom:1px solid #E3EAEC"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Off-white</div>
+              <div class="swatch-hex">#F7F9FA</div>
+              <div class="swatch-role">Page background only — creates depth beneath white cards</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #E3EAEC"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">White</div>
+              <div class="swatch-hex">#FFFFFF</div>
+              <div class="swatch-role">Cards, modals, input field backgrounds — sits on top of Off-white</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#1A1A1A"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Black</div>
+              <div class="swatch-hex">#1A1A1A</div>
+              <div class="swatch-role">User-entered text, dynamic data content</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#6B7280"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Mid Gray</div>
+              <div class="swatch-hex">#6B7280</div>
+              <div class="swatch-role">Secondary text, metadata, placeholders</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#E5E7EB;border-bottom:1px solid #ddd"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Light Gray</div>
+              <div class="swatch-hex">#E5E7EB</div>
+              <div class="swatch-role">Dividers, table separators</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background:#DC2626"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Destructive Red</div>
+              <div class="swatch-hex">#DC2626</div>
+              <div class="swatch-role">Delete, deny, remove only</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Color Rules</div>
+        <div class="panel">
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#FD703B"></div>
+            <div><div class="color-rule-text"><strong>Burning Orange</strong> — One primary CTA per screen maximum. Never as a text color. Never as a large background.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#145364"></div>
+            <div><div class="color-rule-text"><strong>Deep Sea Green</strong> — All static UI chrome: labels, headings, nav text, secondary buttons. Never for user-entered data.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#FFC9B5;border:1px solid #ddd"></div>
+            <div><div class="color-rule-text"><strong>Deep Peach</strong> — 1.5px border on Active Ping cards only. Never for buttons, text, or anything else.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#F7F9FA;border:1px solid #ddd"></div>
+            <div><div class="color-rule-text"><strong>Off-white #F7F9FA</strong> — Page background only. Creates depth without shadows. Never use on components.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#FFFFFF;border:1px solid #ddd"></div>
+            <div><div class="color-rule-text"><strong>White #FFFFFF</strong> — Cards, modals, inputs — all surfaces that sit on top of the off-white page background.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#1A1A1A"></div>
+            <div><div class="color-rule-text"><strong>Black #1A1A1A</strong> — All dynamic content: names, values, user-typed text. Never use pure #000000.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#6B7280"></div>
+            <div><div class="color-rule-text"><strong>Mid Gray</strong> — Placeholder text, timestamps, metadata, helper text only. Never for primary data.</div></div>
+          </div>
+          <div class="color-rule">
+            <div class="color-rule-dot" style="background:#DC2626"></div>
+            <div><div class="color-rule-text"><strong>Destructive Red</strong> — Delete, Deny, Remove actions only. Never for cancel buttons.</div></div>
+          </div>
+        </div>
+        <div class="note">⚠️ Never place a Burning Orange button and a Deep Sea Green button side by side — the contrast clash competes for attention.</div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ TYPOGRAPHY ══════════════════════════════ -->
+    <section class="section" id="typography">
+      <div class="section-header">
+        <div class="section-label">02 — Foundation</div>
+        <h1 class="section-title">Typography</h1>
+        <p class="section-desc">Lexend only. Minimum 14px. All Inter instances are mistakes and must be corrected.</p>
+      </div>
+
+      <div class="panel">
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">page-title</div>
+            <div class="type-spec">32px / Bold 700 / lh 40px</div>
+            <div class="type-usage">Top of page. One per screen.</div>
+          </div>
+          <div class="type-sample" style="font-size:32px;font-weight:700;color:#145364;line-height:1.25">Pings & Shifts</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">stat-number</div>
+            <div class="type-spec">32px / Medium 500 / lh 40px</div>
+            <div class="type-usage">Metric card numbers only.</div>
+          </div>
+          <div class="type-sample" style="font-size:32px;font-weight:500;color:#1A1A1A">42</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">h3</div>
+            <div class="type-spec">24px / SemiBold 600 / lh 32px</div>
+            <div class="type-usage">Modal titles.</div>
+          </div>
+          <div class="type-sample" style="font-size:24px;font-weight:600;color:#145364">New Ping</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">h4 / large</div>
+            <div class="type-spec">20px / SemiBold 600 / lh 28px</div>
+            <div class="type-usage">Card titles, section sub-headers.</div>
+          </div>
+          <div class="type-sample" style="font-size:20px;font-weight:600;color:#145364">Active Pings</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">lead</div>
+            <div class="type-spec">20px / Regular 400 / lh 28px</div>
+            <div class="type-usage">Introductory paragraph text.</div>
+          </div>
+          <div class="type-sample" style="font-size:20px;font-weight:400;color:#1A1A1A">Track all employee ping activities.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">p</div>
+            <div class="type-spec">16px / Regular 400 / lh 28px</div>
+            <div class="type-usage">Standard body text.</div>
+          </div>
+          <div class="type-sample" style="font-size:16px;font-weight:400;color:#1A1A1A">Standard body text for descriptions and content areas.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">p-ui</div>
+            <div class="type-spec">16px / Regular 400 / lh 24px</div>
+            <div class="type-usage">UI labels, nav items.</div>
+          </div>
+          <div class="type-sample" style="font-size:16px;font-weight:400;color:#145364">Dashboard</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">p-ui-medium</div>
+            <div class="type-spec">16px / Medium 500 / lh 24px</div>
+            <div class="type-usage">All nav items, form labels.</div>
+          </div>
+          <div class="type-sample" style="font-size:16px;font-weight:500;color:#145364">Pings & Shifts</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">body</div>
+            <div class="type-spec">14px / Regular 400 / lh 24px</div>
+            <div class="type-usage">Secondary content, table body.</div>
+          </div>
+          <div class="type-sample" style="font-size:14px;font-weight:400;color:#1A1A1A">Chelsey LaPointe</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">body-medium</div>
+            <div class="type-spec">14px / Medium 500 / lh 24px</div>
+            <div class="type-usage">Button text, emphasized body, time ranges.</div>
+          </div>
+          <div class="type-sample" style="font-size:14px;font-weight:500;color:#1A1A1A">2:00 PM – 5:00 PM</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">subtle</div>
+            <div class="type-spec">14px / Regular 400 / lh 20px</div>
+            <div class="type-usage">Dates, metadata, helper text, placeholders.</div>
+          </div>
+          <div class="type-sample" style="font-size:14px;font-weight:400;color:#6B7280">Sunday, Sept. 28, 2025</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">small</div>
+            <div class="type-spec">14px / Medium 500 / lh 20px</div>
+            <div class="type-usage">Tight labels, badge text, status indicators.</div>
+          </div>
+          <div class="type-sample" style="font-size:14px;font-weight:500;color:#1A1A1A;display:flex;align-items:center;justify-content:flex-end;gap:5px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#FD703B;display:inline-block;flex-shrink:0"></span>
+            TODAY
+          </div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">h1</div>
+            <div class="type-spec">48px / ExtraBold 800 / lh 60px</div>
+            <div class="type-usage" style="color:#DC2626">Marketing / docs only. Never in product UI.</div>
+          </div>
+          <div class="type-sample" style="font-size:32px;font-weight:800;color:#145364;opacity:0.4">SourceShoot</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ SPACING ══════════════════════════════ -->
+    <section class="section" id="spacing">
+      <div class="section-header">
+        <div class="section-label">03 — Foundation</div>
+        <h1 class="section-title">Spacing</h1>
+        <p class="section-desc">Base unit: 4px. All spacing must be a multiple of 4. No exceptions. No odd numbers.</p>
+      </div>
+
+      <div class="panel">
+        <div class="space-row">
+          <div class="space-token">space-1</div>
+          <div class="space-val">4px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:4px"></div></div>
+          <div class="space-use">Icon-to-label gap, dot indicator to text</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-2</div>
+          <div class="space-val">8px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:8px"></div></div>
+          <div class="space-use">Button/input vertical padding, stacked elements inside card</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-3</div>
+          <div class="space-val">12px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:12px"></div></div>
+          <div class="space-use">Gap between cards in a row, elements within a card</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-4</div>
+          <div class="space-val">16px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:16px"></div></div>
+          <div class="space-use">Button/input horizontal padding, mobile page padding</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-5</div>
+          <div class="space-val">20px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:20px"></div></div>
+          <div class="space-use">Card padding (all sides) — standard</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-6</div>
+          <div class="space-val">24px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:24px"></div></div>
+          <div class="space-use">Modal internal padding</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-7</div>
+          <div class="space-val">28px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:28px"></div></div>
+          <div class="space-use">Gap between major page sections</div>
+        </div>
+        <div class="space-row">
+          <div class="space-token">space-8</div>
+          <div class="space-val">32px</div>
+          <div class="space-bar-wrap"><div class="space-bar" style="width:32px"></div></div>
+          <div class="space-use">Gap between page title and first content block</div>
+        </div>
+      </div>
+      <div class="note">Off-grid values found in the product (13px, 19px, 30px) must be corrected to the nearest token.</div>
+    </section>
+
+    <!-- ══════════════════════════════ ICONS ══════════════════════════════ -->
+    <section class="section" id="icons">
+      <div class="section-header">
+        <div class="section-label">04 — Foundation</div>
+        <h1 class="section-title">Icons</h1>
+        <p class="section-desc">Lucide icon set only. 2px stroke, fixed — never scale proportionally. Three sizes only.</p>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Sizes</div>
+        <div class="panel" style="display:flex;gap:32px;align-items:flex-end">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px dashed #E3EAEC;border-radius:4px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:12px;font-weight:500;color:#145364">16px</div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">Inline, badges,<br>tight metadata</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px dashed #E3EAEC;border-radius:4px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:12px;font-weight:500;color:#145364">20px</div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">Sidebar nav,<br>card labels</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px dashed #E3EAEC;border-radius:4px">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:12px;font-weight:500;color:#145364">24px</div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">Section/modal headers,<br>primary card icons</div>
+          </div>
+        </div>
+        <div class="note" style="margin-top:16px">The dashed outlines above are for size reference only — icons do not have background containers by default. The filled square background (Deep Sea Green) is used exclusively alongside <strong>page-title</strong> headings.</div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Icon Background — Page Title Context Only</div>
+        <div class="panel" style="display:flex;align-items:center;gap:16px">
+          <div style="background:#E3EAEC;border-radius:7px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <div style="font-size:20px;font-weight:700;color:#145364;line-height:1.2">Pings & Shifts</div>
+            <div style="font-size:14px;color:#6B7280">Track and manage all employee ping activities</div>
+          </div>
+          <div style="margin-left:auto;font-size:12px;color:#6B7280;max-width:200px;text-align:right;line-height:1.5">Green White bg (#E3EAEC) · Deep Sea Green icon · 7px radius · paired with page-title only</div>
+        </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Color Usage</div>
+        <div class="panel" style="display:flex;justify-content:space-between;flex-wrap:wrap;align-items:flex-start;gap:12px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div style="width:44px;height:44px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">Deep Sea Green<br>Light bg default</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div style="width:44px;height:44px;border-radius:8px;background:#145364;display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">White<br>On dark bg</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div style="width:44px;height:44px;border-radius:8px;background:#145364;display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">Burning Orange<br>Active nav, Ping</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div style="width:44px;height:44px;border:1px solid #E5E7EB;border-radius:8px;background:#E3EAEC;display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div style="font-size:11px;color:#6B7280;text-align:center">Green White bg<br>Sidebar section icon</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Special: Ping Icon</div>
+        <div class="panel" style="display:flex;align-items:center;gap:16px">
+          <div style="background:#145364;border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#145364">icon/loader — Dedicated Ping Icon</div>
+            <div style="font-size:13px;color:#6B7280;margin-top:4px">Used exclusively for Ping-related UI: Ping button, Ping nav item, Ping modal headers. Do not use as a generic loading spinner.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ BUTTONS ══════════════════════════════ -->
+    <section class="section" id="buttons">
+      <div class="section-header">
+        <div class="section-label">05 — Components</div>
+        <h1 class="section-title">Buttons</h1>
+        <p class="section-desc">Four variants only. Never create a fifth. All use Lexend body-medium (14px / 500).</p>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Four Variants</div>
+        <div class="panel-grid panel-grid-2">
+          <div class="panel">
+            <div style="margin-bottom:12px"><button class="btn btn-primary">Submit</button></div>
+            <div style="font-size:14px;font-weight:600;color:#145364;margin-bottom:6px">Primary — Burning Orange</div>
+            <div style="font-size:13px;color:#6B7280;line-height:1.6">Background: #FD703B · Text: White · Radius: 6px · Padding: 8px 16px<br>One per screen maximum. The single most important action.</div>
+          </div>
+          <div class="panel">
+            <div style="margin-bottom:12px"><button class="btn btn-secondary">Archive</button></div>
+            <div style="font-size:14px;font-weight:600;color:#145364;margin-bottom:6px">Secondary — Deep Sea Green</div>
+            <div style="font-size:13px;color:#6B7280;line-height:1.6">Background: #145364 · Text: White · Radius: 6px · Padding: 8px 16px<br>Important non-primary actions: Archive, Calendar, navigation.</div>
+          </div>
+          <div class="panel">
+            <div style="margin-bottom:12px;display:flex;gap:8px">
+              <button class="btn btn-outline-orange">Cancel</button>
+              <button class="btn btn-outline-green">Cancel</button>
+            </div>
+            <div style="font-size:14px;font-weight:600;color:#145364;margin-bottom:6px">Outline — Matched to primary pair</div>
+            <div style="font-size:13px;color:#6B7280;line-height:1.6">Transparent bg · 1px border matching pair color · Text matches border<br>Always paired with a filled button. Use for cancel/secondary choices.</div>
+          </div>
+          <div class="panel">
+            <div style="margin-bottom:12px"><button class="btn btn-destructive">Delete</button></div>
+            <div style="font-size:14px;font-weight:600;color:#145364;margin-bottom:6px">Destructive — Red</div>
+            <div style="font-size:13px;color:#6B7280;line-height:1.6">Transparent bg · 1px border #DC2626 · Hover: fills red<br>Delete, Deny, Remove only. Never for cancel actions.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Button Pairings</div>
+        <div class="panel" style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-size:12px;color:#6B7280;margin-bottom:8px">Primary + Cancel (orange pair)</div>
+            <div class="btn-pair">
+              <button class="btn btn-primary">Save Changes</button>
+              <button class="btn btn-outline-orange">Cancel</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:#6B7280;margin-bottom:8px">Secondary + Cancel (green pair)</div>
+            <div class="btn-pair">
+              <button class="btn btn-secondary">Archive</button>
+              <button class="btn btn-outline-green">Cancel</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:#6B7280;margin-bottom:8px">Approve / Deny pair</div>
+            <div class="btn-pair">
+              <button class="btn btn-primary">Approve</button>
+              <button class="btn btn-destructive">Deny</button>
+            </div>
+          </div>
+        </div>
+        <div class="note" style="margin-top:12px">⚠️ Never place Primary (orange) and Secondary (green) buttons side by side — they clash.</div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ CARDS ══════════════════════════════ -->
+    <section class="section" id="cards">
+      <div class="section-header">
+        <div class="section-label">06 — Components</div>
+        <h1 class="section-title">Cards</h1>
+        <p class="section-desc">Always white background. 20px padding. 12px internal gap. Never nest cards.</p>
+      </div>
+
+      <div class="panel-grid panel-grid-2">
+        <div>
+          <div class="subsection-title">Standard Card</div>
+          <div class="comp-card" style="position:relative;display:flex;flex-direction:column;gap:12px">
+            <!-- Header row -->
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">w8cypnnaw</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <!-- Title -->
+            <div class="comp-card-title">Sandwich Artist</div>
+            <!-- Time + Date grouped at 4px -->
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div class="comp-card-time">2:00 PM – 5:00 PM</div>
+              <div class="comp-card-date">Sunday, Sept. 28, 2025</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;margin-top:8px">Border: 1px solid #E3EAEC · Radius: 8px · 12px section gap · 4px time/date gap</div>
+        </div>
+
+        <div>
+          <div class="subsection-title">Active Ping Card</div>
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px">
+            <!-- Header row -->
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">w8cypnnaw</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <!-- Title -->
+            <div class="comp-card-title">Sandwich Artist</div>
+            <!-- Time + Date + Replies row -->
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">2:00 PM – 5:00 PM</div>
+                <div class="comp-card-date">Sunday, Sept. 28, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <!-- Footer: posted + avatars -->
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED YESTERDAY</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:0">AB</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">AB</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">AB</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">AB</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">12</span>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;margin-top:8px">Border: 1.5px solid #FFC9B5 · Ping icon: Burning Orange · Replies row at bottom</div>
+        </div>
+
+        <div>
+          <div class="subsection-title">Upcoming Shift — Today</div>
+          <div class="comp-card comp-card-shift" style="display:flex;flex-direction:column;gap:12px">
+            <!-- Header row -->
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#145364" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">Chelsey LaPointe</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <!-- Title -->
+            <div class="comp-card-title">Sandwich Artist</div>
+            <!-- Time + Today grouped at 4px -->
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div class="comp-card-time">2:00 PM – 5:00 PM</div>
+              <div class="comp-card-today">
+                <div class="status-dot"></div>
+                <div class="status-label">TODAY</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;margin-top:8px">Border: 1px solid #145364 · Status dot + Black label grouped with time</div>
+        </div>
+
+        <div>
+          <div class="subsection-title">Metric / Stat Card</div>
+          <div class="metric-card">
+            <div class="metric-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#89A9B1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Active Pings
+            </div>
+            <div class="metric-value">4</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;margin-top:8px">No expand icon · Label: p-ui-medium Deep Sea Green · Value: stat-number Black</div>
+        </div>
+      </div>
+
+      <div class="subsection" style="margin-top:32px">
+        <div class="subsection-title">Active Ping Cards — Row Example</div>
+        <div style="position:relative">
+          <div id="card-scroll-row" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scroll-behavior:smooth;scrollbar-width:none">
+
+          <!-- Card 1 -->
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px;min-width:360px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">w8cypnnaw</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="comp-card-title">Sandwich Artist</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">2:00 PM – 5:00 PM</div>
+                <div class="comp-card-date">Sunday, Sept. 28, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED YESTERDAY</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff">CL</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">AP</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">TK</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">SL</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">12</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px;min-width:360px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">m3kxpqra7</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="comp-card-title">Cashier</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">9:00 AM – 1:00 PM</div>
+                <div class="comp-card-date">Monday, Sept. 29, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED TODAY</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff">MR</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">JD</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">2</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px;min-width:360px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">vt92jnbx1</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="comp-card-title">Cook</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">5:00 PM – 10:00 PM</div>
+                <div class="comp-card-date">Sunday, Sept. 28, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED 2 DAYS AGO</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff">BK</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">NT</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">PW</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">7</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px;min-width:360px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">p7hzwq4d2</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="comp-card-title">Shift Supervisor</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">6:00 AM – 12:00 PM</div>
+                <div class="comp-card-date">Tuesday, Sept. 30, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED TODAY</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff">AS</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px;min-width:360px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">k5rncm8e3</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="comp-card-title">Drive-Thru Operator</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">11:00 AM – 3:00 PM</div>
+                <div class="comp-card-date">Sunday, Sept. 28, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED 3 HOURS AGO</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff">RJ</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">FC</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">LM</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">OB</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">9</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="comp-card comp-card-active" style="display:flex;flex-direction:column;gap:12px;min-width:360px;flex-shrink:0">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:12px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <span style="font-size:14px;color:#1A1A1A">j2ymxb6f9</span>
+              </div>
+              <svg class="card-expand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="comp-card-title">Barista</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="comp-card-time">7:00 AM – 11:00 AM</div>
+                <div class="comp-card-date">Monday, Sept. 29, 2025</div>
+              </div>
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.06em">REPLIES</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;color:#6B7280;letter-spacing:0.04em">POSTED 1 HOUR AGO</div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <div style="display:flex">
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff">YT</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">HN</div>
+                  <div style="width:26px;height:26px;border-radius:50%;background:#6B7280;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;margin-left:-8px">WP</div>
+                </div>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;margin-left:4px">5</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        </div>
+        <div style="font-size:12px;color:#6B7280;margin-top:12px">360px min-width per card · 12px gap · scroll buttons navigate · hover cards to see expand animation.</div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ INPUTS ══════════════════════════════ -->
+    <section class="section" id="inputs">
+      <div class="section-header">
+        <div class="section-label">07 — Components</div>
+        <h1 class="section-title">Form Inputs</h1>
+        <p class="section-desc">Label above always. Green White border default. Deep Sea Green border on focus. Min 44px on mobile.</p>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">States</div>
+        <div class="panel" style="display:flex;flex-direction:column;gap:20px">
+
+          <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+            <div style="flex:1;min-width:260px">
+              <div class="input-state-tag" style="margin-bottom:8px">Default (empty)</div>
+              <div class="input-group" style="margin-bottom:0">
+                <label class="input-label">Position</label>
+                <input class="input-field" type="text" placeholder="Add value">
+                <div class="input-helper">Select the role needed for this shift</div>
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px;font-size:12px;color:#6B7280;line-height:1.9;padding-top:28px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#fff;border:1px solid #E3EAEC;margin-right:6px;vertical-align:middle"></span>Background: <strong style="color:#1A1A1A">#FFFFFF</strong><br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#E3EAEC;margin-right:6px;vertical-align:middle"></span>Border: <strong style="color:#1A1A1A">#E3EAEC</strong> · 1px<br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#6B7280;margin-right:6px;vertical-align:middle"></span>Placeholder: <strong style="color:#1A1A1A">#6B7280</strong> · 14px Regular
+            </div>
+          </div>
+
+          <div style="height:1px;background:#F0F2F3"></div>
+
+          <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+            <div style="flex:1;min-width:260px">
+              <div class="input-state-tag" style="margin-bottom:8px">Has Input</div>
+              <div class="input-group" style="margin-bottom:0">
+                <label class="input-label">Position</label>
+                <input class="input-field" type="text" value="Cashier">
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px;font-size:12px;color:#6B7280;line-height:1.9;padding-top:28px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#fff;border:1px solid #E3EAEC;margin-right:6px;vertical-align:middle"></span>Background: <strong style="color:#1A1A1A">#FFFFFF</strong><br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#E3EAEC;margin-right:6px;vertical-align:middle"></span>Border: <strong style="color:#1A1A1A">#E3EAEC</strong> · 1px<br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1A1A1A;margin-right:6px;vertical-align:middle"></span>Text: <strong style="color:#1A1A1A">#1A1A1A</strong> · 16px Regular
+            </div>
+          </div>
+
+          <div style="height:1px;background:#F0F2F3"></div>
+
+          <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+            <div style="flex:1;min-width:260px">
+              <div class="input-state-tag" style="margin-bottom:8px">Focused</div>
+              <div class="input-group" style="margin-bottom:0">
+                <label class="input-label">Position</label>
+                <input class="input-field is-focused" type="text" value="100%">
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px;font-size:12px;color:#6B7280;line-height:1.9;padding-top:28px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#fff;border:1px solid #E3EAEC;margin-right:6px;vertical-align:middle"></span>Background: <strong style="color:#1A1A1A">#FFFFFF</strong><br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#145364;margin-right:6px;vertical-align:middle"></span>Border: <strong style="color:#1A1A1A">#145364</strong> · 1px (Deep Sea Green)<br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1A1A1A;margin-right:6px;vertical-align:middle"></span>Text: <strong style="color:#1A1A1A">#1A1A1A</strong> · 16px Regular
+            </div>
+          </div>
+
+          <div style="height:1px;background:#F0F2F3"></div>
+
+          <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+            <div style="flex:1;min-width:260px">
+              <div class="input-state-tag" style="margin-bottom:8px">Disabled</div>
+              <div class="input-group" style="margin-bottom:0">
+                <label class="input-label" style="opacity:0.5">Date</label>
+                <input class="input-field is-disabled" type="text" value="00/00/0000" disabled>
+              </div>
+            </div>
+            <div style="flex:1;min-width:200px;font-size:12px;color:#6B7280;line-height:1.9;padding-top:28px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#E3EAEC;margin-right:6px;vertical-align:middle"></span>Background: <strong style="color:#1A1A1A">#E3EAEC</strong> (Green White)<br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#E3EAEC;border:1px solid #ccc;margin-right:6px;vertical-align:middle"></span>Border: <strong style="color:#1A1A1A">#E3EAEC</strong> · hidden (same as bg)<br>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#89A9B1;margin-right:6px;vertical-align:middle"></span>Text: <strong style="color:#1A1A1A">#89A9B1</strong> (Cascade) · 50% opacity on whole field
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="subsection" style="margin-top:24px">
+        <div class="subsection-title">Textarea</div>
+        <div class="panel" style="max-width:480px">
+          <div class="input-group">
+            <label class="input-label">Message</label>
+            <textarea class="input-field" placeholder="Type your message here" rows="3"></textarea>
+            <div class="input-helper">Your message will be sent to all employees.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ TABLE ══════════════════════════════ -->
+    <section class="section" id="table">
+      <div class="section-header">
+        <div class="section-label">08 — Components</div>
+        <h1 class="section-title">Table</h1>
+        <p class="section-desc">Green White header bg · Deep Sea Green header text · Black row text · Click a row to select it · Click a header to sort.</p>
+      </div>
+
+      <div class="table-wrap" id="interactive-table">
+        <div class="table-header" id="table-header">
+          <div class="table-header-cell sorted" data-col="0" onclick="sortTable(0)" style="cursor:pointer">
+            Employee
+            <svg id="chevron-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;flex-shrink:0"><polyline points="18 15 12 9 6 15"/></svg>
+          </div>
+          <div class="table-header-cell" data-col="1" onclick="sortTable(1)" style="cursor:pointer">
+            ID
+            <svg id="chevron-1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;flex-shrink:0;opacity:0"><polyline points="18 15 12 9 6 15"/></svg>
+          </div>
+          <div class="table-header-cell" data-col="2" onclick="sortTable(2)" style="cursor:pointer">
+            Location
+            <svg id="chevron-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;flex-shrink:0;opacity:0"><polyline points="18 15 12 9 6 15"/></svg>
+          </div>
+          <div class="table-header-cell" data-col="3" onclick="sortTable(3)" style="cursor:pointer;justify-content:flex-end;text-align:right">
+            Received
+            <svg id="chevron-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;flex-shrink:0;opacity:0"><polyline points="18 15 12 9 6 15"/></svg>
+          </div>
+        </div>
+        <div id="table-body"></div>
+      </div>
+      <div style="font-size:12px;color:#6B7280;margin-top:8px">Click any row to select (Burning Orange border) · Click any header to sort · Chevron flips direction on second click</div>
+    </section>
+
+    <!-- ══════════════════════════════ MODAL ══════════════════════════════ -->
+    <section class="section" id="modal">
+      <div class="section-header">
+        <div class="section-label">09 — Components</div>
+        <h1 class="section-title">Modal</h1>
+        <p class="section-desc">White bg. 24px padding. 8px radius. h3 title (24px SemiBold, Deep Sea Green). Primary CTA always at bottom.</p>
+      </div>
+
+      <div class="modal-demo">
+        <div class="modal-header">
+          <h3 class="modal-title">New Ping</h3>
+          <button class="modal-close">✕</button>
+        </div>
+        <p class="modal-sub">Create and send a ping to contact all your employees at once.</p>
+        <div class="input-group">
+          <label class="input-label">Position</label>
+          <input class="input-field" type="text" placeholder="Add value">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Date</label>
+          <input class="input-field" type="text" placeholder="00/00/0000">
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-outline-orange">Cancel</button>
+          <button class="btn btn-primary">Send Ping</button>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B7280;margin-top:8px">Max width 750px desktop. Overlay: rgba(0,0,0,0.5). Always include X close button (44×44px touch target).</div>
+    </section>
+
+    <!-- ══════════════════════════════ SIDEBAR ══════════════════════════════ -->
+    <section class="section" id="sidebar-nav">
+      <div class="section-header">
+        <div class="section-label">10 — Components</div>
+        <h1 class="section-title">Sidebar Navigation</h1>
+        <p class="section-desc">Desktop only. Deep Sea Green bg. Active item: #316574 bg + Burning Orange icon. 4px gap between nav items.</p>
+      </div>
+
+      <div class="sidebar-demo">
+        <div class="sd-logo-row">
+          <div class="sd-logo-mark"></div>
+          <div class="sd-logo-text">SourceShoot</div>
+        </div>
+        <div class="sd-ping-btn">
+          <div class="sd-ping-icon"></div>
+          <div class="sd-ping-labels">
+            <div class="sd-ping-title">Ping</div>
+            <div class="sd-ping-sub">Quickly ping your employees!</div>
+          </div>
+        </div>
+        <div class="sd-nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <div class="sd-nav-label">Dashboard</div>
+        </div>
+        <div class="sd-nav-item active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FD703B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <div class="sd-nav-label">Pings & Shifts</div>
+        </div>
+        <div class="sd-nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="sd-nav-label">Team Management</div>
+        </div>
+        <div class="sd-divider"></div>
+        <div class="sd-nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div class="sd-nav-label">Account</div>
+        </div>
+        <div class="sd-nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <div class="sd-nav-label">Settings</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ AVATAR & STATUS ══════════════════════════════ -->
+    <section class="section" id="avatar">
+      <div class="section-header">
+        <div class="section-label">11 — Components</div>
+        <h1 class="section-title">Avatar & Status Dot</h1>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Avatar</div>
+        <div class="panel" style="display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap">
+          <div class="avatar-item">
+            <div class="avatar">CL</div>
+            <div class="avatar-label">Standard<br>40px</div>
+          </div>
+          <div class="avatar-item">
+            <div class="avatar sm">AB</div>
+            <div class="avatar-label">Compact<br>26px</div>
+          </div>
+          <div class="avatar-item">
+            <div class="avatar-stack">
+              <div class="avatar sm">AB</div>
+              <div class="avatar sm">CL</div>
+              <div class="avatar sm">TK</div>
+              <div class="avatar sm" style="background:#E3EAEC;color:#6B7280">+5</div>
+            </div>
+            <div class="avatar-label">Stacked (reply pile)<br>Overlap 10px, max 4</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#6B7280;margin-top:8px">Background: Deep Sea Green · Text: White body-medium · Circle shape</div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Status Dot Indicator</div>
+        <div class="panel">
+          <div style="margin-bottom:12px;font-size:13px;color:#6B7280">Use instead of Burning Orange text. Dot draws attention; label stays Black.</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="status-demo">
+              <div class="status-dot"></div>
+              <div class="status-demo-label">TODAY</div>
+            </div>
+            <div class="status-demo">
+              <div class="status-dot"></div>
+              <div class="status-demo-label">BROADCASTING</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;margin-top:12px">Dot: 10–12px circle, #FD703B · Gap: 4px · Label: 14px Medium, Black #1A1A1A</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ LOGO ══════════════════════════════ -->
+    <section class="section" id="logo">
+      <div class="section-header">
+        <div class="section-label">12 — Brand</div>
+        <h1 class="section-title">Logo</h1>
+        <p class="section-desc">Fixed SVG — colors cannot be changed. Three allowed backgrounds only.</p>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Allowed Backgrounds</div>
+        <div class="logo-row">
+          <div>
+            <div class="logo-surface logo-surface-green">
+              <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <span class="logo-wordmark-light">SourceShoot</span>
+            </div>
+            <div style="font-size:12px;color:#6B7280;margin-top:8px;text-align:center">Deep Sea Green — Primary</div>
+          </div>
+          <div>
+            <div class="logo-surface logo-surface-white">
+              <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <span class="logo-wordmark-dark">SourceShoot</span>
+            </div>
+            <div style="font-size:12px;color:#6B7280;margin-top:8px;text-align:center">White — Light contexts</div>
+          </div>
+          <div>
+            <div class="logo-surface logo-surface-gw">
+              <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <span class="logo-wordmark-dark">SourceShoot</span>
+            </div>
+            <div style="font-size:12px;color:#6B7280;margin-top:8px;text-align:center">Green White — Secondary light</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection" style="margin-top:24px">
+        <div class="subsection-title">Rules</div>
+        <div class="rule-grid">
+          <div class="rule-card rule-do">
+            <div class="rule-heading">✓ Do</div>
+            <div class="rule-item">Use the full lockup (mark + wordmark) in the sidebar header</div>
+            <div class="rule-item">Use the SVG asset as-is — no color overrides</div>
+            <div class="rule-item">Maintain clear space equal to mark height on all sides</div>
+          </div>
+          <div class="rule-card rule-dont">
+            <div class="rule-heading">✗ Don't</div>
+            <div class="rule-item">Never stretch, rotate, or distort the logo</div>
+            <div class="rule-item">Never place on Burning Orange, Deep Peach, or any other bg</div>
+            <div class="rule-item">Never recreate the logo with text or icons</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ SPACING DIAGRAMS ══════════════════════════════ -->
+    <section class="section" id="spacing-diagrams">
+      <div class="section-header">
+        <div class="section-label">13 — Reference</div>
+        <h1 class="section-title">Spacing & Sizing Diagrams</h1>
+        <p class="section-desc">Annotated blueprints for every component. Pink = dimensions, purple = spacing/padding, blue = border radius, green = typography.</p>
+      </div>
+
+      <!-- LEGEND -->
+      <div class="panel" style="margin-bottom:24px">
+        <div class="ann-legend" style="margin-top:0;padding-top:0;border-top:none">
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:#E84B8A"></div> Dimensions (width/height)</div>
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:#7C3AED"></div> Padding / Spacing</div>
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:#0891B2"></div> Border radius</div>
+          <div class="ann-legend-item"><div class="ann-legend-dot" style="background:#059669;opacity:0.7"></div> Typography</div>
+        </div>
+      </div>
+
+      <!-- BUTTON -->
+      <div class="anno-wrap">
+        <div class="anno-title">Button — All Variants</div>
+        <svg width="100%" viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr-pink" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M1 1L7 4L1 7" fill="none" stroke="#E84B8A" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+            <marker id="arr-purple" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M1 1L7 4L1 7" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+            <marker id="arr-blue" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M1 1L7 4L1 7" fill="none" stroke="#0891B2" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+            <marker id="arr-green" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M1 1L7 4L1 7" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/>
+            </marker>
+          </defs>
+
+          <!-- PRIMARY BUTTON -->
+          <rect x="40" y="80" width="120" height="40" rx="6" fill="#FD703B"/>
+          <text x="100" y="105" text-anchor="middle" fill="white" font-family="Lexend,sans-serif" font-size="13" font-weight="500">Submit</text>
+
+          <!-- width annotation -->
+          <line x1="40" y1="60" x2="160" y2="60" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="100" y="54" text-anchor="middle" class="ann-dim-text">120px min</text>
+
+          <!-- height annotation -->
+          <line x1="175" y1="80" x2="175" y2="120" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="200" y="105" class="ann-dim-text">40px</text>
+
+          <!-- padding H annotation -->
+          <line x1="40" y1="135" x2="56" y2="135" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="48" y="150" text-anchor="middle" class="ann-space-text">16px</text>
+          <line x1="144" y1="135" x2="160" y2="135" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="152" y="150" text-anchor="middle" class="ann-space-text">16px</text>
+
+          <!-- padding V annotation -->
+          <line x1="18" y1="80" x2="18" y2="92" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="14" y="90" text-anchor="end" class="ann-space-text">8px</text>
+          <line x1="18" y1="108" x2="18" y2="120" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="14" y="118" text-anchor="end" class="ann-space-text">8px</text>
+
+          <!-- radius -->
+          <path d="M40 86 Q40 80 46 80" class="ann-radius"/>
+          <text x="22" y="74" class="ann-radius-text">r=6px</text>
+
+          <!-- typography -->
+          <line x1="100" y1="163" x2="100" y2="122" class="ann-type" marker-end="url(#arr-green)"/>
+          <text x="100" y="175" text-anchor="middle" class="ann-type-text">14px / Medium 500 / White</text>
+
+          <!-- SECONDARY -->
+          <rect x="230" y="80" width="120" height="40" rx="6" fill="#145364"/>
+          <text x="290" y="105" text-anchor="middle" fill="white" font-family="Lexend,sans-serif" font-size="13" font-weight="500">Archive</text>
+          <text x="290" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">Secondary</text>
+          <text x="290" y="158" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">bg: #145364</text>
+
+          <!-- OUTLINE -->
+          <rect x="370" y="80" width="100" height="40" rx="6" fill="none" stroke="#FD703B" stroke-width="1"/>
+          <text x="420" y="105" text-anchor="middle" fill="#FD703B" font-family="Lexend,sans-serif" font-size="13" font-weight="500">Cancel</text>
+          <text x="420" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">Outline</text>
+          <text x="420" y="158" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">border: 1px solid</text>
+
+          <!-- DESTRUCTIVE -->
+          <rect x="490" y="80" width="100" height="40" rx="6" fill="none" stroke="#DC2626" stroke-width="1"/>
+          <text x="540" y="105" text-anchor="middle" fill="#DC2626" font-family="Lexend,sans-serif" font-size="13" font-weight="500">Delete</text>
+          <text x="540" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">Destructive</text>
+          <text x="540" y="158" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">hover fills red</text>
+
+          <!-- Mobile note -->
+          <text x="40" y="210" font-family="Lexend,sans-serif" font-size="12" fill="#6B7280">Mobile: padding 14px 20px · min height 44px touch target</text>
+        </svg>
+      </div>
+
+      <!-- CARD -->
+      <div class="anno-wrap">
+        <div class="anno-title">Standard Card</div>
+        <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Card body -->
+          <rect x="80" y="40" width="340" height="220" rx="8" fill="white" stroke="#E3EAEC" stroke-width="1"/>
+
+          <!-- Content inside -->
+          <!-- ping id row -->
+          <circle cx="120" cy="88" r="10" fill="#145364"/>
+          <text x="136" y="93" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">w8cypnnaw</text>
+          <!-- title -->
+          <text x="100" y="130" font-family="Lexend,sans-serif" font-size="18" font-weight="600" fill="#1A1A1A">Sandwich Artist</text>
+          <!-- time -->
+          <text x="100" y="160" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#1A1A1A">2:00 PM – 5:00 PM</text>
+          <!-- date -->
+          <text x="100" y="178" font-family="Lexend,sans-serif" font-size="13" fill="#6B7280">Sunday, Sept. 28, 2025</text>
+          <!-- replies -->
+          <text x="100" y="230" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280" letter-spacing="0.06em">POSTED YESTERDAY</text>
+
+          <!-- PADDING annotations -->
+          <!-- top padding -->
+          <line x1="80" y1="60" x2="100" y2="60" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="90" y="56" text-anchor="middle" class="ann-space-text">20px</text>
+
+          <!-- left padding -->
+          <line x1="60" y1="40" x2="60" y2="88" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="38" y="68" text-anchor="middle" class="ann-space-text">20px</text>
+
+          <!-- internal gap between ping id and title -->
+          <line x1="460" y1="98" x2="460" y2="115" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="490" y="110" class="ann-space-text">12px gap</text>
+
+          <!-- internal gap between title and time -->
+          <line x1="460" y1="135" x2="460" y2="152" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="490" y="147" class="ann-space-text">12px gap</text>
+
+          <!-- WIDTH annotation -->
+          <line x1="80" y1="22" x2="420" y2="22" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="250" y="16" text-anchor="middle" class="ann-dim-text">340px (flexible)</text>
+
+          <!-- HEIGHT annotation -->
+          <line x1="440" y1="40" x2="440" y2="260" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="460" y="155" class="ann-dim-text">content-driven</text>
+
+          <!-- border radius -->
+          <path d="M80 48 Q80 40 88 40" class="ann-radius"/>
+          <text x="62" y="36" class="ann-radius-text">r=8px</text>
+
+          <!-- border label -->
+          <line x1="420" y1="260" x2="480" y2="280" class="ann-radius" stroke-dasharray="3 2"/>
+          <text x="482" y="284" class="ann-radius-text">1px solid #E3EAEC</text>
+
+          <!-- Typography callouts -->
+          <line x1="420" y1="130" x2="540" y2="198" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="542" y="194" class="ann-type-text">h4 — 20px SemiBold</text>
+          <text x="542" y="207" class="ann-type-text">color: #1A1A1A</text>
+
+          <line x1="420" y1="160" x2="540" y2="222" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="542" y="222" class="ann-type-text">body-medium — 14px/500</text>
+
+          <line x1="420" y1="178" x2="540" y2="238" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="542" y="238" class="ann-type-text">subtle — 14px Regular #6B7280</text>
+        </svg>
+      </div>
+
+      <!-- INPUT FIELD -->
+      <div class="anno-wrap">
+        <div class="anno-title">Form Input — All States</div>
+        <svg width="100%" viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- DEFAULT STATE -->
+          <!-- label -->
+          <text x="60" y="52" font-family="Lexend,sans-serif" font-size="14" font-weight="500" fill="#145364">Position</text>
+          <!-- field -->
+          <rect x="60" y="64" width="260" height="40" rx="6" fill="white" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="72" y="89" font-family="Lexend,sans-serif" font-size="13" fill="#6B7280">Add value</text>
+
+          <!-- label gap annotation -->
+          <line x1="340" y1="40" x2="340" y2="64" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="348" y="55" class="ann-space-text">~6px</text>
+
+          <!-- height annotation -->
+          <line x1="336" y1="64" x2="336" y2="104" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="348" y="88" class="ann-dim-text">40px</text>
+
+          <!-- horizontal padding -->
+          <line x1="60" y1="118" x2="72" y2="118" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="66" y="132" text-anchor="middle" class="ann-space-text">12px</text>
+          <line x1="308" y1="118" x2="320" y2="118" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="314" y="132" text-anchor="middle" class="ann-space-text">12px</text>
+
+          <!-- vertical padding -->
+          <line x1="38" y1="64" x2="38" y2="72" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="20" y="72" text-anchor="middle" class="ann-space-text">8px</text>
+          <line x1="38" y1="96" x2="38" y2="104" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="20" y="104" text-anchor="middle" class="ann-space-text">8px</text>
+
+          <!-- border radius -->
+          <path d="M60 70 Q60 64 66 64" class="ann-radius"/>
+          <text x="44" y="60" class="ann-radius-text">r=6</text>
+
+          <!-- Default state label -->
+          <text x="60" y="152" font-family="Lexend,sans-serif" font-size="11" font-weight="600" fill="#6B7280" letter-spacing="0.06em">DEFAULT — border: 1px #E3EAEC</text>
+
+          <!-- FOCUSED STATE -->
+          <text x="60" y="196" font-family="Lexend,sans-serif" font-size="14" font-weight="500" fill="#145364">Position</text>
+          <rect x="60" y="208" width="260" height="40" rx="6" fill="white" stroke="#145364" stroke-width="1"/>
+          <text x="72" y="233" font-family="Lexend,sans-serif" font-size="14" fill="#1A1A1A">Cashier</text>
+          <text x="60" y="264" font-family="Lexend,sans-serif" font-size="11" font-weight="600" fill="#6B7280" letter-spacing="0.06em">FOCUSED — border: 1px #145364</text>
+          <!-- focused border callout -->
+          <line x1="320" y1="228" x2="400" y2="228" class="ann-radius" stroke-dasharray="none"/>
+          <text x="402" y="232" class="ann-radius-text">1px #145364 on focus</text>
+
+          <!-- DISABLED STATE -->
+          <text x="60" y="300" font-family="Lexend,sans-serif" font-size="14" font-weight="500" fill="#145364" opacity="0.5">Date</text>
+          <rect x="60" y="312" width="260" height="40" rx="6" fill="#E3EAEC" stroke="#E3EAEC" stroke-width="1" opacity="0.5"/>
+          <text x="72" y="337" font-family="Lexend,sans-serif" font-size="13" fill="#89A9B1" opacity="0.5">00/00/0000</text>
+          <text x="60" y="368" font-family="Lexend,sans-serif" font-size="11" font-weight="600" fill="#6B7280" letter-spacing="0.06em">DISABLED — bg: #E3EAEC · text: #89A9B1 · 50% opacity on whole field</text>
+
+          <!-- Placeholder type callout -->
+          <line x1="200" y1="89" x2="440" y2="89" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="442" y="85" class="ann-type-text">subtle — 14px Regular</text>
+          <text x="442" y="97" class="ann-type-text">color: #6B7280</text>
+
+          <!-- Label type callout -->
+          <line x1="200" y1="52" x2="440" y2="52" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="442" y="48" class="ann-type-text">p-ui-medium — 16px/500</text>
+          <text x="442" y="60" class="ann-type-text">color: #145364</text>
+        </svg>
+      </div>
+
+      <!-- CARD VARIANTS — spacing comparison -->
+      <div class="anno-wrap">
+        <div class="anno-title">Card Variants — Border Comparison</div>
+        <svg width="100%" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Standard -->
+          <rect x="30" y="30" width="160" height="120" rx="8" fill="white" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="110" y="95" text-anchor="middle" font-family="Lexend,sans-serif" font-size="12" font-weight="600" fill="#1A1A1A">Standard</text>
+          <text x="110" y="165" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" fill="#6B7280">1px solid #E3EAEC</text>
+
+          <!-- Active Ping -->
+          <rect x="220" y="30" width="160" height="120" rx="8" fill="white" stroke="#FFC9B5" stroke-width="1.5"/>
+          <text x="300" y="95" text-anchor="middle" font-family="Lexend,sans-serif" font-size="12" font-weight="600" fill="#1A1A1A">Active Ping</text>
+          <text x="300" y="165" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" fill="#6B7280">1.5px solid #FFC9B5</text>
+
+          <!-- Today Shift -->
+          <rect x="410" y="30" width="160" height="120" rx="8" fill="white" stroke="#145364" stroke-width="1"/>
+          <text x="490" y="95" text-anchor="middle" font-family="Lexend,sans-serif" font-size="12" font-weight="600" fill="#1A1A1A">Today Shift</text>
+          <text x="490" y="165" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" fill="#6B7280">1px solid #145364</text>
+
+          <!-- Padding callout shared -->
+          <text x="340" y="15" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#7C3AED" font-weight="500">All cards: 20px padding · 12px internal gap · 8px radius · white background</text>
+        </svg>
+      </div>
+
+      <!-- TABLE -->
+      <div class="anno-wrap">
+        <div class="anno-title">Table</div>
+        <svg width="100%" viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- Table outline -->
+          <rect x="40" y="30" width="500" height="210" rx="7" fill="none" stroke="#E3EAEC" stroke-width="1"/>
+
+          <!-- Header bg -->
+          <rect x="40" y="30" width="500" height="40" rx="0" fill="#E3EAEC"/>
+          <rect x="40" y="30" width="500" height="7" rx="7" fill="#E3EAEC"/>
+
+          <!-- Header cells -->
+          <text x="58" y="55" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#FD703B">Employee ▼</text>
+          <text x="230" y="55" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#145364">ID</text>
+          <text x="340" y="55" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#145364">Location</text>
+          <text x="490" y="55" text-anchor="end" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#145364">Received</text>
+
+          <!-- Row 1 — selected -->
+          <rect x="40" y="70" width="500" height="43" fill="none" stroke="#FD703B" stroke-width="1.5"/>
+          <text x="58" y="96" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#1A1A1A">Chelsey LaPointe</text>
+          <text x="230" y="96" font-family="Lexend,sans-serif" font-size="13" fill="#6B7280">a1636333</text>
+          <text x="340" y="96" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">01055 (Eagan)</text>
+          <text x="490" y="96" text-anchor="end" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">Yesterday, 8:57 AM</text>
+
+          <!-- Row 2 -->
+          <line x1="40" y1="113" x2="540" y2="113" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="58" y="139" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#1A1A1A">Anton Priborkin</text>
+          <text x="230" y="139" font-family="Lexend,sans-serif" font-size="13" fill="#6B7280">a2346789</text>
+          <text x="340" y="139" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">00008 (Burnsville)</text>
+          <text x="490" y="139" text-anchor="end" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">Today, 9:01 AM</text>
+
+          <!-- Row 3 -->
+          <line x1="40" y1="156" x2="540" y2="156" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="58" y="182" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#1A1A1A">Samantha Lee</text>
+          <text x="230" y="182" font-family="Lexend,sans-serif" font-size="13" fill="#6B7280">a9876543</text>
+          <text x="340" y="182" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">01025 (Minneapolis)</text>
+          <text x="490" y="182" text-anchor="end" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">Yesterday, 7:45 PM</text>
+
+          <!-- Row 4 -->
+          <line x1="40" y1="199" x2="540" y2="199" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="58" y="225" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#1A1A1A">Michael Chen</text>
+          <text x="230" y="225" font-family="Lexend,sans-serif" font-size="13" fill="#6B7280">a1234567</text>
+          <text x="340" y="225" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">01055 (Eagan)</text>
+          <text x="490" y="225" text-anchor="end" font-family="Lexend,sans-serif" font-size="13" fill="#1A1A1A">Today, 9:15 AM</text>
+
+          <!-- Header height -->
+          <line x1="558" y1="30" x2="558" y2="70" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="566" y="54" class="ann-dim-text">40px</text>
+
+          <!-- Row height -->
+          <line x1="558" y1="70" x2="558" y2="113" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="566" y="95" class="ann-dim-text">43px</text>
+
+          <!-- Row padding H -->
+          <line x1="40" y1="252" x2="58" y2="252" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="49" y="265" text-anchor="middle" class="ann-space-text">18px</text>
+          <line x1="475" y1="252" x2="540" y2="252" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="510" y="265" text-anchor="middle" class="ann-space-text">18px</text>
+
+          <!-- Row padding V -->
+          <line x1="20" y1="70" x2="20" y2="82" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="6" y="79" text-anchor="middle" class="ann-space-text">12px</text>
+          <line x1="20" y1="101" x2="20" y2="113" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="6" y="111" text-anchor="middle" class="ann-space-text">12px</text>
+
+          <!-- Selected row callout -->
+          <line x1="200" y1="96" x2="200" y2="270" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="200" y="275" text-anchor="middle" class="ann-type-text">Selected: 1.5px Burning Orange border</text>
+
+          <!-- Sort chevron callout -->
+          <line x1="120" y1="50" x2="120" y2="18" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="130" y="14" class="ann-type-text">Active sort: Burning Orange chevron</text>
+
+          <!-- Header bg callout -->
+          <line x1="540" y1="50" x2="610" y2="50" class="ann-radius" stroke-dasharray="3 2"/>
+          <text x="614" y="46" class="ann-radius-text">Header bg:</text>
+          <text x="614" y="58" class="ann-radius-text">#E3EAEC</text>
+        </svg>
+      </div>
+
+      <!-- MODAL -->
+      <div class="anno-wrap">
+        <div class="anno-title">Modal</div>
+        <svg width="100%" viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Modal box -->
+          <rect x="60" y="20" width="400" height="320" rx="8" fill="white" stroke="#E3EAEC" stroke-width="1"/>
+
+          <!-- close button -->
+          <rect x="424" y="40" width="28" height="28" rx="4" fill="none" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="438" y="59" text-anchor="middle" font-family="Lexend,sans-serif" font-size="14" fill="#6B7280">✕</text>
+
+          <!-- Title -->
+          <text x="84" y="64" font-family="Lexend,sans-serif" font-size="20" font-weight="600" fill="#145364">New Ping</text>
+          <!-- Subtitle -->
+          <text x="84" y="86" font-family="Lexend,sans-serif" font-size="12" fill="#6B7280">Create and send a ping to employees.</text>
+
+          <!-- Input 1 -->
+          <text x="84" y="118" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#145364">Position</text>
+          <rect x="84" y="128" width="340" height="36" rx="6" fill="white" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="96" y="151" font-family="Lexend,sans-serif" font-size="12" fill="#6B7280">Add value</text>
+
+          <!-- Input 2 -->
+          <text x="84" y="182" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="#145364">Date</text>
+          <rect x="84" y="192" width="340" height="36" rx="6" fill="white" stroke="#E3EAEC" stroke-width="1"/>
+          <text x="96" y="215" font-family="Lexend,sans-serif" font-size="12" fill="#6B7280">00/00/0000</text>
+
+          <!-- Divider line suggestion -->
+          <line x1="84" y1="250" x2="424" y2="250" stroke="#E3EAEC" stroke-width="0.5" stroke-dasharray="4 2"/>
+
+          <!-- Buttons at bottom -->
+          <rect x="300" y="268" width="80" height="34" rx="6" fill="none" stroke="#FD703B" stroke-width="1"/>
+          <text x="340" y="290" text-anchor="middle" font-family="Lexend,sans-serif" font-size="12" font-weight="500" fill="#FD703B">Cancel</text>
+          <rect x="392" y="268" width="72" height="34" rx="6" fill="#FD703B"/>
+          <text x="428" y="290" text-anchor="middle" font-family="Lexend,sans-serif" font-size="12" font-weight="500" fill="white">Send</text>
+
+          <!-- ANNOTATIONS -->
+          <!-- overall width -->
+          <line x1="60" y1="8" x2="460" y2="8" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="260" y="4" text-anchor="middle" class="ann-dim-text">max 750px desktop, full-width mobile</text>
+
+          <!-- padding all sides -->
+          <line x1="38" y1="20" x2="38" y2="44" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="20" y="35" text-anchor="middle" class="ann-space-text">24px</text>
+
+          <line x1="38" y1="316" x2="38" y2="340" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="20" y="332" text-anchor="middle" class="ann-space-text">24px</text>
+
+          <!-- top content gap (title to subtitle) -->
+          <line x1="490" y1="44" x2="490" y2="70" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="504" y="60" class="ann-space-text">24px padding</text>
+
+          <!-- gap between subtitle and input -->
+          <line x1="490" y1="88" x2="490" y2="118" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="504" y="106" class="ann-space-text">~20px</text>
+
+          <!-- gap between inputs -->
+          <line x1="490" y1="164" x2="490" y2="182" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="504" y="176" class="ann-space-text">16px gap</text>
+
+          <!-- radius -->
+          <path d="M60 28 Q60 20 68 20" class="ann-radius"/>
+          <text x="44" y="18" class="ann-radius-text">r=8px</text>
+
+          <!-- Title type -->
+          <line x1="200" y1="64" x2="540" y2="130" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="544" y="126" class="ann-type-text">h3 — 24px SemiBold</text>
+          <text x="544" y="138" class="ann-type-text">color: #145364</text>
+
+          <!-- Subtitle type -->
+          <line x1="300" y1="86" x2="544" y2="150" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="544" y="154" class="ann-type-text">subtle — 14px Regular #6B7280</text>
+
+          <!-- CTA always at bottom note -->
+          <text x="60" y="368" font-family="Lexend,sans-serif" font-size="11" fill="#7C3AED" font-weight="500">Primary CTA always at bottom. Never at top. Always include X close (44×44px touch target).</text>
+        </svg>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="anno-wrap">
+        <div class="anno-title">Sidebar Navigation</div>
+        <svg width="100%" viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sidebar bg -->
+          <rect x="40" y="20" width="230" height="340" rx="8" fill="#145364"/>
+
+          <!-- Logo block -->
+          <rect x="53" y="36" width="204" height="52" rx="7" fill="none" stroke="#3c6d7b" stroke-width="1"/>
+          <rect x="66" y="50" width="24" height="24" rx="4" fill="#FD703B"/>
+          <text x="98" y="67" font-family="Lexend,sans-serif" font-size="15" font-weight="500" fill="white">SourceShoot</text>
+
+          <!-- Ping button -->
+          <rect x="53" y="100" width="204" height="48" rx="7" fill="none" stroke="#FD703B" stroke-width="1"/>
+          <circle cx="72" cy="124" r="10" fill="#FD703B"/>
+          <text x="90" y="120" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="white">Ping</text>
+          <text x="90" y="134" font-family="Lexend,sans-serif" font-size="10" fill="#89A9B1">Quickly ping employees!</text>
+
+          <!-- Nav items -->
+          <!-- inactive -->
+          <rect x="53" y="162" width="204" height="40" rx="7" fill="none"/>
+          <rect x="66" y="172" width="16" height="16" rx="2" fill="white" opacity="0.7"/>
+          <text x="90" y="185" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="white">Dashboard</text>
+
+          <!-- active -->
+          <rect x="53" y="206" width="204" height="40" rx="7" fill="#316574"/>
+          <rect x="66" y="216" width="16" height="16" rx="2" fill="#FD703B"/>
+          <text x="90" y="229" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="white">Pings &amp; Shifts</text>
+
+          <!-- inactive -->
+          <rect x="53" y="250" width="204" height="40" rx="7" fill="none"/>
+          <rect x="66" y="260" width="16" height="16" rx="2" fill="white" opacity="0.7"/>
+          <text x="90" y="273" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="white">Team Management</text>
+
+          <!-- bottom divider -->
+          <line x1="53" y1="304" x2="257" y2="304" stroke="#3c6d7b" stroke-width="0.5" opacity="0.5"/>
+
+          <!-- Account / Settings -->
+          <rect x="53" y="310" width="204" height="40" rx="7" fill="none"/>
+          <rect x="66" y="320" width="16" height="16" rx="2" fill="white" opacity="0.7"/>
+          <text x="90" y="333" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="white">Account</text>
+
+          <!-- ANNOTATIONS -->
+          <!-- width -->
+          <line x1="40" y1="8" x2="270" y2="8" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="155" y="4" text-anchor="middle" class="ann-dim-text">230–252px fixed</text>
+
+          <!-- nav item height -->
+          <line x1="296" y1="162" x2="296" y2="202" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="308" y="185" class="ann-dim-text">40px</text>
+
+          <!-- nav item gap -->
+          <line x1="296" y1="202" x2="296" y2="206" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="308" y="206" class="ann-space-text">4px gap</text>
+
+          <!-- nav item padding H -->
+          <line x1="53" y1="350" x2="66" y2="350" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="59" y="364" text-anchor="middle" class="ann-space-text">13px</text>
+
+          <!-- nav item padding V -->
+          <line x1="320" y1="206" x2="320" y2="218" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="334" y="215" class="ann-space-text">14px V</text>
+
+          <!-- icon size -->
+          <line x1="66" y1="216" x2="82" y2="216" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="74" y="245" text-anchor="middle" class="ann-dim-text">16px</text>
+
+          <!-- active bg callout -->
+          <line x1="257" y1="226" x2="340" y2="250" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="344" y="246" class="ann-type-text">Active: bg #316574</text>
+          <text x="344" y="258" class="ann-type-text">icon: Burning Orange</text>
+
+          <!-- ping btn height -->
+          <line x1="296" y1="100" x2="296" y2="148" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="308" y="128" class="ann-dim-text">48px (54px)</text>
+
+          <!-- logo block height -->
+          <line x1="296" y1="36" x2="296" y2="88" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="308" y="66" class="ann-dim-text">52px</text>
+
+          <!-- bg color -->
+          <text x="340" y="30" font-family="Lexend,sans-serif" font-size="11" fill="#0891B2" font-weight="500">bg: #145364 · radius 8px</text>
+        </svg>
+      </div>
+
+      <!-- AVATAR & STATUS DOT -->
+      <div class="anno-wrap">
+        <div class="anno-title">Avatar & Status Dot Indicator</div>
+        <svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Standard avatar -->
+          <circle cx="80" cy="80" r="20" fill="#145364"/>
+          <text x="80" y="86" text-anchor="middle" font-family="Lexend,sans-serif" font-size="13" font-weight="500" fill="white">CL</text>
+
+          <!-- size annotation -->
+          <line x1="60" y1="118" x2="100" y2="118" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="80" y="132" text-anchor="middle" class="ann-dim-text">40px</text>
+          <text x="80" y="148" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">Standard</text>
+
+          <!-- Small avatar -->
+          <circle cx="200" cy="80" r="13" fill="#145364"/>
+          <text x="200" y="85" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" font-weight="500" fill="white">AB</text>
+
+          <line x1="187" y1="118" x2="213" y2="118" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="200" y="132" text-anchor="middle" class="ann-dim-text">26px</text>
+          <text x="200" y="148" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">Compact</text>
+
+          <!-- Avatar stack -->
+          <circle cx="320" cy="80" r="13" fill="#145364" stroke="white" stroke-width="2"/>
+          <text x="320" y="85" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" font-weight="500" fill="white">AB</text>
+          <circle cx="332" cy="80" r="13" fill="#145364" stroke="white" stroke-width="2"/>
+          <text x="332" y="85" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" font-weight="500" fill="white">CL</text>
+          <circle cx="344" cy="80" r="13" fill="#145364" stroke="white" stroke-width="2"/>
+          <text x="344" y="85" text-anchor="middle" font-family="Lexend,sans-serif" font-size="10" font-weight="500" fill="white">TK</text>
+          <circle cx="356" cy="80" r="13" fill="#E3EAEC" stroke="white" stroke-width="2"/>
+          <text x="356" y="85" text-anchor="middle" font-family="Lexend,sans-serif" font-size="9" font-weight="500" fill="#6B7280">+5</text>
+
+          <line x1="320" y1="118" x2="332" y2="118" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="326" y="132" text-anchor="middle" class="ann-space-text">-10px</text>
+          <text x="338" y="148" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">Overlap (negative margin)</text>
+          <text x="338" y="162" text-anchor="middle" font-family="Lexend,sans-serif" font-size="11" fill="#6B7280">2px white border</text>
+
+          <!-- Status dot -->
+          <circle cx="500" cy="74" r="6" fill="#FD703B"/>
+          <text x="512" y="79" font-family="Lexend,sans-serif" font-size="14" font-weight="500" fill="#1A1A1A">TODAY</text>
+
+          <!-- dot size -->
+          <line x1="494" y1="100" x2="506" y2="100" class="ann-dim" marker-start="url(#arr-pink)" marker-end="url(#arr-pink)"/>
+          <text x="500" y="114" text-anchor="middle" class="ann-dim-text">10–12px</text>
+
+          <!-- gap -->
+          <line x1="506" y1="120" x2="512" y2="120" class="ann-space" marker-start="url(#arr-purple)" marker-end="url(#arr-purple)"/>
+          <text x="509" y="134" text-anchor="middle" class="ann-space-text">4px</text>
+
+          <!-- label type -->
+          <line x1="530" y1="79" x2="580" y2="140" class="ann-type" stroke-dasharray="3 2"/>
+          <text x="584" y="136" class="ann-type-text">small — 14px / 500</text>
+          <text x="584" y="148" class="ann-type-text">color: #1A1A1A (Black)</text>
+          <text x="584" y="160" class="ann-type-text">never orange text</text>
+        </svg>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ── SIDEBAR NAV SCROLL HIGHLIGHT ──
+  const sections = document.querySelectorAll('.section');
+  const links = document.querySelectorAll('.sidebar-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar-link[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  links.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ── CARD SCROLL BUTTONS ──
+  function scrollCards(dir) {
+    const row = document.getElementById('card-scroll-row');
+    if (row) row.scrollBy({ left: dir * 384, behavior: 'smooth' });
+  }
+
+  // ── INTERACTIVE TABLE ──
+  const tableData = [
+    ['Chelsey LaPointe',   'a1636333', '01055 (Eagan)',       'Yesterday, 8:57 AM'],
+    ['Anton Priborkin',    'a2346789', '00008 (Burnsville)',   'Today, 9:01 AM'],
+    ['Timothy Karamushko', 'a4567800', '00008 (Burnsville)',   'Today, 9:01 AM'],
+    ['Samantha Lee',       'a9876543', '01025 (Minneapolis)',  'Yesterday, 7:45 PM'],
+    ['Michael Chen',       'a1234567', '01055 (Eagan)',        'Today, 9:15 AM'],
+  ];
+
+  let sortCol = 0;
+  let sortAsc = true;
+  let selectedRow = null;
+
+  function renderTable() {
+    const body = document.getElementById('table-body');
+    if (!body) return;
+    const sorted = [...tableData].sort((a, b) => {
+      const av = a[sortCol].toLowerCase(), bv = b[sortCol].toLowerCase();
+      return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+    });
+    body.innerHTML = sorted.map((row, i) => `
+      <div class="table-row${selectedRow === i ? ' selected' : ''}" onclick="selectRow(this)" style="cursor:pointer">
+        <div class="table-cell" style="font-weight:500;color:#1A1A1A">${row[0]}</div>
+        <div class="table-cell" style="color:#1A1A1A">${row[1]}</div>
+        <div class="table-cell" style="color:#1A1A1A">${row[2]}</div>
+        <div class="table-cell right" style="color:#1A1A1A">${row[3]}</div>
+      </div>`).join('');
+  }
+
+  function selectRow(el) {
+    document.querySelectorAll('#table-body .table-row').forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function sortTable(col) {
+    if (sortCol === col) { sortAsc = !sortAsc; } else { sortCol = col; sortAsc = true; }
+    // Update chevrons
+    for (let i = 0; i < 4; i++) {
+      const ch = document.getElementById('chevron-' + i);
+      if (!ch) continue;
+      if (i === col) {
+        ch.style.opacity = '1';
+        ch.innerHTML = sortAsc
+          ? '<polyline points="18 15 12 9 6 15"/>'
+          : '<polyline points="6 9 12 15 18 9"/>';
+      } else {
+        ch.style.opacity = '0';
+      }
+    }
+    // Update header cell highlight
+    document.querySelectorAll('.table-header-cell').forEach((cell, i) => {
+      cell.classList.toggle('sorted', i === col);
+    });
+    renderTable();
+  }
+
+  renderTable();
+
+  // ── TOKEN TOOLTIP ──
+  const tooltip = document.createElement('div');
+  tooltip.id = 'token-tooltip';
+  tooltip.style.cssText = `
+    position:fixed;pointer-events:none;z-index:9999;
+    background:#145364;color:#fff;
+    font-family:'Lexend',sans-serif;font-size:11px;font-weight:500;
+    padding:8px 12px;border-radius:6px;
+    line-height:1.6;white-space:nowrap;
+    opacity:0;transition:opacity 0.15s ease;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    max-width:280px;white-space:normal;
+  `;
+  document.body.appendChild(tooltip);
+
+  function getTokenInfo(el) {
+    const s = window.getComputedStyle(el);
+    const tag = el.tagName.toLowerCase();
+    const lines = [];
+
+    // Color
+    const bg = s.backgroundColor;
+    if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+      lines.push('bg: ' + cssColorToHex(bg));
+    }
+    const color = s.color;
+    if (color) lines.push('color: ' + cssColorToHex(color));
+
+    // Typography
+    const size = parseFloat(s.fontSize);
+    const weight = s.fontWeight;
+    const lh = s.lineHeight;
+    if (size) lines.push(`font: ${Math.round(size)}px / ${weight} / lh ${lh}`);
+
+    // Border
+    const bw = s.borderTopWidth;
+    const bc = s.borderTopColor;
+    if (parseFloat(bw) > 0) lines.push(`border: ${bw} solid ${cssColorToHex(bc)}`);
+
+    // Border radius
+    const br = s.borderRadius;
+    if (br && br !== '0px') lines.push('radius: ' + br);
+
+    // Padding
+    const pt = s.paddingTop, pb = s.paddingBottom, pl = s.paddingLeft, pr = s.paddingRight;
+    if (pt || pl) lines.push(`padding: ${pt} ${pr} ${pb} ${pl}`);
+
+    return lines.join('\n');
+  }
+
+  function cssColorToHex(rgb) {
+    const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (!m) return rgb;
+    return '#' + [m[1], m[2], m[3]].map(n => parseInt(n).toString(16).padStart(2,'0')).join('').toUpperCase();
+  }
+
+  // Token names mapping
+  const tokenMap = {
+    '#FD703B': 'Burning Orange',
+    '#145364': 'Deep Sea Green',
+    '#FFC9B5': 'Deep Peach',
+    '#89A9B1': 'Cascade',
+    '#E3EAEC': 'Green White',
+    '#F7F9FA': 'Off-white',
+    '#FFFFFF': 'White',
+    '#1A1A1A': 'Black',
+    '#6B7280': 'Mid Gray',
+    '#E5E7EB': 'Light Gray',
+    '#DC2626': 'Destructive Red',
+    '#316574': 'Sidebar Active',
+  };
+
+  function namedColor(hex) {
+    return tokenMap[hex.toUpperCase()] ? `${hex} (${tokenMap[hex.toUpperCase()]})` : hex;
+  }
+
+  let tooltipTimeout;
+  document.addEventListener('mouseover', e => {
+    clearTimeout(tooltipTimeout);
+    const el = e.target.closest('[class], button, input, label, h1, h2, h3, p, span, div[style]');
+    if (!el || el === document.body || el.id === 'token-tooltip') return;
+    tooltipTimeout = setTimeout(() => {
+      const info = getTokenInfo(el);
+      if (!info) return;
+      // replace hex with named tokens
+      const named = info.replace(/#[0-9A-Fa-f]{6}/g, m => namedColor(m));
+      tooltip.innerHTML = named.split('\n').join('<br>');
+      tooltip.style.opacity = '1';
+    }, 500);
+  });
+
+  document.addEventListener('mousemove', e => {
+    tooltip.style.left = (e.clientX + 14) + 'px';
+    tooltip.style.top = (e.clientY + 14) + 'px';
+  });
+
+  document.addEventListener('mouseout', e => {
+    clearTimeout(tooltipTimeout);
+    tooltip.style.opacity = '0';
+  });
+</script>
+</body>
+</html>

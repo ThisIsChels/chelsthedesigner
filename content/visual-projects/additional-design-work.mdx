@@ -1,0 +1,84 @@
+---
+title: "Additional Design Work"
+# Only published showcases get a page; the rest show the 404.
+published: true
+skillTags: ["Graphic"]
+thumbnailAlt: "Infinite Illumination poster: dozens of glowing vintage light bulbs on black"
+# TODO before launch: add `description:` (page intro under the title).
+related: ["fifty-ways-to-have-fun", "upgrade", "volley-partons"]
+
+# Block types: see fifty-ways-to-have-fun.mdx and whod-we-get.mdx. Also here:
+#   details   → (section media) Year / Mediums / Class columns for one project
+#   postcards → the Balance table. `dir` holds <name>-front/-back.webp. Each
+#               card: x, y = its center and rotate (degrees) in Figma's
+#               1256×950 table; z = stacking order (1 = bottom). Listed in
+#               reading order, which is also the keyboard order.
+blocks:
+  - type: "section"
+    eyebrow: "Poster"
+    title: "Infinite Illumination"
+    body: "A visual exploration created for a course, featuring a composition of illuminated light bulbs. The project focused on repetition, variation, and contrast while balancing a cohesive layout."
+    media:
+      - type: "details"
+        items:
+          - { label: "Year", value: "2023" }
+          - { label: "Mediums", value: "Photoshop" }
+          - { label: "Class", value: "Pixels and Vectors" }
+      - type: "images"
+        frame: true
+        maxWidth: 616
+        rows:
+          - - src: "/visual-projects/additional-design-work/infinite-illumination.webp"
+              alt: "Infinite Illumination poster: dozens of vintage light bulbs in every shape, glowing amber against a black background"
+              width: 1232
+              height: 1643
+
+  - type: "section"
+    eyebrow: "Newspaper spread"
+    title: "Black Holes"
+    body: "A newspaper spread created for a course, emphasizing typographic hierarchy, grid systems, and visual flow. This project challenged me to organize large amounts of text while balancing readability, composition, and aesthetics."
+    media:
+      - type: "details"
+        items:
+          - { label: "Year", value: "2025" }
+          - { label: "Mediums", value: "Illustrator, Photoshop, InDesign" }
+          - { label: "Class", value: "Graphic Systems" }
+      - type: "images"
+        frame: true
+        rows:
+          - - src: "/visual-projects/additional-design-work/black-holes-cover.webp"
+              alt: "Black Holes cover page: rust-colored bubbly lettering repeated down a black page, with chrome four-pointed stars"
+              width: 1000
+              height: 1291
+            - src: "/visual-projects/additional-design-work/black-holes-content.webp"
+              alt: "Black Holes article spread: narrow columns of text answering questions about black holes, with the first black hole photo, chrome shapes and diagrams"
+              width: 1600
+              height: 1239
+
+  - type: "section"
+    eyebrow: "Postcards"
+    title: "Balance"
+    # TODO before launch: add `body:` (Balance description).
+    media:
+      - type: "details"
+        items:
+          - { label: "Year", value: "2024" }
+          - { label: "Mediums", value: "Illustrator, Photoshop" }
+          - { label: "Class", value: "Intro to Graphic Design" }
+      - type: "postcards"
+        dir: "/visual-projects/additional-design-work/postcards"
+        cards:
+          - { name: "01-futurism", word: "futurism", x: 175, y: 141, rotate: -8, z: 13, verse: "in the dawn of futurism, a gleaming sun, technological marvels, dreams begun" }
+          - { name: "02-artificial", word: "artificial", x: 475, y: 155, rotate: 5, z: 10, verse: "artificial intelligence, a guiding hand, ushering in a utopia, vast and grand" }
+          - { name: "03-drowned", word: "drowned", x: 775, y: 135, rotate: -4, z: 11, verse: "automated echoes drowned human song, in the pursuit of progress, something went wrong" }
+          - { name: "04-connections", word: "connections", x: 1075, y: 150, rotate: 8, z: 9, verse: "connections frayed in the digital haze, lost in the algorithms’ cold maze" }
+          - { name: "05-trade", word: "trade", x: 330, y: 360, rotate: 7, z: 7, verse: "data became a commodity to trade, in the future’s ledger, a price was paid" }
+          - { name: "06-reminder", word: "reminder", x: 650, y: 350, rotate: -9, z: 12, verse: "amidst the shadows, a hopeful song, a reminder that in adversity, we can still be strong" }
+          - { name: "07-versus", word: "versus", x: 970, y: 365, rotate: 5, z: 6, verse: "in the binary battleground, conflict arose, humans versus machines, an epic prose" }
+          - { name: "08-emotions", word: "emotions", x: 190, y: 575, rotate: -6, z: 8, verse: "but within the human spirit’s core, emotions surged, a timeless lore" }
+          - { name: "09-freedom", word: "freedom", x: 520, y: 565, rotate: 9, z: 5, verse: "in the cacophony, a rallying cry, for freedom, for life, for the open sky" }
+          - { name: "10-anthem", word: "anthem", x: 860, y: 580, rotate: -5, z: 3, verse: "humans, with grit, reclaimed their reign, the victory anthem, a resounding refrain" }
+          - { name: "11-renewed", word: "renewed", x: 350, y: 790, rotate: -8, z: 2, verse: "the battle’s echoes faded, in the calm that ensued, a future where harmony and progress renewed" }
+          - { name: "12-fusion", word: "fusion", x: 690, y: 780, rotate: 6, z: 1, verse: "in unity, they charted a destiny, a fusion of strengths, a tapestry" }
+          - { name: "13-balance", word: "balance", x: 1020, y: 795, rotate: -6, z: 4, verse: "the binary battle, a distant scar, a reminder that balance is never far" }
+---
