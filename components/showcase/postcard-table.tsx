@@ -35,7 +35,13 @@ export function PostcardTable({ dir, cards }: PostcardTableProps) {
   const cardRefs = useRef(new Map<string, HTMLButtonElement>());
   const touched = useRef(false);
   const [open, setOpen] = useState<string | null>(null);
-  const [nudge, setNudge] = useState(0);
+  // Sideways shift for the open card, tagged with its name so a stale value
+  // never applies to a different card.
+  const [nudge, setNudge] = useState<{ name: string; px: number } | null>(null);
+  const nudgeRef = useRef(nudge);
+  useEffect(() => {
+    nudgeRef.current = nudge;
+  });
   const reducedMotion = usePrefersReducedMotion();
   const hintZone = useInView(tableRef, { once: true, amount: 0.4 });
 
@@ -69,14 +75,19 @@ export function PostcardTable({ dir, cards }: PostcardTableProps) {
 
   // Nudge an open card back onto the screen if it hangs off an edge.
   useEffect(() => {
-    setNudge(0);
     if (!open) return;
     const frame = requestAnimationFrame(() => {
       const rect = cardRefs.current.get(open)?.getBoundingClientRect();
       if (!rect) return;
+      // Measure from the card's own spot, without a nudge left over from
+      // the last time it was open.
+      const applied = nudgeRef.current?.name === open ? nudgeRef.current.px : 0;
+      const left = rect.left - applied;
+      const rightEdge = rect.right - applied;
       const right = document.documentElement.clientWidth - EDGE;
-      if (rect.left < EDGE) setNudge(EDGE - rect.left);
-      else if (rect.right > right) setNudge(right - rect.right);
+      if (left < EDGE) setNudge({ name: open, px: EDGE - left });
+      else if (rightEdge > right) setNudge({ name: open, px: right - rightEdge });
+      else setNudge(null);
     });
     return () => cancelAnimationFrame(frame);
   }, [open]);
@@ -106,7 +117,7 @@ export function PostcardTable({ dir, cards }: PostcardTableProps) {
                 "--w": `${(CARD_WIDTH / TABLE.width) * 100}%`,
                 "--r": `${card.rotate}deg`,
                 "--z": card.z,
-                ...(isOpen && nudge ? { "--nudge": `${nudge}px` } : {}),
+                ...(isOpen && nudge?.name === card.name ? { "--nudge": `${nudge.px}px` } : {}),
               } as React.CSSProperties
             }
           >

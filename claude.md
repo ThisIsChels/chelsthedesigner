@@ -295,8 +295,6 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - After replacing an image file at the same path, delete `.next/dev/cache/images` (Next 16's dev image cache), or dev keeps serving the old version.
 
 ## Before launch
-- Delete the `/dev/components` preview page.
-- Remove the dev-only red placeholder highlighter: delete `components/dev/placeholder-highlight.tsx` and its two lines in `app/layout.tsx`.
 - Fill in visual project titles and `skillTags` (`content/visual-projects/*.mdx`, marked [PLACEHOLDER]).
 - Add `thumbnailAlt` text for the coming-soon projects when publishing them (every published project has one).
 - Publish the remaining visual projects (showcase .mdx like `digital-illustrations.mdx`). Unpublished project cards still show the 404.
@@ -305,7 +303,6 @@ Mobile-first with Tailwind's default breakpoints. Desktop Figma frames (1512) ar
 - Replace the coming-soon pages at `/shop` and `/notes` with the real pages.
 - Add thumbnails for the hidden projects: banshee, save-the-dates, scalise. Additional Design Work uses Infinite Illumination's thumbnail for now.
 - Fill in the Additional Design Work copy: page `description` and Balance `body` (`content/visual-projects/additional-design-work.mdx`, marked `# TODO before launch`). Both are left out for now; the page renders without them.
-- Remove the `coming-soon` folder and its `_redirects` file when the full site goes live.
 
 ## Waiting for approval
 Implemented as a first pass; Chelsey said "fine for now." Don't treat these as final rules until they move into the sections above.
